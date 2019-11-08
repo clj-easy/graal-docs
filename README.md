@@ -1,4 +1,4 @@
-# clojure-graalifications
+# clj-graal-docs
 
 ## Rationale
 
