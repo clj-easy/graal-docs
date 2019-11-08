@@ -2,8 +2,8 @@
 
 ## Rationale
 
-While clojure does not support graal, some developers are finding the quick
-startup time it offers useful for command line tools.
+GraalVM offers the ability to compile Java classes to native binaries.
+This is possible to some extent with Clojure programs as well.
 
 This little repo's goal is to collect scripts and tips to graalify clojure code.
 
