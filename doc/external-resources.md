@@ -2,18 +2,18 @@
 
 ## Projects
 
+- [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
+- [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
+- [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
+- [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
+- [cljfmt-graalvm](https://gitlab.com/konrad.mrozek/cljfmt-graalvm/). Clojure formatter using cljfmt built with GraalVM.
+- [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
 - [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
-- [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
-- [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
-- [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
-- [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
-- [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
-- [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
 - [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
-- [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
-- [cljfmt-graalvm](https://gitlab.com/konrad.mrozek/cljfmt-graalvm/). Clojure formatter using cljfmt built with GraalVM.
+- [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
+- [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
 
 ## Libraries compatible with GraalVM
 
@@ -36,13 +36,13 @@
 
 ## Articles
 
+- [Alex Miller, *Inside Clojure - Journal 2019.16*](http://insideclojure.org/2019/04/19/journal/#clojure-1101)
+- [Alys Brooks, *Using Graal on a Small-But-Real Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-application.html)
 - [AstRecipes, *Command-line apps with Clojure and GraalVM: 300x better start-up times*](https://www.astrecipes.net/blog/2018/07/20/cmd-line-apps-with-clojure-and-graalvm/)
 - [Bruno Bonacci, *An exploration of Clojure libraries that can produce native images under GraalVM*](https://github.com/BrunoBonacci/graalvm-clojure)
-- [Taylor Wood, *Building native Clojure images with GraalVM*](https://blog.taylorwood.io/2018/05/02/graalvm-clojure.html)
-- [Jan Stępień, *Native Clojure with GraalVM*](https://www.innoq.com/en/blog/native-clojure-and-graalvm/)
 - [Dieter Komendera, *Clojure Berlin: ProseMirror Transforms with GraalVM and Clojure*](https://nextjournal.com/kommen/clojure-berlin-prosemirror-transforms-with-graalvm-and-clojure)
-- [Alys Brooks, *Using Graal on a Small-But-Real Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-application.html)
-- [Alex Miller, *Inside Clojure - Journal 2019.16*](http://insideclojure.org/2019/04/19/journal/#clojure-1101)
+- [Jan Stępień, *Native Clojure with GraalVM*](https://www.innoq.com/en/blog/native-clojure-and-graalvm/)
+- [Taylor Wood, *Building native Clojure images with GraalVM*](https://blog.taylorwood.io/2018/05/02/graalvm-clojure.html)
 
 ## Talks
 
