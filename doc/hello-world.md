@@ -180,10 +180,3 @@ Run `./compile`.
 $ ./hello-world
 Hello world!
 ```
-<<<<<<< HEAD
-=======
-
-## TODO
-
-- Why did we not need `--report-unsupported-elements-at-runtime` using lein + uberjar, while we did need it with manual compilation using the `clojure` CLI?
->>>>>>> a59c33399774f22cb83f5278c0974911964e80e1
