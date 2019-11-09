@@ -42,7 +42,7 @@
 
 ## Talks
 
-- https://www.youtube.com/watch?v=topKYJgv6qA
+- [Native Clojure with GraalVM by Jan Stępień](https://www.youtube.com/watch?v=topKYJgv6qA)
 
 
 ## Misc
