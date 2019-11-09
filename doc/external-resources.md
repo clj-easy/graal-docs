@@ -19,8 +19,10 @@
 
 ## Libraries compatible with GraalVM 
 
-- [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
+- [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
+- [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
+
 
 ## Build tools / wrappers
 
