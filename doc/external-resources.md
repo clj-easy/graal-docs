@@ -20,7 +20,7 @@
 ## Libraries compatible with GraalVM 
 
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
-- [(Sub)command line parsing](https://github.com/l3nz/cli-matic)
+- [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
 
 ## Build tools / wrappers
 
