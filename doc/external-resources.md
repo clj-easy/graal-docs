@@ -17,10 +17,10 @@
 - https://github.com/sogaiu/adorn
 - https://gitlab.com/konrad.mrozek/cljfmt-graalvm/
 
-## Libraries suited for native CLIs
+## Libraries compatible with GraalVM 
 
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
-- https://github.com/l3nz/cli-matic
+- [(Sub)command line parsing](https://github.com/l3nz/cli-matic)
 
 ## Build tools / wrappers
 
