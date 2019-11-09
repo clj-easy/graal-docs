@@ -56,7 +56,8 @@ In `build/compile.clj` put:
 
 (defn -main [& [classpath]]
   (when classpath
-    (let [segments (str/split classpath #":")
+    (let [segments (str/split classpath
+                              (re-pattern (System/getProperty "path.separator")))
           files (map io/file segments)]
       (doseq [ns (f/find-namespaces files)
               :when (not= 'clojure.parallel ns)]
