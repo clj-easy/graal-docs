@@ -17,7 +17,7 @@
 - https://github.com/sogaiu/adorn
 - https://gitlab.com/konrad.mrozek/cljfmt-graalvm/
 
-## Libraries suitable for native CLIs
+## Libraries suited for native CLIs
 
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Allows runtime evaluation of Clojure expressions in a native executable.
 - https://github.com/l3nz/cli-matic
