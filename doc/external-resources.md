@@ -30,7 +30,7 @@
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
 - [selmer](https://github.com/yogthos/Selmer). A fast, Django inspired template system in Clojure.
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
-- [yaml](https://github.com/owainlewis/yaml). A fast, idiomatic and easy to use Clojure YAML library. Based on Snake YAML. *Note* requires :exclusion and seperate dependecy of of snakeyaml: https://github.com/owainlewis/yaml/issues/35
+- [yaml](https://github.com/owainlewis/yaml). A fast, idiomatic and easy to use Clojure YAML library. Based on Snake YAML. *Note* requires :exclusion and seperate dependency of of snakeyaml: https://github.com/owainlewis/yaml/issues/35
 
 ## Build tools / wrappers
 
