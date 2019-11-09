@@ -1,5 +1,7 @@
 # External resources
 
+## TODO: convert raw links into text with title and/or description
+
 ## Projects
 
 - https://github.com/taylorwood/clojurl
