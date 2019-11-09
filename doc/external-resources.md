@@ -29,7 +29,7 @@
 - [puget](https://github.com/greglook/puget). Canonical Colorizing Clojure Printer
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
 - [selmer](https://github.com/yogthos/Selmer). A fast, Django inspired template system in Clojure.
-- [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
+- [Small Clojure Interpreter](https://github.com/borkdude/sci). Evaluation of Clojure expressions from user input a.k.a `read-string` + `eval` for GraalVM.
 - [yaml](https://github.com/owainlewis/yaml). A fast, idiomatic and easy to use Clojure YAML library. Based on Snake YAML. *Note* requires :exclusion and seperate dependency of of snakeyaml: https://github.com/owainlewis/yaml/issues/35
 
 ## Build tools / wrappers
