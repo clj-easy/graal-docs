@@ -30,7 +30,7 @@ mkdir patch-work
 cd patch-work
 
 status-line "cloning and building spec"
-git clone git@github.com:clojure/spec.alpha.git
+git clone https://github.com/clojure/spec.alpha.git
 cd spec.alpha
 git reset --hard spec.alpha-0.2.176
 SPEC_VERSION="$(get-pom-version)-patch1472"
@@ -39,7 +39,7 @@ mvn-clean-install
 cd ..
 
 status-line "cloning, patching and building clojure"
-git clone git@github.com:clojure/clojure.git
+git clone https://github.com/clojure/clojure.git
 cd clojure
 git reset --hard clojure-1.10.1
 curl -L -O https://clojure.atlassian.net/secure/attachment/10782/clj-1472-3.patch
