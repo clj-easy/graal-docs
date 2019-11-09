@@ -108,7 +108,13 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
   :aot :all)
 ```
 
-2. Compile to native.
+2. Create uberjar.
+
+```
+$ lein uberjar
+```
+
+3. Compile to native.
 
 Create a `compile` script:
 
@@ -138,7 +144,7 @@ Note that we now use `-jar` instead of `-cp`.
 
 Run `./compile`.
 
-5. Run!
+4. Run!
 
 ``` shellsession
 $ ./hello-world
