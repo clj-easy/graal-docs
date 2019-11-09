@@ -17,14 +17,20 @@
 - https://github.com/sogaiu/adorn
 - https://gitlab.com/konrad.mrozek/cljfmt-graalvm/
 
-## Libraries compatible with GraalVM 
+## Libraries compatible with GraalVM
 
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
+- [cljstache](https://github.com/fotoetienne/cljstache). {{ mustache }} templates for Clojure[Script].
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
+- [enlive](https://github.com/cgrand/enlive). a selector-based (à la CSS) templating and transformation system for Clojure
 - [fipp](https://github.com/brandonbloom/fipp). Fast idiomatic pretty-printe for Clojure.
+- [hickory](https://github.com/davidsantiago/hickory). HTML as data
+- [markdown-clj](https://github.com/yogthos/markdown-clj).  Markdown parser in Clojure.
+- [puget](https://github.com/greglook/puget). Canonical Colorizing Clojure Printer
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
+- [selmer](https://github.com/yogthos/Selmer). A fast, Django inspired template system in Clojure.
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Evaluation of Clojure expressions from user input a.k.a `read-string` + `eval` for GraalVM.
-
+- [yaml](https://github.com/owainlewis/yaml). A fast, idiomatic and easy to use Clojure YAML library. Based on Snake YAML. *Note* requires :exclusion and seperate dependency of of snakeyaml: https://github.com/owainlewis/yaml/issues/35
 
 ## Build tools / wrappers
 
