@@ -4,8 +4,8 @@
 
 ## Projects
 
-- https://github.com/taylorwood/clojurl
-- https://github.com/tomekw/cotd
+- [clojurl](https://github.com/taylorwood/clojurl). HTTP/S client.
+- [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
 - https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md
 - https://github.com/eraserhd/rep
 - https://github.com/retrogradeorbit/bootleg
