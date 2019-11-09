@@ -54,11 +54,6 @@ In `build/compile.clj` put:
    [clojure.string :as str]
    [clojure.tools.namespace.find :as f]))
 
-(defn str->file [str]
-  (if (str/ends-with? str ".jar")
-    (java.util.jar.JarFile. (io/file str))
-    (io/file str)))
-
 (defn -main [& [classpath]]
   (when classpath
     (let [segments (str/split classpath #":")
