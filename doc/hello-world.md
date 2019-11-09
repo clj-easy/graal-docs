@@ -110,13 +110,13 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
 2. Create uberjar.
 
-    ```
+    ``` shellsession
     $ lein uberjar
     ```
     
     Verify that the program works on the JVM:
 
-    ```
+    ``` shellsession
     $ java -jar target/hello-world-0.1.0-SNAPSHOT-standalone.jar
     Hello world!
     ```
