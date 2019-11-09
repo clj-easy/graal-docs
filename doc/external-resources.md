@@ -19,7 +19,7 @@
 
 ## Libraries suited for native CLIs
 
-- [Small Clojure Interpreter](https://github.com/borkdude/sci). Runtime evaluation of Clojure expressions.
+- [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
 - https://github.com/l3nz/cli-matic
 
 ## Build tools / wrappers
