@@ -48,7 +48,7 @@ This tutorial guides you through the first steps of creating a native binary usi
 
     Create a `compile` script:
 
-    ``` shellsession
+    ``` bash
     #!/usr/bin/env bash
 
     if [ -z "$NATIVE_IMAGE" ]; then
@@ -125,7 +125,7 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     Create a `compile` script:
 
-    ``` shellsession
+    ``` bash
     #!/usr/bin/env bash
 
     if [ -z "$NATIVE_IMAGE" ]; then
