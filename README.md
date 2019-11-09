@@ -4,7 +4,7 @@
 
 GraalVM offers the ability to compile Java classes to native binaries.  This is
 possible to some extent with Clojure programs as well. This approach works well
-for command line tools that require fast startup times so they can be used for
+for command line tools that require fast startup so they can be used for
 scripting and editor integration.
 
 This little repo's goal is to collect scripts and tips to graalify clojure code.
