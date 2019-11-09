@@ -31,7 +31,7 @@ This script builds and locally installs:
 
 with patches from JIRA issue [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
-TODO: there are multiple patches in CLJ-1472. Make explicit which patch the script is using or configure via a parameter?
+TODO: there are multiple patches in CLJ-1472. Make explicit which patch the script is using or configure via a parameter? The relevant patches so far are: clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch.
 
 The patched version of clojure should work with graal's `native-image`, reference
 it via, for example from deps.edn, via:
