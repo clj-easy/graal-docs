@@ -40,7 +40,7 @@ This tutorial guides you through the first steps of creating a native binary usi
     Verify that the program works on the JVM:
 
     ```
-    $ java -cp $(clj -Spath):classes hello_world.core
+    $ java -cp $(clojure -Spath):classes hello_world.core
     Hello world!
     ```
 
@@ -112,6 +112,13 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     ```
     $ lein uberjar
+    ```
+    
+    Verify that the program works on the JVM:
+
+    ```
+    $ java -jar target/hello-world-0.1.0-SNAPSHOT-standalone.jar
+    Hello world!
     ```
 
 3. Compile to native.
