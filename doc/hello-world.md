@@ -24,7 +24,7 @@ In `src/hello_world/core.clj` put the following code:
 
 3. Compile project sources to class files.
 
-This will create the `.class` files in the `classes` directory:
+This will create `.class` files in the `classes` directory:
 
 ``` shellsession
 $ clojure -e "(require '[hello-world.core]) (compile 'hello-world.core)"
