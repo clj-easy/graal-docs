@@ -24,7 +24,7 @@ The reason for this is that the bytecode emitted by the locking macro fails
 bytecode verification. The relevant issue on the Clojure JIRA for this is
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472). We document how to
 apply patches from this issue and several other workarounds
-[CLJ-1472](README.md).
+[here](CLJ-1472/README.md).
 
 ## [External resources](doc/external-resources.md)
 
