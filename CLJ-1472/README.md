@@ -26,27 +26,61 @@ is the basis for the script herein
 
 ### build-clojure-with-1472-patch.sh
 
-This script builds and locally installs:
+Builds and locally installs clojure 1.10.1 with a specified patch from
+[CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
-* `org.clojure/clojure` `1.10.1-patch1472`
-* `org.clojure/spec.alpha` `0.2.176-patch1472`
+**Usage**
 
-with patches from JIRA issue [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
+```Shell
+./build-clojure-with-1472-patch.sh <patch filename>
+```
 
-TODO: there are multiple patches in CLJ-1472. Make explicit which patch the script is using or configure via a parameter? The relevant patches so far are: clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch.
+Where `<patch filename>` is a patch file from CLJ-1472. At the time of this
+writing, current candidate patches are:
+
+* `clj-1472-3.patch` (default)
+* `CLJ-1472-reentrant-finally2.patch`
+
+Note that the script will download the patch for you.
+
+The built clojure will contain a modified form of the patch filename in its version:
+
+* <code>./build-clojure-with-1472-patch.sh <b>clj-1472-3.patch</b></code> installs:
+    * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_3</b></code>
+    * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_3</b></code>
+* <code>./build-clojure-with-1472-patch.sh <b>CLJ-1472-reentrant-finally2.patch</b></code> installs:
+    * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_reentrant_finally2</b></code>
+    * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_reentrant_finally2</b></code>
 
 The patched version of clojure should work with graal's `native-image`, reference
-it via, for example from deps.edn, via:
-```
-{org.clojure/clojure {:mvn/version "1.10.1-patch1472"}}
+the variant you want, for example from `deps.edn`, via:
+
+```Clojure
+{org.clojure/clojure {:mvn/version "1.10.1-patch_clj_1472_3"}}
 ```
 
-Prerequisites (installed via brew on macOS)
+Or:
+
+```Clojure
+{org.clojure/clojure {:mvn/version "1.10.1-patch_clj_1472_reentrant_finally2"}}
+```
+
+**Prerequisites**
+
+The script will fail if any of the following are not found:
 
 * clojure
 * git
 * git-extras
 * maven
+* jet - [see jet installation instructions](https://github.com/borkdude/jet#installation)
+  (Interesting tidbit: jet is a clojure program compiled to a native image with graal)
+* curl
+* sed
+
+If on macOS, any missing prerequisites can be installed via brew.
+
+**Testing**
 
 Tested on macOS Catalina.
 
@@ -110,7 +144,7 @@ nil
 It seems neither patch cause a performance regression
 And the numbers are more realistic now
 
-## Workarounds
+## Other Workarounds
 
 - clojurl introduces a Java-level special form and patches selections of Clojure
 code at run-time:
@@ -119,9 +153,11 @@ code at run-time:
 - rep builds GraalVM binaries using an automated patched Clojure build:
   [link](https://github.com/eraserhd/rep/blob/1951df780fdd2781644f934dfc36ee394460effb/.circleci/images/primary/build.sh#L1)
 
-It keeps pre-built jars of clojure and spec
-[here](https://github.com/eraserhd/rep/tree/develop/deps)
+    It keeps pre-built jars of clojure and spec
+    [here](https://github.com/eraserhd/rep/tree/develop/deps)
 
 - babashka vendors code from Clojure and works around the locking issues
   manually. [This](https://github.com/borkdude/babashka/blob/070220da70c894ad7b282ce2747607c0bee68613/src/babashka/impl/clojure/core/server.clj#L1)
   is a patched version of `clojure.core.server`.
+
+- revert to using clojure 1.9.0
