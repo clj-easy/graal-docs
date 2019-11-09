@@ -14,6 +14,8 @@ compiler, unless otherwise indicated.
 
 ## Tips and tricks
 
+### [Hello world](doc/hello-world.md)
+
 ### Reflection
 
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
