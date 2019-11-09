@@ -9,6 +9,12 @@ scripting and editor integration.
 
 This little repo's goal is to collect scripts and tips to graalify clojure code.
 
+## Tips and tricks
+
+### Reflection
+
+Make sure you put `(set! *warn-on-reflection* true)` in every namespace of your project to get rid of all reflection.
+
 ## [CLJ-1472](CLJ-1472/README.md)
 
 Clojure 1.10 introduced locking code into clojure.spec.alpha that often causes
