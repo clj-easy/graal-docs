@@ -21,6 +21,7 @@
 
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
+- [fipp](https://github.com/brandonbloom/fipp). Fast idiomatic pretty-printe for Clojure.
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Dynamic evaluation of Clojure expressions.
 
