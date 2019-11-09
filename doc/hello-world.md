@@ -9,7 +9,6 @@ This tutorial guides you through the first steps of creating a native binary usi
 ``` shellsession
 $ mkdir -p hello-world/src/hello_world
 $ cd hello-world
-$ mkdir classes
 ```
 
 In `src/hello_world/core.clj` put the following code:
@@ -24,54 +23,26 @@ In `src/hello_world/core.clj` put the following code:
 
 3. Compile project sources to class files.
 
-We will AOT all namespaces of the entire classpath. We will use tools.namespace to discover all the namespaces.
-
-In deps.edn:
-
-``` clojure
-{:paths ["src"]
- :deps {org.clojure/clojure
-        {:mvn/version "1.10.1"}}
- :aliases
- {:build
-  {:extra-paths ["build"]
-   :extra-deps {org.clojure/tools.namespace {:mvn/version "0.3.1"}}
-   :main-opts ["-m" "compile"]}}}
-```
-
-Make a build directory:
+Create a `classes` folder which will contain `.class` files:
 
 ```
-$ mkdir build
+$ mkdir classes
 ```
 
-In `build/compile.clj` put:
-
-``` clojure
-(ns compile
-  (:require
-   [clojure.java.io :as io]
-   [clojure.string :as str]
-   [clojure.tools.namespace.find :as f]))
-
-(defn -main [& [classpath]]
-  (when classpath
-    (let [segments (str/split classpath
-                              (re-pattern (System/getProperty "path.separator")))
-          files (map io/file segments)]
-      (doseq [ns (f/find-namespaces files)
-              :when (not= 'clojure.parallel ns)]
-        (println "Compiling" ns)
-        (compile ns)))))
-```
-
-Now run:
+Then run:
 
 ```
-clj -A:build $(clj -Spath)
+$ clojure -e "(compile 'hello-world.core)"
 ```
 
-This will create `.class` files in the `classes` directory
+to compile the main namespace.
+
+Verify that the program works on the JVM:
+
+```
+$ java -cp $(clj -Spath):classes hello_world.core
+Hello world!
+```
 
 4. Compile native.
 
