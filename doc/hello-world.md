@@ -60,9 +60,6 @@ This tutorial guides you through the first steps of creating a native binary usi
         -cp $(clojure -Spath):classes \
         -H:Name=hello-world \
         -H:+ReportExceptionStackTraces \
-        -J-Dclojure.spec.skip-macros=true \
-        -J-Dclojure.compiler.direct-linking=true \
-        -H:ReflectionConfigurationFiles=reflection.json \
         --initialize-at-build-time  \
         --verbose \
         --no-fallback \
@@ -111,7 +108,13 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
     :aot :all)
     ```
 
-2. Compile to native.
+2. Create uberjar.
+
+    ```
+    $ lein uberjar
+    ```
+
+3. Compile to native.
 
     Create a `compile` script:
 
@@ -127,9 +130,6 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
         -jar target/hello-world-0.1.0-SNAPSHOT-standalone.jar \
         -H:Name=hello-world \
         -H:+ReportExceptionStackTraces \
-        -J-Dclojure.spec.skip-macros=true \
-        -J-Dclojure.compiler.direct-linking=true \
-        -H:ReflectionConfigurationFiles=reflection.json \
         --initialize-at-build-time  \
         --verbose \
         --no-fallback \
@@ -141,7 +141,7 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     Run `./compile`.
 
-3. Run!
+4. Run!
 
     ``` shellsession
     $ ./hello-world

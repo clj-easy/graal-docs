@@ -12,9 +12,9 @@ This little repo's goal is to collect scripts and tips to graalify clojure code.
 When we refer to GraalVM in this repository, we mean SubstrateVM, the native
 compiler, unless otherwise indicated.
 
-## Tips and tricks
+## [Hello world](doc/hello-world.md)
 
-### [Hello world](doc/hello-world.md)
+## Tips and tricks
 
 ### Reflection
 
