@@ -17,6 +17,8 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 
 * [incorporate @borkdude's gist](https://gist.github.com/borkdude/dd0857cf1958b25496fddbdbf359ca59) which
 is the basis for the script herein
+* include tradeoffs between clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch
+* include performance tests of clj-1472-3.patch vs CLJ-1472-reentrant-finally2.patch
 
 ## Scripts
 
