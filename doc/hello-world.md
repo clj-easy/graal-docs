@@ -118,7 +118,7 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     Create a `compile` script:
 
-    ```
+    ``` shellsession
     #!/usr/bin/env bash
 
     if [ -z "$NATIVE_IMAGE" ]; then
