@@ -15,10 +15,10 @@ This tutorial guides you through the first steps of creating a native binary usi
 
     ``` clojure
     (ns hello-world.core
-    (:gen-class))
+      (:gen-class))
 
     (defn -main [& _args]
-    (println "Hello world!"))
+      (println "Hello world!"))
     ```
 
 3. Compile project sources to class files.
@@ -103,9 +103,9 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     ``` clojure
     (defproject hello-world "0.1.0-SNAPSHOT"
-    :dependencies [[org.clojure/clojure "1.10.1"]]
-    :main hello-world.core
-    :aot :all)
+      :dependencies [[org.clojure/clojure "1.10.1"]]
+      :main hello-world.core
+      :aot :all)
     ```
 
 2. Create uberjar.
