@@ -48,6 +48,43 @@ Prerequisites (installed via brew on macOS)
 
 Tested on macOS Catalina.
 
+## Performance
+
+Some (informal) performance tests of the current situation + 2 patches for CLJ-1472:
+
+```
+$ clj
+Clojure 1.10.1
+user=> (def o (Object.))
+#'user/o
+user=> (time (dotimes [i 100000000] (locking o nil)))
+"Elapsed time: 5846.896771 msecs"
+nil
+```
+
+clj-1472-3.patch
+```
+$ clj
+Clojure 1.11.0-master-SNAPSHOT
+user=> (def o (Object.))
+#'user/o
+user=> (time (dotimes [i 100000000] (locking o nil)))
+"Elapsed time: 243.317501 msecs"
+
+```
+
+CLJ-1472-reentrant-finally2:
+```
+$ clj
+Clojure 1.11.0-master-SNAPSHOT
+user=> (def o (Object.))
+#'user/o
+user=> (time (dotimes [i 100000000] (locking o nil)))
+"Elapsed time: 256.507628 msecs"
+```
+
+Either patch is much faster than the current locking macro and seem similar in performance.
+
 ## Workarounds
 
 - clojurl introduces a Java-level special form and patches selections of Clojure
