@@ -1,4 +1,5 @@
 {:cljdoc.doc/tree
  [["Readme" {:file "README.md"}]
+  ["Hello world" {:file "doc/hello-world.md"}]
   ["CLJ-1472" {:file "CLJ-1472/README.md"}]
   ["External resources" {:file "doc/external-resources.md"}]]}
