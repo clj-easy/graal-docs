@@ -42,6 +42,8 @@ Prerequisites (installed via brew on macOS)
 
 Tested on macOS Catalina.
 
+## [External resources](doc/external-resources.md)
+
 ## License
 
 Distributed under the EPL License, same as Clojure. See LICENSE.
