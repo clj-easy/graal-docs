@@ -60,8 +60,6 @@ $NATIVE_IMAGE \
     -cp $(clojure -Spath):classes \
     -H:Name=hello-world \
     -H:+ReportExceptionStackTraces \
-    -J-Dclojure.spec.skip-macros=true \
-    -J-Dclojure.compiler.direct-linking=true \
     --initialize-at-build-time  \
     --verbose \
     --no-fallback \
