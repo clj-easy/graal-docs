@@ -28,6 +28,8 @@ apply patches from this issue and several other workarounds
 
 ## [External resources](doc/external-resources.md)
 
+Curated collection of [projects, articles, etc.](doc/external-resources.md)
+
 ## License
 
 Distributed under the EPL License, same as Clojure. See LICENSE.
