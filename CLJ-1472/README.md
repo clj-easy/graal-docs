@@ -50,40 +50,63 @@ Tested on macOS Catalina.
 
 ## Performance
 
-Some (informal) performance tests of the current situation + 2 patches for CLJ-1472:
+Some performance tests of the current situation + 2 patches for CLJ-1472.
+
+Test program:
+
+``` clojure
+(println "Java version:" (System/getProperty "java.version"))
+(println "Clojure version:" (clojure-version))
+
+(def o (Object.))
+
+(def mut (volatile! 0))
+
+(defmacro do-parallel [n f]
+  (let [fut-bindings
+        (for [i (range n)
+              sym [(symbol (str "fut_" i))
+                   `(future (locking o (vswap! mut ~f)))]]
+          sym)
+        fut-names (vec (take-nth 2 fut-bindings))]
+    `(let [~@fut-bindings] ;; start all futures
+       (doseq [f# ~fut-names] ;; wait for all futures
+         @f#))))
+
+;; measure time running 10k times incrementing mut 1k times in parallel
+(time (dotimes [_ 10000] (do-parallel 1000 inc)))
+
+(println @mut) ;; should be 10000000
+```
+
+Use `-J-XX:-EliminateLocks` to prevent the JVM from eliding locks.
+
+CLJ-1472-reentrant-finally2:
 
 ```
-$ clj
-Clojure 1.10.1
-user=> (def o (Object.))
-#'user/o
-user=> (time (dotimes [i 100000000] (locking o nil)))
-"Elapsed time: 5846.896771 msecs"
+$ clj -J-XX:-EliminateLocks
+Clojure 1.11.0-master-SNAPSHOT
+user=> (load-file "/tmp/parallel.clj")
+Java version: 1.8.0_212
+Clojure version: 1.11.0-master-SNAPSHOT
+"Elapsed time: 20173.415374 msecs"
+10000000
 nil
 ```
 
-clj-1472-3.patch
+clj-1472-3.patch:
 ```
-$ clj
+$ clj -J-XX:-EliminateLocks
 Clojure 1.11.0-master-SNAPSHOT
-user=> (def o (Object.))
-#'user/o
-user=> (time (dotimes [i 100000000] (locking o nil)))
-"Elapsed time: 243.317501 msecs"
-
+user=> (load-file "/tmp/parallel.clj")
+Java version: 1.8.0_212
+Clojure version: 1.11.0-master-SNAPSHOT
+"Elapsed time: 19793.283815 msecs"
+10000000
+nil
 ```
-
-CLJ-1472-reentrant-finally2:
-```
-$ clj
-Clojure 1.11.0-master-SNAPSHOT
-user=> (def o (Object.))
-#'user/o
-user=> (time (dotimes [i 100000000] (locking o nil)))
-"Elapsed time: 256.507628 msecs"
-```
-
-Either patch is much faster than the current locking macro and seem similar in performance.
+It seems neither patch cause a performance regression
+And the numbers are more realistic now
 
 ## Workarounds
 
