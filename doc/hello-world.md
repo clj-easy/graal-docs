@@ -24,11 +24,58 @@ In `src/hello_world/core.clj` put the following code:
 
 3. Compile project sources to class files.
 
-This will create the `.class` files in the `classes` directory:
+We will AOT all namespaces of the entire classpath. We will use tools.namespace to discover all the namespaces.
 
-``` shellsession
-$ clojure -e "(require '[hello-world.core]) (compile 'hello-world.core)"
+In deps.edn:
+
+``` clojure
+{:paths ["src"]
+ :deps {org.clojure/clojure
+        {:mvn/version "1.10.1"}}
+ :aliases
+ {:build
+  {:extra-paths ["build"]
+   :extra-deps {org.clojure/tools.namespace {:mvn/version "0.3.1"}}
+   :main-opts ["-m" "compile"]}}}
 ```
+
+Make a build directory:
+
+```
+$ mkdir build
+```
+
+In `build/compile.clj` put:
+
+``` clojure
+(ns compile
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]
+   [clojure.tools.namespace.find :as f]))
+
+(defn str->file [str]
+  (if (str/ends-with? str ".jar")
+    (java.util.jar.JarFile. (io/file str))
+    (io/file str)))
+
+(defn -main [& [classpath]]
+  (when classpath
+    (let [segments (str/split classpath #":")
+          files (map io/file segments)]
+      (doseq [ns (f/find-namespaces files)
+              :when (not= 'clojure.parallel ns)]
+        (println "Compiling" ns)
+        (compile ns)))))
+```
+
+Now run:
+
+```
+clj -A:build $(clj -Spath)
+```
+
+This will create `.class` files in the `classes` directory
 
 4. Compile native.
 
@@ -50,7 +97,6 @@ $NATIVE_IMAGE \
     -J-Dclojure.compiler.direct-linking=true \
     -H:ReflectionConfigurationFiles=reflection.json \
     --initialize-at-build-time  \
-    --report-unsupported-elements-at-runtime \
     --verbose \
     --no-fallback \
     --no-server \
@@ -134,7 +180,3 @@ Run `./compile`.
 $ ./hello-world
 Hello world!
 ```
-
-## TODO
-
-- Why did we not need `--report-unsupported-elements-at-runtime` using lein + uberjar, while we did need it with manual compilation using the `clojure` CLI?
