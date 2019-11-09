@@ -1,30 +1,28 @@
 # External resources
 
-## TODO: convert raw links into text with title and/or description
-
 ## Projects
 
-- [clojurl](https://github.com/taylorwood/clojurl). HTTP/S client.
+- [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
-- https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md
-- https://github.com/eraserhd/rep
-- https://github.com/retrogradeorbit/bootleg
-- https://github.com/borkdude/jet
-- https://github.com/borkdude/babashka
-- https://github.com/borkdude/clj-kondo
-- https://github.com/borkdude/cljtree-graalvm
-- https://github.com/stathissideris/optikon
-- https://github.com/sogaiu/adorn
-- https://gitlab.com/konrad.mrozek/cljfmt-graalvm/
+- [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
+- [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
+- [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
+- [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
+- [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
+- [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
+- [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
+- [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
+- [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
+- [cljfmt-graalvm](https://gitlab.com/konrad.mrozek/cljfmt-graalvm/). Clojure formatter using cljfmt built with GraalVM.
 
 ## Libraries compatible with GraalVM
 
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
 - [cljstache](https://github.com/fotoetienne/cljstache). {{ mustache }} templates for Clojure[Script].
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
-- [enlive](https://github.com/cgrand/enlive). a selector-based (à la CSS) templating and transformation system for Clojure
+- [enlive](https://github.com/cgrand/enlive). A selector-based (à la CSS) templating and transformation system for Clojure
 - [fipp](https://github.com/brandonbloom/fipp). Fast idiomatic pretty-printe for Clojure.
-- [hickory](https://github.com/davidsantiago/hickory). HTML as data
+- [hickory](https://github.com/davidsantiago/hickory). HTML as data.
 - [markdown-clj](https://github.com/yogthos/markdown-clj).  Markdown parser in Clojure.
 - [puget](https://github.com/greglook/puget). Canonical Colorizing Clojure Printer
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
@@ -34,17 +32,17 @@
 
 ## Build tools / wrappers
 
-- https://github.com/taylorwood/clj.native-image
+- [clj.native-image](https://github.com/taylorwood/clj.native-image). Build GraalVM native images with Clojure Deps and CLI tools.
 
 ## Articles
 
-- https://www.astrecipes.net/blog/2018/07/20/cmd-line-apps-with-clojure-and-graalvm/
-- https://github.com/BrunoBonacci/graalvm-clojure
-- https://blog.taylorwood.io/2018/05/02/graalvm-clojure.html
-- https://www.innoq.com/en/blog/native-clojure-and-graalvm/
-- https://nextjournal.com/kommen/clojure-berlin-prosemirror-transforms-with-graalvm-and-clojure
-- http://www.alysbrooks.com/using-graal-on-a-small-but-real-application.html
-- http://insideclojure.org/2019/04/19/journal/#clojure-1101
+- [AstRecipes, *Command-line apps with Clojure and GraalVM: 300x better start-up times*](https://www.astrecipes.net/blog/2018/07/20/cmd-line-apps-with-clojure-and-graalvm/)
+- [Bruno Bonacci, *An exploration of Clojure libraries that can produce native images under GraalVM*](https://github.com/BrunoBonacci/graalvm-clojure)
+- [Taylor Wood, *Building native Clojure images with GraalVM*](https://blog.taylorwood.io/2018/05/02/graalvm-clojure.html)
+- [Jan Stępień, *Native Clojure with GraalVM*](https://www.innoq.com/en/blog/native-clojure-and-graalvm/)
+- [Dieter Komendera, *Clojure Berlin: ProseMirror Transforms with GraalVM and Clojure*](https://nextjournal.com/kommen/clojure-berlin-prosemirror-transforms-with-graalvm-and-clojure)
+- [Alys Brooks, *Using Graal on a Small-But-Real Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-application.html)
+- [Alex Miller, *Inside Clojure - Journal 2019.16*](http://insideclojure.org/2019/04/19/journal/#clojure-1101)
 
 ## Talks
 
@@ -53,4 +51,4 @@
 
 ## Misc
 
-- http://ssw.jku.at/Teaching/MasterTheses/Graal/TruffleClojure.pdf
+- [Truffle/Clojure: An AST-Interpreter for Clojure, Master thesis for Thomas Feichtinger](http://ssw.jku.at/Teaching/MasterTheses/Graal/TruffleClojure.pdf) (PDF)
