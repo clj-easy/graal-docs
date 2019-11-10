@@ -93,7 +93,7 @@ This tutorial guides you through the first steps of creating a native binary usi
     Hello world!
     ```
 
-That's it. 
+That's it.
 
 ## Leiningen
 

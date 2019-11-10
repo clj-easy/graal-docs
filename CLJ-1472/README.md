@@ -157,3 +157,12 @@ code at run-time:
   is a patched version of `clojure.core.server`.
 
 - revert to using clojure 1.9.0
+
+## Misc
+
+Comment by @eraserhd in the #graalvm channel on Slack:
+
+> IMHO clj-1472-3.patch is simple and sufficient.  Ghadi's changes the clojure compiler to be able to generate the correct bytecode for locking, saving a method call and adding some code to the clojure compler.
+I think locking is, by definition, not performant, and it's also not idiomatic in Clojure, so that's why my vote goes for 1472.
+er, clj-1472-3.patch
+(clj-1472-3.patch uses a native Java method which is passed a callable to lock an object)
