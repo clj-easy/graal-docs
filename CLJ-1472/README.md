@@ -103,61 +103,42 @@ true
 
 ## Performance
 
-Some performance tests of the current situation + 2 patches for CLJ-1472.
+Run: 
 
-Test program:
-
-``` clojure
-(println "Java version:" (System/getProperty "java.version"))
-(println "Clojure version:" (clojure-version))
-
-(def o (Object.))
-
-(def mut (volatile! 0))
-
-(defmacro do-parallel [n f]
-  (let [fut-bindings
-        (for [i (range n)
-              sym [(symbol (str "fut_" i))
-                   `(future (locking o (vswap! mut ~f)))]]
-          sym)
-        fut-names (vec (take-nth 2 fut-bindings))]
-    `(let [~@fut-bindings] ;; start all futures
-       (doseq [f# ~fut-names] ;; wait for all futures
-         @f#))))
-
-;; measure time running 10k times incrementing mut 1k times in parallel
-(time (dotimes [_ 10000] (do-parallel 1000 inc)))
-
-(println @mut) ;; should be 10000000
+``` shellsession
+clojure -J-XX:-EliminateLocks -A:performance
 ```
 
-Use `-J-XX:-EliminateLocks` to prevent the JVM from eliding locks.
+We use `-J-XX:-EliminateLocks` to prevent the JVM from eliding locks.
+
+This should output something like the following:
+
+```
+Java version: 11.0.3
+Clojure version: 1.10.1-patch_clj_1472_3
+"Elapsed time: 14955.486811 msecs"
+10000000
+```
+
+Reports:
 
 CLJ-1472-reentrant-finally2:
 
 ```
-$ clj -J-XX:-EliminateLocks
-Clojure 1.11.0-master-SNAPSHOT
-user=> (load-file "/tmp/parallel.clj")
 Java version: 1.8.0_212
 Clojure version: 1.11.0-master-SNAPSHOT
 "Elapsed time: 20173.415374 msecs"
 10000000
-nil
 ```
 
 clj-1472-3.patch:
 ```
-$ clj -J-XX:-EliminateLocks
-Clojure 1.11.0-master-SNAPSHOT
-user=> (load-file "/tmp/parallel.clj")
 Java version: 1.8.0_212
 Clojure version: 1.11.0-master-SNAPSHOT
 "Elapsed time: 19793.283815 msecs"
 10000000
-nil
 ```
+
 It seems neither patch cause a performance regression
 And the numbers are more realistic now
 
