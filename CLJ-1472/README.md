@@ -82,9 +82,7 @@ If on macOS, any missing prerequisites can be installed via brew.
 
 **Testing**
 
-- Enter the `test` directory with `cd test`.
-
-- Update `test/deps.edn` to reflect the Clojure version you want to test.
+- Update `deps.edn` to reflect the Clojure version you want to test.
 Verify that you are using the patched version of spec using `clojure -Spath`.
 
 - If the `native-image` binary is not on the `PATH`, set either:
