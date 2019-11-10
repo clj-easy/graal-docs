@@ -4,8 +4,18 @@
 
 set -eou pipefail
 
+# constants
 JIRA_ISSUE="CLJ-1472"
-DEFAULT_PATCH="clj-1472-3.patch"
+
+status-line() {
+    echo ""
+    echo -e "\033[42m \033[30;44m $1 \033[42m \033[0m"
+}
+
+error-line() {
+    echo ""
+    echo -e "\033[30;43m*\033[41m error: $1 \033[43m*\033[0m"
+}
 
 check-cmd-prerequisites() {
     local is_error=false
@@ -24,7 +34,7 @@ check-cmd-prerequisites() {
     set -e
 
     if [ "$is_error" = true ]; then
-        >&2 echo "* error: prerequisites check failed"
+        >&2 error-line "prerequisites check failed"
         exit 1
     fi
 }
@@ -46,7 +56,7 @@ url-for-jira-patch() {
                     jet --query ':content')
 
     if [ "${patch_url}" == "nil" ]; then
-        >&2 echo "* error: patch file \"${jira_patch_filename}\" not found in jira issue \"${jira_issue}\""
+        >&2 error-line "patch file \"${jira_patch_filename}\" not found in jira issue \"${jira_issue}\""
         >&2 echo "- patches found for ${jira_issue}:"
         echo "${patches}" | jet --query '(map :filename)' --pretty >&2
         exit 1
@@ -72,31 +82,94 @@ mvn-clean-install() {
    rm -rf target && mvn install -Dmaven.test.skip=true
 }
 
-status-line() {
+usage() {
+    echo "Usage: $(basename "$0") [options...]"
     echo ""
-    echo -e "\033[42m \033[30;44m $1 \033[42m \033[0m"
+    echo " -h, --help"
+    echo ""
+    echo " -p, --patch-filename <filename>"
+    echo "  name of patch file to download from CLJ-1472"
+    echo "  defaults to clj-1472-3.patch"
+    echo ""
+    echo " -w, --work-dir <dir name>"
+    echo "  temporary work directory"
+    echo "  defaults to system generated temp dir"
+    echo "  NOTE: for safety, this script will only delete what it creates under specified work dir"
 }
 
-check-cmd-prerequisites
+# defaults for args
+ARG_HELP=false
+ARG_INVALID=false
+ARG_PATCH_FILENAME="clj-1472-3.patch"
+ARG_WORK_DIR_SET=false
 
-if [ $# -eq 1 ]; then
-    REQUESTED_PATCH="$1"
-else
-    REQUESTED_PATCH="${DEFAULT_PATCH}"
+while [[ $# -gt 0 ]]
+do
+    ARG="$1"
+    case $ARG in
+        -h|--help)
+            ARG_HELP=true
+            shift
+            ;;
+        -p|--patch-filename)
+            ARG_PATCH_FILENAME="$2"
+            shift
+            shift
+            ;;
+        -w|--work-dir)
+            ARG_WORK_DIR="$2"
+            ARG_WORK_DIR_SET=true
+            shift
+            shift
+            ;;
+        *)
+            ARG_INVALID=true
+            shift
+            ;;
+    esac
+done
+
+if [ ${ARG_HELP} == true ]; then
+    usage
+    exit 0
 fi
+
+if [ ${ARG_INVALID} == true ]; then
+    error-line "invalid usage"
+    echo ""
+    usage
+    exit 1
+fi
+
+if [ ${ARG_WORK_DIR_SET} == false ]; then
+    # some versions of osx require -t?
+    WORK_DIR=$(mktemp -d -t "clj-patcher")
+else
+    # add patch-work dir, I am comfortable creating and deleting patch-work
+    # under provided dir but not provide work dir itself - too dangerous.
+    WORK_DIR="${ARG_WORK_DIR}/patch-work"
+    rm -rf "${WORK_DIR}"
+    mkdir -p "${WORK_DIR}"
+    # a fully qualified path will be turfable work regardless of current working dir
+    WORK_DIR=$(cd "${WORK_DIR}";pwd)
+fi
+trap 'rm -rf ${WORK_DIR}' EXIT
+
+check-cmd-prerequisites
 
 # The clojure build system uses ant which is fussy about what goes into a version
 # Converting dashes to underscores seems to do the trick
 # Also converting to lowercase to normalize a bit
-VERSION_SUFFIX=-patch_$(basename "${REQUESTED_PATCH}" ".patch" |
+VERSION_SUFFIX=-patch_$(basename "${ARG_PATCH_FILENAME}" ".patch" |
                             tr - _ |
                             tr '[:upper:]' '[:lower:]')
 
-URL_FOR_PATCH=$(url-for-jira-patch ${JIRA_ISSUE} ${REQUESTED_PATCH})
+URL_FOR_PATCH=$(url-for-jira-patch "${JIRA_ISSUE}" "${ARG_PATCH_FILENAME}")
 
-rm -rf patch-work
-mkdir patch-work
-cd patch-work
+status-line "run variables"
+echo "Apply issue ${JIRA_ISSUE} patch ${ARG_PATCH_FILENAME}"
+echo "Temporary work dir: ${WORK_DIR}"
+cd "${WORK_DIR}"
 
 status-line "cloning and building spec"
 git clone https://github.com/clojure/spec.alpha.git
@@ -113,7 +186,7 @@ cd clojure
 git reset --hard clojure-1.10.1
 echo "applying patch: ${URL_FOR_PATCH}"
 curl -L -O "${URL_FOR_PATCH}"
-git rebase-patch ${REQUESTED_PATCH}
+git rebase-patch "${ARG_PATCH_FILENAME}"
 CLOJURE_VERSION="$(get-pom-version)${VERSION_SUFFIX}"
 set-pom-version "${CLOJURE_VERSION}"
 mvn-clean-install

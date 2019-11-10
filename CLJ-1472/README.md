@@ -29,11 +29,21 @@ Builds and locally installs clojure 1.10.1 with a specified patch from
 **Usage**
 
 ```Shell
-./build-clojure-with-1472-patch.sh <patch filename>
+Usage: build-clojure-with-1472-patch.sh [options...]
+
+ -h, --help
+
+ -w, --work-dir <dir name>
+  temporary work directory
+  defaults to system generated temp dir
+  NOTE: for safety, this script will only delete what it creates under specified work dir
+
+ -p, --patch-filename <filename>
+  name of patch file to download from CLJ-1472
+  defaults to clj-1472-3.patch
 ```
 
-Where `<patch filename>` is a patch file from CLJ-1472. At the time of this
-writing, current candidate patches are:
+At the time of this writing, current candidate patches filenames are:
 
 * `clj-1472-3.patch` (default)
 * `CLJ-1472-reentrant-finally2.patch`
@@ -42,10 +52,10 @@ Note that the script will download the patch for you.
 
 The built clojure will contain a modified form of the patch filename in its version:
 
-* <code>./build-clojure-with-1472-patch.sh <b>clj-1472-3.patch</b></code> installs:
+* <b>clj-1472-3.patch</b></code> installs:
     * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_3</b></code>
     * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_3</b></code>
-* <code>./build-clojure-with-1472-patch.sh <b>CLJ-1472-reentrant-finally2.patch</b></code> installs:
+* <b>CLJ-1472-reentrant-finally2.patch</b></code> installs:
     * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_reentrant_finally2</b></code>
     * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_reentrant_finally2</b></code>
 
@@ -98,7 +108,7 @@ true
 
 ## Performance
 
-Run: 
+Run:
 
 ``` shellsession
 clojure -J-XX:-EliminateLocks -A:performance
