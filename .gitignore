@@ -1,2 +1,5 @@
 patch-work
 .DS_Store
+CLJ-1472/test/.cpcache
+CLJ-1472/test/classes
+CLJ-1472/test/spec-test

@@ -82,7 +82,24 @@ If on macOS, any missing prerequisites can be installed via brew.
 
 **Testing**
 
-Tested on macOS Catalina.
+- Enter the `test` directory with `cd test`.
+
+- Update `test/deps.edn` to reflect the Clojure version you want to test.
+Verify that you are using the patched version of spec using `clojure -Spath`.
+
+- If the `native-image` binary is not on the `PATH`, set either:
+  - the `GRAALVM_HOME` environment variable to the location of your GraalVM
+    installation
+  - the `NATIVE_IMAGE` environment variable to the location of GraalVM's
+    `native-image` command.  then no environment variable has
+
+- Run `./compile`. This should produce a `spec-test` executable.
+- Run `./spec-test`. This should produce output like the following:
+
+``` clojure
+{:major 1, :minor 10, :incremental 1, :qualifier patch_clj_1472_3}
+true
+```
 
 ## Performance
 
