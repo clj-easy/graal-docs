@@ -15,12 +15,9 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 
 ## TODO
 
-* [incorporate @borkdude's gist](https://gist.github.com/borkdude/dd0857cf1958b25496fddbdbf359ca59) which
-is the basis for the script herein
 * include tradeoffs between clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch
 * https://github.com/search?l=Clojure&o=desc&q=locking&s=indexed&type=Code might be worth a skim to see if anyone looks like they are using/abusing locking (Alex in #graalvm)
 * cleaning all this info up and making a really readable ticket would be really helpful. this is basically what I would do on this ticket (https://clojure.org/dev/creating_tickets) and is a huge boost to getting it ready to screen (Alex in #graalvm)
-
 
 ## Scripts
 
