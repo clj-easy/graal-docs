@@ -113,7 +113,7 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
     ``` shellsession
     $ lein uberjar
     ```
-    
+
     Verify that the program works on the JVM:
 
     ``` shellsession
