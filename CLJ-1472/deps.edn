@@ -1,2 +1,2 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.1-patch_clj_1472_3"}}
+{:deps {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_3"}}
  :aliases {:performance {:main-opts ["-m" "spec-test.performance"]}}}

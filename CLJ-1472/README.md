@@ -26,6 +26,13 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 Builds and locally installs clojure 1.10.1 with a specified patch from
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
+**Audience**
+
+We have identified 2 primary users of this script:
+
+1. **clojure tool developer** - wants to natively compile their app. This person will use a 1.10.1 patched version of clojure and will get by without specifying any options to the script.
+2. **clojure core developer** - works on clojure itself and wants to make progress on CLJ-1472.  This person will likely work off HEAD of master but may want also to select different commits and/or patches.
+
 **Usage**
 
 ```Shell
@@ -33,14 +40,19 @@ Usage: build-clojure-with-1472-patch.sh [options...]
 
  -h, --help
 
+ -p, --patch-filename <filename>
+  name of patch file to download from CLJ-1472
+  defaults to clj-1472-3.patch
+
+ -c, --clojure-commit <commit>
+  choose clojure commit to patch, can be sha or tag
+  specify HEAD for most recent commit
+  defaults to "clojure-10.0.1" tag
+
  -w, --work-dir <dir name>
   temporary work directory
   defaults to system generated temp dir
   NOTE: for safety, this script will only delete what it creates under specified work dir
-
- -p, --patch-filename <filename>
-  name of patch file to download from CLJ-1472
-  defaults to clj-1472-3.patch
 ```
 
 At the time of this writing, current candidate patches filenames are:
@@ -50,14 +62,29 @@ At the time of this writing, current candidate patches filenames are:
 
 Note that the script will download the patch for you.
 
-The built clojure will contain a modified form of the patch filename in its version:
+The built version contains the clojure git short sha and a modified form of the
+patch filename in its version, examples:
 
-* <b>clj-1472-3.patch</b></code> installs:
-    * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_3</b></code>
-    * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_3</b></code>
-* <b>CLJ-1472-reentrant-finally2.patch</b></code> installs:
-    * <code>org.clojure/clojure 1.10.1<b>-patch_clj_1472_reentrant_finally2</b></code>
-    * <code>org.clojure/spec.alpha 0.2.176<b>-patch_clj_1472_reentrant_finally2</b></code>
+* patch **clj-1472-3.patch** at clojure tag
+  [***clojure-1.10.1***](https://github.com/clojure/clojure/commits/clojure-1.10.1)
+  (the default when specifying no options) installs:
+    * <code>org.clojure/clojure 1.10.1-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_3</b></code>
+    * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_3</b></code>
+* patch **CLJ-1472-reentrant-finally2.patch** at clojure tag
+  [***clojure-1.10.1***](https://github.com/clojure/clojure/commits/clojure-1.10.1)
+  installs:
+    * <code>org.clojure/clojure 1.10.1-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
+    * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
+* patch **clj-1472-3.patch** at clojure
+  [***HEAD***](https://github.com/clojure/clojure/tree/653b8465845a78ef7543e0a250078eea2d56b659)
+  (at the time of this writing) installs:
+    * <code>org.clojure/clojure 1.11.0-master_patch\_<b><i>653b8465</i></b>\_<b>clj_1472_3</b>-SNAPSHOT</code>
+    * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>653b8465</i></b>\_<b>clj_1472_3</b></code>
+* patch **CLJ-1472-reentrant-finally2.patch** at clojure commit
+  [***c9a45b5f***](https://github.com/clojure/clojure/commits/c9a45b5f8afc2c4dfcce7f2e23dadc8749b9fd0d)
+  installs:
+    * <code>org.clojure/clojure 1.10.0-beta8-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
+    * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
 
 The patched version of clojure should work with graal's `native-image`, reference
 the variant you want, for example from `deps.edn`, via:
@@ -90,7 +117,7 @@ If on macOS, any missing prerequisites can be installed via brew.
 **Testing**
 
 - Update `deps.edn` to reflect the Clojure version you want to test.
-Verify that you are using the patched version of spec using `clojure -Spath`.
+Verify that you are using the patched version of spec using `clojure -Stree`.
 
 - If the `native-image` binary is not on the `PATH`, set either:
   - the `GRAALVM_HOME` environment variable to the location of your GraalVM
@@ -102,11 +129,14 @@ Verify that you are using the patched version of spec using `clojure -Spath`.
 - Run `./spec-test`. This should produce output like the following:
 
 ``` clojure
-{:major 1, :minor 10, :incremental 1, :qualifier patch_clj_1472_3}
+{:major 1, :minor 10, :incremental 1, :qualifier patch_38bafca9_clj_1472_3}
 true
 ```
 
 ## Performance
+
+Here we look at the performance impact of CLJ-1472 patches on clojure in absence
+of graal.
 
 Run:
 
@@ -144,8 +174,7 @@ Clojure version: 1.11.0-master-SNAPSHOT
 10000000
 ```
 
-It seems neither patch cause a performance regression
-And the numbers are more realistic now
+It seems neither patch cause a performance regression.
 
 ## Other Workarounds
 
