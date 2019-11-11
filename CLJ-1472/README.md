@@ -13,11 +13,10 @@ The reason for this is that the bytecode emitted by the locking macro fails
 bytecode verification. The relevant issue on the Clojure JIRA for this is
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
-## TODO
+## Vote
 
-* include tradeoffs between clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch
-* https://github.com/search?l=Clojure&o=desc&q=locking&s=indexed&type=Code might be worth a skim to see if anyone looks like they are using/abusing locking (Alex in #graalvm)
-* cleaning all this info up and making a really readable ticket would be really helpful. this is basically what I would do on this ticket (https://clojure.org/dev/creating_tickets) and is a huge boost to getting it ready to screen (Alex in #graalvm)
+If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
+
 
 ## Scripts
 
@@ -200,3 +199,9 @@ Comment by @eraserhd in the #graalvm channel on Slack:
 I think locking is, by definition, not performant, and it's also not idiomatic in Clojure, so that's why my vote goes for 1472.
 er, clj-1472-3.patch
 (clj-1472-3.patch uses a native Java method which is passed a callable to lock an object)
+
+## TODO
+
+* include tradeoffs between clj-1472-3.patch and CLJ-1472-reentrant-finally2.patch
+* https://github.com/search?l=Clojure&o=desc&q=locking&s=indexed&type=Code might be worth a skim to see if anyone looks like they are using/abusing locking (Alex in #graalvm)
+* cleaning all this info up and making a really readable ticket would be really helpful. this is basically what I would do on this ticket (https://clojure.org/dev/creating_tickets) and is a huge boost to getting it ready to screen (Alex in #graalvm)
