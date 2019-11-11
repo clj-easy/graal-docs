@@ -130,7 +130,7 @@ get-pom-dep-version() {
     local group_id=$1
     local artifact_id=$2
 
-    local temp_file;temp_file=$(mktemp -t "clj-patcher-dep-version")
+    local temp_file;temp_file=$(mktemp -t "clj-patcher-dep-version.XXXXXXXXXX")
     mvn dependency:list -DincludeArtifactIds="${artifact_id}" \
         -DoutputFile="${temp_file}" -DexcludeTransitive=true -q
     local version;version=$(grep "${group_id}:${artifact_id}" "${temp_file}" | cut -d : -f 4)
@@ -224,7 +224,7 @@ fi
 
 if [ ${ARG_WORK_DIR_SET} == false ]; then
     # some versions of osx require -t?
-    WORK_DIR=$(mktemp -d -t "clj-patcher")
+    WORK_DIR=$(mktemp -d -t "clj-patcher.XXXXXXXXXX")
 else
     # add patch-work dir, I am comfortable creating and deleting patch-work
     # under provided dir but not provide work dir itself - too dangerous.
