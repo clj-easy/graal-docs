@@ -23,7 +23,7 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 
 ### build-clojure-with-1472-patch.sh
 
-Builds and locally installs clojure 1.10.1 with a specified patch from
+Builds and locally installs clojure with a specified patch from
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
 **Audience**
