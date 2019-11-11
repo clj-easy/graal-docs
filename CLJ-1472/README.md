@@ -87,16 +87,14 @@ patch filename in its version, examples:
     * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
 
 The patched version of clojure should work with graal's `native-image`, reference
-the variant you want, for example from `deps.edn`, via:
+the variant you want. Example dependencies for `deps.edn`:
 
 ```Clojure
-{org.clojure/clojure {:mvn/version "1.10.1-patch_clj_1472_3"}}
+{org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_3"}}
 ```
 
-Or:
-
 ```Clojure
-{org.clojure/clojure {:mvn/version "1.10.1-patch_clj_1472_reentrant_finally2"}}
+{org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_reentrant_finally2"}}
 ```
 
 **Prerequisites**
