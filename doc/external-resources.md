@@ -13,6 +13,7 @@
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
 - [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
+- [wernicke](https://github.com/latacora/wernicke). A redaction tool.
 - [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
 
 ## Libraries compatible with GraalVM
