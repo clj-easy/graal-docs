@@ -44,6 +44,8 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 apply patches from this issue and several other workarounds
 [here](CLJ-1472/README.md).
 
+## [Testing Strategies](doc/testing-strategies.md)
+
 ## [External resources](doc/external-resources.md)
 
 Curated collection of [projects, articles, etc.](doc/external-resources.md)
