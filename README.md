@@ -12,6 +12,12 @@ This little repo's goal is to collect scripts and tips to graalify clojure code.
 When we refer to GraalVM in this repository, we mean SubstrateVM, the native
 compiler, unless otherwise indicated.
 
+## Community
+
+> :wave: Need help or want to chat? Say hi on [Clojurians Slack](http://clojurians.net/) in [#graalvm](https://clojurians.slack.com/app_redirect?channel=graalvm).
+
+We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
+
 ## [Hello world](doc/hello-world.md)
 
 ## Tips and tricks
