@@ -10,7 +10,7 @@ This strategy works well when developing a command line tool.
 
 ![conditional spawning](clj-graal-testing-conditional-spawn.png)
 
-Clojure project source is aot compiled to classes then natively compiled to
+Clojure project source is AOT compiled to classes then natively compiled to
 an executable with GraalVM. The executable, in this case, is the command line
 tool.
 
@@ -34,9 +34,9 @@ another run from a test runner executable created by GraalVM.
 
 The test runner could written by hand or automatically generated. It explicitly
 requires all test namespaces, this way they will be automatically included
-during aot compilation and hence into the test runner executable.
+during AOT compilation and hence into the test runner executable.
 
-To compile tests with GraalVM when using Cloure 1.10.x you'll need to use a
+To compile tests with GraalVM when using Clojure 1.10.x you'll need to use a
 [patch from CLJ-1472](../CLJ-1472/README.md).
 
 An example of this technique can be found in
