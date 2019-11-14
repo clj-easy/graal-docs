@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# create a clj-1472 patched version that overcomes locking issue so that we can compile graal native-image
+# create a clj-1472 patched version of Clojure that overcomes locking issue so that we can compile GraalVM native-image
 
 set -eou pipefail
 
@@ -71,7 +71,7 @@ jira-print-patch-filenames() {
 
 patch-version-string() {
     # version string gets new qualifier that includes sha and a representation of patch file
-    # clojure build system uses ant which has some restrictions on versions, so we can't go
+    # Clojure build system uses ant which has some restrictions on versions, so we can't go
     # all willy nilly.
     set -eou pipefail
 

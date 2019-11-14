@@ -1,6 +1,6 @@
 # CLJ-1472
 
-Clojure 1.10 introduced locking code into clojure.spec.alpha that often causes
+Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
 GraalVM's `native-image` to fail with:
 
 ```
@@ -22,15 +22,15 @@ If you are interested in getting this issue fixed in a next release of Clojure, 
 
 ### build-clojure-with-1472-patch.sh
 
-Builds and locally installs clojure with a specified patch from
+Builds and locally installs Clojure with a specified patch from
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
 **Audience**
 
 We have identified 2 primary users of this script:
 
-1. **clojure tool developer** - wants to natively compile their app. This person will use a 1.10.1 patched version of clojure and will get by without specifying any options to the script.
-2. **clojure core developer** - works on clojure itself and wants to make progress on CLJ-1472.  This person will likely work off HEAD of master but may want also to select different commits and/or patches.
+1. **Clojure tool developer** - wants to natively compile their app. This person will use a 1.10.1 patched version of Clojure and will get by without specifying any options to the script.
+2. **Clojure core developer** - works on Clojure itself and wants to make progress on CLJ-1472.  This person will likely work off HEAD of master but may want also to select different commits and/or patches.
 
 **Usage**
 
@@ -85,7 +85,7 @@ patch filename in its version, examples:
     * <code>org.clojure/clojure 1.10.0-beta8-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
     * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
 
-The patched version of clojure should work with graal's `native-image`, reference
+The patched version of Clojure should work with GraalVM's `native-image`, reference
 the variant you want. Example dependencies for `deps.edn`:
 
 ```Clojure
@@ -105,7 +105,7 @@ The script will fail if any of the following are not found:
 * git-extras
 * maven
 * jet - [see jet installation instructions](https://github.com/borkdude/jet#installation)
-  (Interesting tidbit: jet is a clojure program compiled to a native image with graal)
+  (Interesting tidbit: jet is a Clojure program compiled to a native image with GraalVM)
 * curl
 * sed
 
@@ -125,19 +125,19 @@ Verify that you are using the patched version of spec using `clojure -Stree`.
 - Run `./compile`. This should produce a `spec-test` executable.
 - Run `./spec-test`. This should produce output like the following:
 
-``` clojure
+```Clojure
 {:major 1, :minor 10, :incremental 1, :qualifier patch_38bafca9_clj_1472_3}
 true
 ```
 
 ## Performance
 
-Here we look at the performance impact of CLJ-1472 patches on clojure in absence
-of graal.
+Here we look at the performance impact of CLJ-1472 patches on Clojure in absence
+of GraalVM.
 
 Run:
 
-``` shellsession
+```shellsession
 clojure -J-XX:-EliminateLocks -A:performance
 ```
 
@@ -189,7 +189,7 @@ code at run-time:
   manually. [This](https://github.com/borkdude/babashka/blob/070220da70c894ad7b282ce2747607c0bee68613/src/babashka/impl/clojure/core/server.clj#L1)
   is a patched version of `clojure.core.server`.
 
-- revert to using clojure 1.9.0
+- revert to using Clojure 1.9.0
 
 ## Misc
 
