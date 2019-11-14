@@ -15,9 +15,10 @@ an executable with GraalVM. The executable, in this case, is the command line
 tool.
 
 The test suite is setup with a flag to either test Clojure source in the JVM or
-against the executable. The suite is run from the JVM twice, once with the flag
-selecting Clojure sources in the JVM and once with the flag selecting the
-executable to spawn.
+against the executable. The suite is run from the JVM twice:
+
+* once with the flag selecting to test against Clojure sources in the JVM
+* a second time with the flag selecting to run each test against a spawn of the executable
 
 Examples of this technique can be found in [clj-kondo](https://github.com/borkdude/clj-kondo/blob/875a6bcf660fab60e3037b862edcab23dbc6124a/test/clj_kondo/test_utils.clj#L121)
 and [jet](https://github.com/borkdude/jet/blob/92e186a020193645fbca5832b07c5d7c21ef9182/test/jet/test_utils.clj#L19).
@@ -32,7 +33,7 @@ another run from a test runner executable created by GraalVM.
 
 ![test compilation](clj-graal-testing-compile.png)
 
-The test runner could written by hand or automatically generated. It explicitly
+The test runner could be written by hand or automatically generated. It explicitly
 requires all test namespaces, this way they will be automatically included
 during AOT compilation and hence into the test runner executable.
 
