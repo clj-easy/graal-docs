@@ -9,7 +9,7 @@ JIRA_ISSUE="CLJ-1472"
 
 status-line() {
     echo ""
-    echo -e "\033[42m \033[30;44m $1 \033[42m \033[0m"
+    echo -e "\033[42m \033[30;46m $1 \033[42m \033[0m"
 }
 
 error-line() {
