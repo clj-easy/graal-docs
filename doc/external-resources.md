@@ -10,6 +10,7 @@
 - [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
 - [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
+- [Google Authenticator](https://github.com/ashwinbhaskar/Google-Authenticator). Compute your Google Authenticator One Time Password.
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
 - [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
