@@ -38,11 +38,11 @@ being included in your native image.
 
 GraalVM's `native-image` can consume more RAM than is available on free tiers of
 services such as CircleCI. To limit how much RAM `native-image` uses, include
-the `--no-server` option and set max heap usage via the `"-J-xMx"` option
-(for example `"-J-xMx3g"` limits the heap to 3 gigabytes).
+the `--no-server` option and set max heap usage via the `"-J-Xmx"` option
+(for example `"-J-Xmx3g"` limits the heap to 3 gigabytes).
 
 If you are suffering out of memory errors, experiment on your development
-computer with the `-J-xMx` value. To learn actual memory usage, prefix the
+computer with the `-J-Xmx` value. To learn actual memory usage, prefix the
 `native-image` command with:
 
 * on macOS `command time -l `
