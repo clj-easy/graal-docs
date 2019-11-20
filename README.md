@@ -27,6 +27,13 @@ We heartily welcome, and greatly appreciate, tips, tricks, corrections and impro
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
 There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA](https://clojure.atlassian.net/browse/CLJ-2502).
 
+### Learn What's Being Included
+
+When you add GraalVM's `native-image`
+[`-H:+PrintAnalysisCallTree`](https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree)
+option, under `./reports` you will learn what packages, classes and methods are
+being included in your native image.
+
 ## [CLJ-1472](CLJ-1472/README.md)
 
 Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
