@@ -34,6 +34,22 @@ When you add GraalVM's `native-image`
 option, under `./reports` you will learn what packages, classes and methods are
 being included in your native image.
 
+### native-image RAM usage
+
+GraalVM's `native-image` can consume more RAM than is available on free tiers of
+services such as CircleCI. To limit how much RAM `native-image` uses, include
+the `--no-server` option and set max heap usage via the `"-J-xMx"` option
+(for example `"-J-xMx3g"` limits the heap to 3 gigabytes).
+
+If you are suffering out of memory errors, experiment on your development
+computer with the `-J-xMx` value. To learn actual memory usage, prefix the
+`native-image` command with:
+
+* on macOS `command time -l `
+* on Linux `command time -v `
+
+These `time` commands report useful stats in addition to "maximum resident set size".
+
 ## [CLJ-1472](CLJ-1472/README.md)
 
 Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
