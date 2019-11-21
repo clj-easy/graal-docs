@@ -265,7 +265,7 @@ status-line "clojure - resetting to: ${ARG_CLOJURE_COMMIT}"
 git reset --hard "${ARG_CLOJURE_COMMIT}"
 
 status-line "clojure - finding versions"
-CLOJURE_SHORT_SHA=$(git rev-parse --short HEAD)
+CLOJURE_SHORT_SHA=$(git rev-parse --short=8 HEAD)
 CLOJURE_SPEC_VERSION=$(get-pom-dep-version "org.clojure" "spec.alpha")
 SPEC_ALPHA_COMMIT="spec.alpha-${CLOJURE_SPEC_VERSION}"
 echo "spec alpha commit: ${SPEC_ALPHA_COMMIT}"
