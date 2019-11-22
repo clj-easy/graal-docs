@@ -103,24 +103,29 @@ patch-version-string() {
     echo "${version}${new_qualifier}${snapshot}"
 }
 
+maven() {
+    # shellcheck disable=SC2068
+    mvn --batch-mode $@
+}
+
 get-pom-version() {
     set -eou pipefail
     # shellcheck disable=SC2016
-    mvn -q \
-        -Dexec.executable=echo \
-        -Dexec.args='${project.version}' \
-        --non-recursive \
-        exec:exec
+    maven -q \
+          -Dexec.executable=echo \
+          -Dexec.args='${project.version}' \
+          --non-recursive \
+          exec:exec
 }
 
 set-pom-version() {
-    mvn versions:set -DnewVersion="$1"
+    maven versions:set -DnewVersion="$1"
 }
 
 set-pom-property() {
     local name=$1
     local value=$2
-    mvn versions:set-property -Dproperty="${name}" -DnewVersion="${value}"
+    maven versions:set-property -Dproperty="${name}" -DnewVersion="${value}"
 }
 
 get-pom-dep-version() {
@@ -131,7 +136,7 @@ get-pom-dep-version() {
     local artifact_id=$2
 
     local temp_file;temp_file=$(mktemp -t "clj-patcher-dep-version.XXXXXXXXXX")
-    mvn dependency:list -DincludeArtifactIds="${artifact_id}" \
+    maven dependency:list -DincludeArtifactIds="${artifact_id}" \
         -DoutputFile="${temp_file}" -DexcludeTransitive=true -q
     local version;version=$(grep "${group_id}:${artifact_id}" "${temp_file}" | cut -d : -f 4)
 
@@ -144,12 +149,12 @@ set-pom-dep-version() {
     local artifact_id=$2
     local version=$3
 
-    mvn versions:use-dep-version -Dincludes="${group_id}:${artifact_id}" \
+    maven versions:use-dep-version -Dincludes="${group_id}:${artifact_id}" \
         -DdepVersion="${version}" -DforceVersion=true
 }
 
 mvn-clean-install() {
-   rm -rf target && mvn install -Dmaven.test.skip=true
+   rm -rf target && maven install -Dmaven.test.skip=true
 }
 
 usage() {
