@@ -37,10 +37,10 @@ The test runner could be written by hand or automatically generated. It explicit
 requires all test namespaces, this way they will be automatically included
 during AOT compilation and hence into the test runner executable.
 
-To compile tests with GraalVM when using Clojure 1.10.x you'll need to use a
-[patch from CLJ-1472](../CLJ-1472/README.md).
+When using `clojure.test/run-tests`, a [patch from CLJ-1472](../CLJ-1472/README.md)
+is required.
 
-An example of this technique can be found in
+An example of the test compilation technique can be found in
 [rewrite-cljs-playground](https://github.com/lread/rewrite-cljs-playground/blob/master/script/graal-tests.sh)
 (soon to be rewrite-cljc). A caveat from the author:
 
@@ -53,7 +53,11 @@ with `"-J-Xmx"` at:
 > * 8g ~11 minutes
 > * 4g - failed with `java.lang.OutOfMemoryError: Java heap space` after ~1 hour
 >
-> This means running these tests on the free tier of a service such as circleci,
-> which has a limit of 4gb, is not currently an option.
+> This means running these tests on the free tier of a build service can be
+problematic. Free tiers investigated:
+>
+> * CircleCI - ❌ limit of 4gb, Linux, macOS
+> * GitHub Actions - ❌ limit of 7gb, Linux, macOS, Windows
+> * Drone Cloud - ✅ limit of 64gb for x64. Linux only.
 >
 > I continue to experiment and will report back.
