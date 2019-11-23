@@ -42,13 +42,17 @@ the `--no-server` option and set max heap usage via the `"-J-Xmx"` option
 (for example `"-J-Xmx3g"` limits the heap to 3 gigabytes).
 
 If you are suffering out of memory errors, experiment on your development
-computer with the `-J-Xmx` value. To learn actual memory usage, prefix the
+computer with higher `-J-Xmx` values. To learn actual memory usage, prefix the
 `native-image` command with:
 
 * on macOS `command time -l `
 * on Linux `command time -v `
 
 These `time` commands report useful stats in addition to "maximum resident set size".
+
+Actual memory usage is an ideal. Once you have a successful build, you can experiment
+with lowering `-J-Xmx` below the ideal. The cost will be longer build times, and when
+`-J-Xmx` is too low, out of memory errors.
 
 ## [CLJ-1472](CLJ-1472/README.md)
 
