@@ -35,6 +35,7 @@
 ## Build tools / wrappers
 
 - [clj.native-image](https://github.com/taylorwood/clj.native-image). Build GraalVM native images with Clojure Deps and CLI tools.
+- [setup-graalvm](https://github.com/DeLaGuardo/setup-graalvm). GitHub action to set up GraalVM environment in hosted runners as a replacement for Java.
 
 ## Articles
 
