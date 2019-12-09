@@ -10,7 +10,7 @@
 - [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
 - [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
-- [daddy](https://github.com/liquidz/daddy). Small configuration management tool for Clojure.
+- [dad](https://github.com/liquidz/dad). Small configuration management tool for Clojure.
 - [Google Authenticator](https://github.com/ashwinbhaskar/Google-Authenticator). Compute your Google Authenticator One Time Password.
 - [graal-native-image-jni](https://github.com/retrogradeorbit/graal-native-image-jni). Smallest JNI example with GraalVM native-image.
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
