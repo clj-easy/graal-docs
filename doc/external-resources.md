@@ -3,6 +3,7 @@
 ## Projects
 
 - [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
+- [alc.enum-repls](https://github.com/sogaiu/alc.enum-repls). Find information about local networked Clojure REPLs, notably port numbers.
 - [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
 - [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
 - [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
