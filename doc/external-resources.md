@@ -24,6 +24,7 @@
 ## Libraries compatible with GraalVM
 
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
+- [clj-http-lite](https://github.com/martinklepsch/clj-http-lite). A lite version of clj-http that uses the jre's `HttpURLConnection`. 
 - [cljstache](https://github.com/fotoetienne/cljstache). {{ mustache }} templates for Clojure[Script].
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
 - [enlive](https://github.com/cgrand/enlive). A selector-based (à la CSS) templating and transformation system for Clojure
