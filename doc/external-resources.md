@@ -12,6 +12,7 @@
 - [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
 - [dad](https://github.com/liquidz/dad). Small configuration management tool for Clojure.
+- [deps.clj](https://github.com/borkdude/deps.clj). A port of the `clojure` bash script to Clojure and compiled with GraalVM to a binary.
 - [eden](https://github.com/benzap/eden). Embedded and Extensible Scripting Language in Clojure.
 - [Google Authenticator](https://github.com/ashwinbhaskar/Google-Authenticator). Compute your Google Authenticator One Time Password.
 - [graal-native-image-jni](https://github.com/retrogradeorbit/graal-native-image-jni). Smallest JNI example with GraalVM native-image.
