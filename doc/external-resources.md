@@ -8,6 +8,7 @@
 - [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
 - [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
 - [cljfmt-graalvm](https://gitlab.com/konrad.mrozek/cljfmt-graalvm/). Clojure formatter using cljfmt built with GraalVM.
+- [cljstyle](https://github.com/greglook/cljstyle). A tool for formatting Clojure code
 - [cljtree-graalvm](https://github.com/borkdude/cljtree-graalvm). Tree version in Clojure built with GraalVM.
 - [clojurl](https://github.com/taylorwood/clojurl). An example Clojure CLI HTTP/S client using GraalVM native image.
 - [cotd](https://github.com/tomekw/cotd). Clojure docstring of the day.
