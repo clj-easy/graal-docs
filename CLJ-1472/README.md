@@ -123,7 +123,7 @@ installs:
   * <code>org.clojure/clojure 1.10.0-beta8-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
   * <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>c9a45b5f</i></b>\_<b>clj_1472_reentrant_finally2</b></code>
 
-** Referencing a Patched Clojure **
+**Referencing a Patched Clojure**
 
 The patched version of Clojure should work with GraalVM's `native-image`, reference
 the variant you want. Example dependencies for `deps.edn`:
