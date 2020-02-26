@@ -85,6 +85,13 @@ Workarounds:
   swapped out for non-conditional code which works on JDK11 (but not on
   JDK8). The patch can be found [here](resources/Reflector.java).
 
+## GraalVM development builds
+
+Development builds of GraalVM can be found
+[here](https://github.com/graalvm/graalvm-ce-dev-builds/releases). Note that
+these builds are intended for early testing feedback, but can disappear after a
+proper release has been made, so don't link to them from production CI builds.
+
 ## [Testing Strategies](doc/testing-strategies.md)
 
 ## [External resources](doc/external-resources.md)
