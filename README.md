@@ -80,10 +80,10 @@ in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
 
 Workarounds:
 
-- Using a Java 8 version of GraalVM
+- Use a Java 8 version of GraalVM
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
-  swapped out for non-conditional code which works on JDK11 (but not on
-  JDK8). The patch can be found [here](resources/Reflector.java).
+  swapped out for non-conditional code which works on Java 11 (but not on
+  Java 8). The patch can be found [here](resources/Reflector.java).
 
 ## GraalVM development builds
 
