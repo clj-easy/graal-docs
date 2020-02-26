@@ -71,6 +71,20 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 apply patches from this issue and several other workarounds
 [here](CLJ-1472/README.md).
 
+## JDK11 and clojure.lang.Reflector
+
+JDK11 is supported since GraalVM 19.3.0. GraalVM can get confused about a
+[conditional piece of
+code](https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57)
+in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
+
+Workarounds:
+
+- Using a Java 8 version of GraalVM
+- Patch `clojure.lang.Reflector` on the classpath with the conditional logic
+  swapped out for non-conditional code which works on JDK11 (but not on
+  JDK8). The patch can be found [here](resources/Reflector.java).
+
 ## [Testing Strategies](doc/testing-strategies.md)
 
 ## [External resources](doc/external-resources.md)
