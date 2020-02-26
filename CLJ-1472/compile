@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+NATIVE_IMAGE=`which native-image`
+
+if [ -z "$NATIVE_IMAGE" ]; then
+    if [ -z "$GRAALVM_HOME" ]; then
+        echo 'Please set GRAALVM_HOME or NATIVE_IMAGE'
+        exit 1
+    fi
+
+    "$GRAALVM_HOME/bin/gu" install native-image
+
+    NATIVE_IMAGE="$GRAALVM_HOME/bin/native-image"
+fi
+
+mkdir -p classes
+
+clojure -e "(compile 'spec-test.core)"
+
+$NATIVE_IMAGE \
+    -H:Name=spec-test \
+    --no-server \
+    --no-fallback \
+    -cp $(clojure -Spath):classes \
+    --initialize-at-build-time \
+    --report-unsupported-elements-at-runtime \
+    -H:+ReportExceptionStackTraces \
+    spec_test.core
