@@ -20,13 +20,14 @@
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
 - [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
+- [spire](https://github.com/epiccastle/spire). A Clojure domain specific language tailored to idempotently orchestrate machines in parallel over SSH.
 - [wernicke](https://github.com/latacora/wernicke). A redaction tool.
 - [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
 
 ## Libraries compatible with GraalVM
 
 - [cli-matic](https://github.com/l3nz/cli-matic). (Sub)command line parsing.
-- [clj-http-lite](https://github.com/martinklepsch/clj-http-lite). A lite version of clj-http that uses the jre's `HttpURLConnection`. 
+- [clj-http-lite](https://github.com/martinklepsch/clj-http-lite). A lite version of clj-http that uses the jre's `HttpURLConnection`.
 - [cljstache](https://github.com/fotoetienne/cljstache). {{ mustache }} templates for Clojure[Script].
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
 - [enlive](https://github.com/cgrand/enlive). A selector-based (à la CSS) templating and transformation system for Clojure

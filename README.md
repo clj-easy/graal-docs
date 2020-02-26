@@ -78,6 +78,15 @@ JDK11 is supported since GraalVM 19.3.0. GraalVM can get confused about a
 code](https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57)
 in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
 
+Compiling your clojure code with JDK11 native image and then running it will result in the following exception being thrown apon first use of reflection:
+
+```
+Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invoke with MethodHandle argument could not be reduced to at most a single call or single field access. The method handle must be a compile time constant, e.g., be loaded from a `static final` field. Method that contains the method handle invocation: java.lang.invoke.Invokers$Holder.invoke_MT(Object, Object, Object, Object)
+    at com.oracle.svm.core.util.VMError.unsupportedFeature(VMError.java:101)
+    at clojure.lang.Reflector.canAccess(Reflector.java:49)
+    ...
+```
+
 Workarounds:
 
 - Use a Java 8 version of GraalVM
