@@ -94,6 +94,10 @@ Workarounds:
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
   swapped out for non-conditional code which works on Java 11 (but not on
   Java 8). The patch can be found [here](resources/Reflector.java).
+- If you require your project to support native image compilation on both Java 8
+  and Java 11 versions of GraalVM then use the patch found [here](resources/Reflector2.java).
+  This version does not respect any Java 11 module access rules and improper reflection
+  access by your code may fail. The file will need to be renamed to `Reflector.java`.
 
 ## Interfacing with native libraries
 
