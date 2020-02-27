@@ -94,6 +94,10 @@ Workarounds:
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
   swapped out for non-conditional code which works on Java 11 (but not on
   Java 8). The patch can be found [here](resources/Reflector.java).
+- If you require your project to support native image compilation on both Java 8
+  and Java 11 versions of GraalVM then use the patch found [here](resources/Reflector2.java).
+  This version does not respect any Java 11 module access rules and improper reflection
+  access by your code may fail. The file will need to be renamed to `Reflector.java`.
 
 ## Interfacing with native libraries
 
@@ -102,6 +106,45 @@ Clojure program calling a Rust library is documented
 [here](https://github.com/borkdude/clojure-rust-graalvm). [Spire](https://github.com/borkdude/clojure-rust-graalvm)
 is a real life project that combines GraalVM-compiled Clojure and C in a native
 binary.
+
+To interface with C code using JNI the following steps are taken:
+
+- A java file is written defining a class. This class contains `public static native` methods
+  defining the C functions you would like, their arguments and the return types. An example is
+  [here](https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.java)
+- A C header file with a `.h` extension is generated from this java file:
+  - Java 8 uses a special tool `javah` which is called on the _class file_. You will need
+    to first create the class file with `javac` and then generate the header file from that
+    with `javah -o Library.h -cp directory_containing_class_file Library.class`
+  - Java 11 bundled this tool into `javac`. You will javac on the `.java` _source file_ and
+    specify a directory to store the header file in like
+    `javac -h destination_dir Library.java`
+- A C implementation file is now written with function definitions that match the prototypes
+  created in the `.h` file. You will need to `#include` your generated header file. An example is
+  [here](https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.c)
+- The C code is compiled into a shared library as follows (specifying the correct path to the graal home instead of $GRAALVM):
+  - On linux, the compilation will take the form `cc -I$GRAALVM/include -I$GRAALVM/include/linux -shared Library.c -o liblibrary.so -fPIC`
+  - On MacOS, the compilation will take the form `cc -I$GRAALVM/Contents/Home/include -I$GRAALVM/Contents/Home/include/darwin -dynamiclib -undefined suppress -flat_namespace Library.c -o liblibrary.dylib -fPIC`
+- Once the library is generated you can load it at clojure runtime with
+  `(clojure.lang.RT/loadLibrary "library")`
+- The JVM will need to be able to find the library on the standard library path. This can be
+  set via `LD_LIBRARY_PATH` environment variable or via the `ld` linker config
+  file (`/etc/ld.so.conf` on linux). Alternately you can set the library path by passing
+  `-Djava.library.path="my_lib_dir"` to the java command line or by setting it at
+  runtime with `(System/setProperty "java.library.path" "my_lib_dir")`
+- Functions may be called via standard Java interop in clojure via the interface specified
+  in your `Library.java` file: `(Library/method args)`
+
+## JNI API bugs
+
+JNI contains a suite of tools for transfering datatypes between Java and C. You can read
+about this API [here for Java 8](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html)
+and [here for Java 11](https://docs.oracle.com/en/java/javase/11/docs/specs/jni/functions.html).
+There are a some bugs ([example](https://github.com/oracle/graal/issues/2152)) in the GraalVM
+implementations of some of these functions in all versions up to and including GraalVM 20.0.0.
+Some known bugs have been fixed in GraalVM 20.1.0-dev. If you encounter bugs with these API
+calls try the latests development versions of GraalVM. If bugs persist please file them with
+the Graal project.
 
 ## GraalVM development builds
 
