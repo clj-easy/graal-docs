@@ -32,7 +32,8 @@ There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA](https:
 When you add GraalVM's `native-image`
 [`-H:+PrintAnalysisCallTree`](https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree)
 option, under `./reports` you will learn what packages, classes and methods are
-being included in your native image.
+being included in your native image. Note that this option will likely slow down
+compilation so it's better to turn it off in production builds.
 
 ### native-image RAM usage
 
@@ -93,6 +94,14 @@ Workarounds:
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
   swapped out for non-conditional code which works on Java 11 (but not on
   Java 8). The patch can be found [here](resources/Reflector.java).
+
+## Interfacing with native libraries
+
+For interfacing with native libraries you can use JNI. An example of a native
+Clojure program calling a Rust library is documented
+[here](https://github.com/borkdude/clojure-rust-graalvm). [Spire](https://github.com/borkdude/clojure-rust-graalvm)
+is a real life project that combines GraalVM-compiled Clojure and C in a native
+binary.
 
 ## GraalVM development builds
 
