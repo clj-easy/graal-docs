@@ -116,7 +116,7 @@ To interface with C code using JNI the following steps are taken:
   - Java 8 uses a special tool `javah` which is called on the _class file_. You will need
     to first create the class file with `javac` and then generate the header file from that
     with `javah -o Library.h -cp directory_containing_class_file Library.class`
-  - Java 11 bundled this tool into `javac`. You will javac on the `.java` source file and
+  - Java 11 bundled this tool into `javac`. You will javac on the `.java` _source file_ and
     specify a directory to store the header file in like
     `javac -h destination_dir Library.java`
 - A C implementation file is now written with function definitions that match the prototypes
