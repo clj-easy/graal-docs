@@ -141,9 +141,9 @@ JNI contains a suite of tools for transfering datatypes between Java and C. You 
 about this API [here for Java 8](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html)
 and [here for Java 11](https://docs.oracle.com/en/java/javase/11/docs/specs/jni/functions.html).
 There are a some bugs ([example](https://github.com/oracle/graal/issues/2152)) in the GraalVM
-implementations of some of these functions in all versions up to and including Graal 20.0.0.
+implementations of some of these functions in all versions up to and including GraalVM 20.0.0.
 Some known bugs have been fixed in GraalVM 20.1.0-dev. If you encounter bugs with these API
-calls try the latests development versions of Graal. If bugs persist please file them with
+calls try the latests development versions of GraalVM. If bugs persist please file them with
 the Graal project.
 
 ## GraalVM development builds
