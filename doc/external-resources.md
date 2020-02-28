@@ -19,6 +19,7 @@
 - [graal-native-image-jni](https://github.com/retrogradeorbit/graal-native-image-jni). Smallest JNI example with GraalVM native-image.
 - [jet](https://github.com/borkdude/jet). CLI to transform between JSON, EDN and Transit.
 - [optikon](https://github.com/stathissideris/optikon). Command-line wrapper for the powerful vega visualization JS libraries.
+- [PGMig](https://github.com/leafclick/pgmig). Standalone PostgreSQL Migration Runner based on Migratus.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
 - [spire](https://github.com/epiccastle/spire). A Clojure domain specific language tailored to idempotently orchestrate machines in parallel over SSH.
 - [wernicke](https://github.com/latacora/wernicke). A redaction tool.

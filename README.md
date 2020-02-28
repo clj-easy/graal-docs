@@ -27,6 +27,9 @@ We heartily welcome, and greatly appreciate, tips, tricks, corrections and impro
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
 There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA](https://clojure.atlassian.net/browse/CLJ-2502).
 
+To let Graal config the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule
+for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
+
 ### Learn What's Being Included
 
 When you add GraalVM's `native-image`
@@ -71,6 +74,27 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472). We document how to
 apply patches from this issue and several other workarounds
 [here](CLJ-1472/README.md).
+
+
+### Initialization
+
+Unlike the early days the current `native-image` deffers the initialization of most classes to runtime.
+For Clojure programs it is often actually feasible (unlike in a typical Java program) to change it back
+via `--initialize-at-build-time` to achieve yet faster startup time. You can still defer some classes
+to runtime initialization using `--initialize-at-run-time`.
+
+### Static linking vs DNS lookup
+
+If you happen to need a DNS lookup in your program you need to avoid statically linked images
+(at least on Linux). If you are builing a minimal docker image it is sufficient
+to add the linked libraries (like `libnss*`) to the resulting image.  But be sure that those
+libraries have the same version as the ones used in the linking phase. 
+
+One way to achieve that is to compile  _within_ the docker image then scraping the intermediate files
+using the `FROM scratch` directive and `COPY` the executable and shared libraries linked to it
+into the target image.
+
+See https://github.com/oracle/graal/issues/571
 
 ## JDK11 and clojure.lang.Reflector
 
