@@ -4,8 +4,7 @@ Instructions to reproduce the `unbalanced monitors` error when compiling Clojure
 
 See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
-These steps were verified on macOS 10.15.3 and Linux Mint 19.3. GraalVM was installed via [SDKMAN!](https://sdkman.io/).
-Clojure version used was 1.10.1.510.
+These steps were verified on macOS 10.15.3 and Linux Mint 19.3. Clojure version used was 1.10.1.510.
 
 ## Setup
 
@@ -19,12 +18,11 @@ Clojure version used was 1.10.1.510.
      OpenJDK Runtime Environment (build 1.8.0_242-b06)
      OpenJDK 64-Bit GraalVM CE 19.3.1 (build 25.242-b06-jvmci-19.3-b07, mixed mode)
      ```
-     Note: A thorough tester will repeat all tests for GraalVM 19.3.1 on **JDK11**.
 2. Ensure GraalVM's `native-image` is installed via GraalVM's Component Updater:
      ```
      gu install native-image
      ```
-2. Verify you are running Clojure v1.10.1
+3. Verify you are running Clojure v1.10.1
      ```
      clojure -Sdescribe
      ```
