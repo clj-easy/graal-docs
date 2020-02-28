@@ -19,6 +19,7 @@ If you are experiencing this symptom, a patch to Clojure from CLJ-1472 will like
 
 Using a patched version of Clojure is not ideal. If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
 
+## [Steps to Reproduce](steps-to-reproduce.md)
 
 ## Scripts
 
