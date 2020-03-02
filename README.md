@@ -30,12 +30,12 @@ There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA](https:
 To let Graal config the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule
 for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
 
-### Learn What's Being Included
+### Report what is being analyzed
 
 When you add GraalVM's `native-image`
 [`-H:+PrintAnalysisCallTree`](https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree)
 option, under `./reports` you will learn what packages, classes and methods are
-being included in your native image. Note that this option will likely slow down
+being analyzed. Note that this option will likely slow down
 compilation so it's better to turn it off in production builds.
 
 ### native-image RAM usage
