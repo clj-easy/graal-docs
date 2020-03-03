@@ -78,6 +78,18 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 apply patches from this issue and several other workarounds
 [here](CLJ-1472/README.md).
 
+Update 2020-03-03:
+
+Spec `0.2.187` has been patched with a solution. Using these coordinates:
+
+``` clojure
+{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
+        org.clojure/spec.alpha {:mvn/version "0.2.187"}}}
+```
+
+in your project should make the above error go away. Note that there might still
+be other places where the `locking` macro is used. Clojure `1.10.2` will contain
+a solution for this. The fix already landed on master.
 
 ### Initialization
 
