@@ -42,6 +42,11 @@
 - [Small Clojure Interpreter](https://github.com/borkdude/sci). Evaluation of Clojure expressions from user input a.k.a `read-string` + `eval` for GraalVM.
 - [yaml](https://github.com/owainlewis/yaml). A fast, idiomatic and easy to use Clojure YAML library. Based on Snake YAML. *Note* requires :exclusion and seperate dependency of of snakeyaml: https://github.com/owainlewis/yaml/issues/35
 
+Also see
+[BrunoBonacci/graalvm-clojure](https://github.com/BrunoBonacci/graalvm-clojure)
+for a list of libraries known to work with GraalVM `native-image`.
+
+
 ## Build tools / wrappers
 
 - [clj.native-image](https://github.com/taylorwood/clj.native-image). Build GraalVM native images with Clojure Deps and CLI tools.
