@@ -129,7 +129,8 @@ Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invo
 
 Workarounds:
 
-- Use a Java 8 version of GraalVM
+- Use a Java 8 version of GraalVM.
+- Use the `--report-unsupported-elements-at-runtime` option.
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
   swapped out for non-conditional code which works on Java 11 (but not on
   Java 8). The patch can be found [here](resources/Reflector.java).
