@@ -71,7 +71,7 @@
 (defn as-markdown [res]
   (results-table->markdown (create-result-table res)))
 
-(let [results (into [] (for [alias ["1.10.1" "1472-approach-1" "1472-approach-2"]
+(let [results (into [] (for [alias ["1.10.1" "1472-patch-5" "1472-reentrant" "1472-patch-4" ]
                              opt [nil "-J-XX:-EliminateLocks"]]
                        (lock-test {:deps-version-alias alias :jvm-opt opt})))]
   (println (str "\nresults as edn:\n" results))

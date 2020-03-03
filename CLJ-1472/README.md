@@ -9,15 +9,17 @@ Call path from entry point to clojure.spec.gen.alpha$dynaload$fn__2628.invoke():
 at clojure.spec.gen.alpha$dynaload$fn__2628.invoke(alpha.clj:21)
 ```
 
-The reason for this is that the bytecode emitted by the Clojure locking macro fails
-bytecode verification. The relevant issue on the Clojure JIRA for this is
-[CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
+See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) for a detailed explanation of the cause of this failure and the approach to fixing it.
 
-If you are experiencing this symptom, a patch to Clojure from CLJ-1472 will likely solve your problem.
+The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) resolves this issue.
+
+If you cannot wait for the next release of Clojure, you can create a patched version of Clojure by following the instructions below under [Scripts](#scripts).
 
 ## Vote
 
 Using a patched version of Clojure is not ideal. If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
+
+Update: Thanks for voting! The Clojure core team has slated a fix for this issue for an upcoming release of Clojure (at the time of this writing v1.10.2).
 
 ## [Steps to Reproduce](steps-to-reproduce.md)
 
@@ -44,7 +46,7 @@ Usage: build-clojure-with-1472-patch.sh [options...]
 
  -p, --patch-filename <filename>
   name of patch file to download from CLJ-1472
-  defaults to the currently recommended clj-1472-4.patch
+  defaults to the currently recommended clj-1472-5.patch
 
  -c, --clojure-commit <commit>
   choose clojure commit to patch, can be sha or tag
@@ -57,10 +59,9 @@ Usage: build-clojure-with-1472-patch.sh [options...]
   NOTE: for safety, this script will only delete what it creates under specified work dir
 ```
 
-At the time of this writing, CLJ-1472 considered patches are:
+CLJ-1472 considered patches are:
 
-* `clj-1472-4.patch` - Described in CLJ-1472 as approach #2 and recommended (and script default)
-* `CLJ-1472-reentrant-finally2.patch` - Described in CLJ-1472 as approach #1 and not recommended
+* `clj-1472-5.patch` - At the time of this writing, there are no other candidates under consideration.
 
 Note that the script will download the patch for you.
 
@@ -89,9 +90,9 @@ Most folks will run without options:
 ./build-clojure-with-1472-patch.sh
 ```
 
-defaults to the recommended `clj-1472-4.patch` and clojure [clojure-1.10.1](https://github.com/clojure/clojure/commits/clojure-1.10.1) (which has a short sha of `38bafca9`) and installs the following to your local maven repo:
-* <code>org.clojure/clojure 1.10.1-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_4</b></code>
-* <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_4</b></code>
+defaults to the recommended `clj-1472-5.patch` and clojure [clojure-1.10.1](https://github.com/clojure/clojure/commits/clojure-1.10.1) (which has a short sha of `38bafca9`) and installs the following to your local maven repo:
+* <code>org.clojure/clojure 1.10.1-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_5</b></code>
+* <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>38bafca9</i></b>\_<b>clj_1472_5</b></code>
 
 **Alternate Usage: Specifying a Patch**
 
@@ -109,9 +110,9 @@ defaults to clojure tag [clojure-1.10.1](https://github.com/clojure/clojure/comm
 ./build-clojure-with-1472-patch.sh -c HEAD
 ```
 
-defaults to `clj-1472-4.patch`, selects clojure [HEAD](https://github.com/clojure/clojure/tree/653b8465845a78ef7543e0a250078eea2d56b659) commit (which has a short sha of `653b8465` at the time of this writing) and installs:
-* <code>org.clojure/clojure 1.11.0-master_patch\_<b><i>653b8465</i></b>\_<b>clj_1472_4</b>-SNAPSHOT</code>
-* <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>653b8465</i></b>\_<b>clj_1472_4</b></code>
+defaults to `clj-1472-5.patch`, selects clojure [HEAD](https://github.com/clojure/clojure/tree/653b8465845a78ef7543e0a250078eea2d56b659) commit (which has a short sha of `653b8465` at the time of this writing) and installs:
+* <code>org.clojure/clojure 1.11.0-master_patch\_<b><i>653b8465</i></b>\_<b>clj_1472_5</b>-SNAPSHOT</code>
+* <code>org.clojure/spec.alpha 0.2.176-patch\_<b><i>653b8465</i></b>\_<b>clj_1472_5</b></code>
 
 **Alternate Usage: Specifying a Patch and a Commit**
 ```
@@ -130,7 +131,7 @@ The patched version of Clojure should work with GraalVM's `native-image`, refere
 the variant you want. Example dependencies for `deps.edn`:
 
 ```Clojure
-{org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_4"}}
+{org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_5"}}
 ```
 
 ```Clojure
@@ -148,11 +149,31 @@ Verify that you are using a patched version of Clojure by running `clojure -Stre
   - the `NATIVE_IMAGE` environment variable to the location of GraalVM's
     `native-image` command.  then no environment variable has
 
-- Run `./compile`. This should produce a `spec-test` executable.
+- Run `./compile`, after some output that looks similar to this:
+     ```
+     spec-test.core
+     [spec-test:46447]    classlist:   3,710.61 ms,  1.15 GB
+     [spec-test:46447]        (cap):   2,793.84 ms,  1.15 GB
+     [spec-test:46447]        setup:   4,119.13 ms,  1.15 GB
+     [spec-test:46447]   (typeflow):  13,646.25 ms,  3.01 GB
+     [spec-test:46447]    (objects):   6,452.33 ms,  3.01 GB
+     [spec-test:46447]   (features):     497.04 ms,  3.01 GB
+     [spec-test:46447]     analysis:  21,187.40 ms,  3.01 GB
+     [spec-test:46447]     (clinit):     360.62 ms,  3.26 GB
+     [spec-test:46447]     universe:   1,068.79 ms,  3.26 GB
+     [spec-test:46447]      (parse):   1,660.49 ms,  3.26 GB
+     [spec-test:46447]     (inline):   1,942.10 ms,  3.31 GB
+     [spec-test:46447]    (compile):  12,632.50 ms,  4.28 GB
+     [spec-test:46447]      compile:  17,143.04 ms,  4.28 GB
+     [spec-test:46447]        image:   2,310.31 ms,  4.28 GB
+     [spec-test:46447]        write:     743.65 ms,  4.28 GB
+     [spec-test:46447]      [total]:  50,826.31 ms,  4.28 GB
+     ```
+     you should now have a `spec-test` executable.
 - Run `./spec-test`. This should produce output like the following:
 
    ```Clojure
-   {:major 1, :minor 10, :incremental 1, :qualifier patch_38bafca9_clj_1472_4}
+   {:major 1, :minor 10, :incremental 1, :qualifier patch_38bafca9_clj_1472_5}
    true
    ```
 
@@ -164,15 +185,15 @@ Verify that you are using a patched version of Clojure by running `clojure -Stre
 Here we look at the performance impact of CLJ-1472 patches on Clojure in absence
 of GraalVM.
 
-Locking test code matches code from **Perf test** section in [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
+### Run a Performance Test
 
-Run:
+To run an individual performance test against Clojure patched with current recommended CLJ-1472 patch (patched Clojure must already be installed, see [Scripts](#scripts) above):
 
 ```
 clojure -J-XX:-EliminateLocks -A:performance
 ```
 
-We use `-J-XX:-EliminateLocks` to prevent the JVM from eliding locks.
+(We use `-J-XX:-EliminateLocks` to prevent the JVM from eliding locks.)
 
 This should output something like the following:
 
@@ -183,19 +204,22 @@ Clojure version: 1.10.1
 Success
 ```
 
-The [babashka](https://github.com/borkdude/babashka) `perftest.clj` script runs the performance test
-against Clojure `1.10.1` unpatched and CLJ-1472 candidate patches (which are assumed to be already installed).
+### Run Performance Tests via perftest.clj
 
-Examples results from a Late 2013 iMac with Quad-Core Intel i7 running macOS 10.15.2.
+The [babashka](https://github.com/borkdude/babashka) `perftest.clj` script runs the performance test
+against Clojure `1.10.1` unpatched and Clojure `1.10.1` with CLJ-1472 current and previous candidate patches
+(which are assumed to be already installed, see [Scripts](#scripts) above).
+
+Examples results from a Late 2013 iMac with Quad-Core Intel i7 running macOS 10.15.3.
 `perftest.clj` was run twice against the Amazon Corretto JVM; once against v1.8 then once against v11.0.6.
 Times are in milliseconds.
 
-| Java Version | JVM Opt                                    |       1.10.1 | 1.10.1&#x2011;patch 38bafca9 clj 1472 4 | 1.10.1&#x2011;patch 38bafca9 clj 1472 reentrant finally2 |
-|--------------|--------------------------------------------|--------------|-----------------------------------------|----------------------------------------------------------|
-| 1.8.0_242    | &lt;none&gt;                               | 23579.025184 |                            23103.459166 |                                             22674.857614 |
-| 1.8.0_242    | &#x2011;J&#x2011;XX:&#x2011;EliminateLocks | 23458.798344 |                            23110.255723 |                                             22743.683354 |
-| 11.0.6       | &lt;none&gt;                               | 25526.012733 |                            23164.781265 |                                             22665.123933 |
-| 11.0.6       | &#x2011;J&#x2011;XX:&#x2011;EliminateLocks | 22984.178757 |                            22521.638312 |                                             21779.119136 |
+| Java Version | JVM Opt                                    |       1.10.1 | 1.10.1&#x2011;patch 38bafca9 clj 1472 4 | 1.10.1&#x2011;patch 38bafca9 clj 1472 5 | 1.10.1&#x2011;patch 38bafca9 clj 1472 reentrant finally2 |
+|--------------|--------------------------------------------|--------------|-----------------------------------------|-----------------------------------------|----------------------------------------------------------|
+| 1.8.0_242    | &lt;none&gt;                               | 23868.683118 |                            23235.997299 |                            23686.511219 |                                             23720.294582 |
+| 1.8.0_242    | &#x2011;J&#x2011;XX:&#x2011;EliminateLocks | 23495.019667 |                            23461.609831 |                            22877.822631 |                                             23050.786466 |
+| 11.0.6       | &lt;none&gt;                               | 22563.156409 |                             22601.63469 |                            23592.760502 |                                             22018.846114 |
+| 11.0.6       | &#x2011;J&#x2011;XX:&#x2011;EliminateLocks | 22569.031807 |                            23240.028719 |                            23122.333266 |                                             24844.203457 |
 
 ## Other Workarounds
 
@@ -214,18 +238,3 @@ code at run-time:
   is a patched version of `clojure.core.server`.
 
 - revert to using Clojure 1.9.0
-
-## Misc
-
-- Comment by @eraserhd in the #graalvm channel on Slack:
-> IMHO clj-1472-3.patch is simple and sufficient.  Ghadi's changes the clojure compiler to be able to generate the correct bytecode for locking, saving a method call and adding some code to the clojure compler.
-I think locking is, by definition, not performant, and it's also not idiomatic in Clojure, so that's why my vote goes for 1472.
-er, clj-1472-3.patch
-(clj-1472-3.patch uses a native Java method which is passed a callable to lock an object)
-
-- **Screener feedback** from @puredanger in [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) recommends `clj-1472-4.patch` (which is `clj-1472-3.patch` rebased to Clojure master).
-
-
-## TODO
-
-* https://github.com/search?l=Clojure&o=desc&q=locking&s=indexed&type=Code might be worth a skim to see if anyone looks like they are using/abusing locking (Alex in #graalvm)

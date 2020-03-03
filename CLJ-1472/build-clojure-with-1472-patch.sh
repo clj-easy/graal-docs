@@ -164,7 +164,7 @@ usage() {
     echo ""
     echo " -p, --patch-filename <filename>"
     echo "  name of patch file to download from CLJ-1472"
-    echo "  defaults to the currently recommended clj-1472-4.patch"
+    echo "  defaults to the currently recommended clj-1472-5.patch"
     echo ""
     echo " -c, --clojure-commit <commit>"
     echo "  choose clojure commit to patch, can be sha or tag"
@@ -180,7 +180,7 @@ usage() {
 # defaults for args
 ARG_HELP=false
 ARG_INVALID=false
-ARG_PATCH_FILENAME="clj-1472-4.patch"
+ARG_PATCH_FILENAME="clj-1472-5.patch"
 ARG_WORK_DIR_SET=false
 ARG_CLOJURE_COMMIT="clojure-1.10.1"
 
