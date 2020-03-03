@@ -16,7 +16,10 @@ compiler, unless otherwise indicated.
 
 > :wave: Need help or want to chat? Say hi on [Clojurians Slack](http://clojurians.net/) in [#graalvm](https://clojurians.slack.com/app_redirect?channel=graalvm).
 
-We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
+This is a team effort. We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
+Much thanks to all who have contributed.
+
+The current curators of this repository are: @borkdude and @lread.
 
 ## [Hello world](doc/hello-world.md)
 
