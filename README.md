@@ -19,7 +19,7 @@ compiler, unless otherwise indicated.
 This is a team effort. We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
 Much thanks to all who have contributed.
 
-The current curators of this repository are: @borkdude and @lread.
+The current curators of this repository are: [@borkdude](https://github.com/borkdude) and [@lread](https://github.com/lread).
 
 ## [Hello world](doc/hello-world.md)
 
