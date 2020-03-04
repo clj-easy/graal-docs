@@ -28,7 +28,8 @@ The current curators of this repository are: [@borkdude](https://github.com/bork
 ### Reflection
 
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
-There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA](https://clojure.atlassian.net/browse/CLJ-2502).
+There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA CLJ-2502](https://clojure.atlassian.net/browse/CLJ-2502),
+which is currently slated for release in Clojure 1.10.2.
 
 To let Graal config the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule
 for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
