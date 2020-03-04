@@ -104,7 +104,7 @@ to runtime initialization using `--initialize-at-run-time`.
 If you happen to need a DNS lookup in your program you need to avoid statically linked images
 (at least on Linux). If you are builing a minimal docker image it is sufficient
 to add the linked libraries (like `libnss*`) to the resulting image.  But be sure that those
-libraries have the same version as the ones used in the linking phase. 
+libraries have the same version as the ones used in the linking phase.
 
 One way to achieve that is to compile  _within_ the docker image then scraping the intermediate files
 using the `FROM scratch` directive and `COPY` the executable and shared libraries linked to it
