@@ -179,6 +179,24 @@ Some known bugs have been fixed in GraalVM 20.1.0-dev. If you encounter bugs wit
 calls try the latests development versions of GraalVM. If bugs persist please file them with
 the Graal project.
 
+## Startup performance on macOS
+
+@borkdude noticed [slower startup times for babashka on macOS when using GraalVM v20](https://github.com/oracle/graal/issues/2136). The Graal team closed the issue with the following absolutely reasonable rationales:
+
+- > I don't think we can do much on this issue. The problem is the inefficiency of the Apple dynamic linker/loader.
+- > Yes, startup time is important, but correctness can of course never be compromised.
+You are correct that a more precise static analysis could detect that, but our current context insensitive analysis it too limited.
+
+Apple may fix this issue in macOS someday, who knows? If you:
+
+- want to restore startup time of your `native-image` produced app to what it was on macOS prior v20 of Graal
+- are comfortable with a "caveat emptor" hack from the Graal team
+
+then you may want to try incorporating [this Java code](https://github.com/oracle/graal/issues/2136#issuecomment-595688524)
+with [@borkdude's tweaks](https://github.com/oracle/graal/issues/2136#issuecomment-595814343) into your project.
+
+Here's how [@borkdude applied the fix to babashka](https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91).
+
 ## GraalVM development builds
 
 Development builds of GraalVM can be found
