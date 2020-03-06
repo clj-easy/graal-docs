@@ -181,7 +181,13 @@ the Graal project.
 
 ## Startup performance on macOS
 
-@borkdude noticed [slower startup times for babashka on macOS when using GraalVM v20](https://github.com/oracle/graal/issues/2136). The Graal team closed the issue with the following absolutely reasonable rationales:
+@borkdude noticed [slower startup times for babashka on macOS when using GraalVM v20](https://github.com/oracle/graal/issues/2136). He elaborated in the @graalvm channel on Clojurians Slack:
+
+> The issue only happens with specific usages of certain classes that are somehow related to security, urls and whatnot. So not all projects will hit this issue.
+
+> Maybe it's also related to enabling the SSL stuff. Likely, but I haven't tested that hypothesis.
+
+The Graal team closed the issue with the following absolutely reasonable rationales:
 
 - > I don't think we can do much on this issue. The problem is the inefficiency of the Apple dynamic linker/loader.
 - > Yes, startup time is important, but correctness can of course never be compromised.
@@ -189,7 +195,8 @@ You are correct that a more precise static analysis could detect that, but our c
 
 Apple may fix this issue in macOS someday, who knows? If you:
 
-- want to restore startup time of your `native-image` produced app to what it was on macOS prior v20 of Graal
+- have measured a slowdown in startup time of your `native-iamge` produced app after moving to Graal v20
+- want to restore startup app to what it was on macOS prior v20 of Graal
 - are comfortable with a "caveat emptor" hack from the Graal team
 
 then you may want to try incorporating [this Java code](https://github.com/oracle/graal/issues/2136#issuecomment-595688524)
