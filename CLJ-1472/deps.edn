@@ -1,6 +1,7 @@
-{:deps {org.clojure/clojure  {:mvn/version "1.10.1-patch_38bafca9_clj_1472_5"}}
+{:deps {org.clojure/clojure  {:mvn/version "1.10.2-alpha1" }}
  ;; aliases are used for performance test
  :aliases {:1.10.1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1" }}}
+           :1.10.2-alpha1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.2-alpha1"}}}
            :1472-patch-5 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_5"}}}
            :1472-patch-4 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_4"}}}
            :1472-reentrant {:override-deps {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_reentrant_finally2"}}}

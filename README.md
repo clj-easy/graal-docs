@@ -29,7 +29,7 @@ The current curators of this repository are: [@borkdude](https://github.com/bork
 
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
 There is a patch to make `clojure.stacktrace` work with GraalVM in [JIRA CLJ-2502](https://clojure.atlassian.net/browse/CLJ-2502),
-which is currently slated for release in Clojure 1.10.2.
+which is currently available in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
 
 To let Graal config the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule
 for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
@@ -64,6 +64,11 @@ with lowering `-J-Xmx` below the ideal. The cost will be longer build times, and
 
 ## [CLJ-1472](CLJ-1472/README.md)
 
+:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472)
+resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
+We strongly encourage you to try it out with your projects and
+[report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
+
 Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
 GraalVM's `native-image` to fail with:
 
@@ -78,19 +83,6 @@ bytecode verification. The relevant issue on the Clojure JIRA for this is
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472). We document how to
 apply patches from this issue and several other workarounds
 [here](CLJ-1472/README.md).
-
-Update 2020-03-03:
-
-Spec `0.2.187` has been patched with a solution. Using these coordinates:
-
-``` clojure
-{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        org.clojure/spec.alpha {:mvn/version "0.2.187"}}}
-```
-
-in your project should make the above error go away. Note that there might still
-be other places where the `locking` macro is used. Clojure `1.10.2` will contain
-a solution for this. The fix already landed on master.
 
 ### Initialization
 

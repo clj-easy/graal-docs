@@ -1,5 +1,10 @@
 # CLJ-1472
 
+:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472)
+resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
+We strongly encourage you to try it out with your projects and
+[report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
+
 Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
 GraalVM's `native-image` to fail with:
 
@@ -9,17 +14,17 @@ Call path from entry point to clojure.spec.gen.alpha$dynaload$fn__2628.invoke():
 at clojure.spec.gen.alpha$dynaload$fn__2628.invoke(alpha.clj:21)
 ```
 
-See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) for a detailed explanation of the cause of this failure and the approach to fixing it.
+See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) for a detailed explanation of the cause of this failure and the
+Clojure core team's approach to addressing it.
 
-The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) resolves this issue.
-
-If you cannot wait for the next release of Clojure, you can create a patched version of Clojure by following the instructions below under [Scripts](#scripts).
+Although no longer necessary nor recommended, you can create a local patched version of Clojure by following the instructions
+below under [Scripts](#scripts).
 
 ## Vote
 
-Using a patched version of Clojure is not ideal. If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
+:tada: Update: Thanks for voting! The Clojure core team has has addressed this issue in [Clojure 1.10.2](https://clojure.org/community/devchangelog#_release_1_10_2).
 
-Update: Thanks for voting! The Clojure core team has slated a fix for this issue for an upcoming release of Clojure (at the time of this writing v1.10.2).
+Using a patched version of Clojure is not ideal. If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
 
 ## [Steps to Reproduce](steps-to-reproduce.md)
 
@@ -138,10 +143,10 @@ the variant you want. Example dependencies for `deps.edn`:
 {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_reentrant_finally2"}}
 ```
 
-**Testing**
+## Testing
 
-- Update `deps.edn` to reflect the Clojure patched version you want to test.
-Verify that you are using a patched version of Clojure by running `clojure -Stree`.
+- Update `deps.edn` to reflect the version of Clojure you want to test.
+Verify the Clojure version by running `clojure -Stree`.
 
 - If the `native-image` binary is not on the `PATH`, set either:
   - the `GRAALVM_HOME` environment variable to the location of your GraalVM
@@ -173,7 +178,7 @@ Verify that you are using a patched version of Clojure by running `clojure -Stre
 - Run `./spec-test`. This should produce output like the following:
 
    ```Clojure
-   {:major 1, :minor 10, :incremental 1, :qualifier patch_38bafca9_clj_1472_5}
+   {:major 1, :minor 10, :incremental 2, :qualifier alpha1}
    true
    ```
 
@@ -222,6 +227,10 @@ Times are in milliseconds.
 | 11.0.6       | &#x2011;J&#x2011;XX:&#x2011;EliminateLocks | 22569.031807 |                            23240.028719 |                            23122.333266 |                                             24844.203457 |
 
 ## Other Workarounds
+
+If you cannot, for whatever reason, use Clojure 1.10.2, here are some other workarounds:
+
+- create your own patched version of Clojure by following instructions under [Scripts](#scripts) above.
 
 - clojurl introduces a Java-level special form and patches selections of Clojure
 code at run-time:
