@@ -120,6 +120,8 @@ Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invo
     ...
 ```
 
+See the [issue](https://github.com/oracle/graal/issues/2214) on the GraalVM repo.
+
 Workarounds:
 
 - Use a Java 8 version of GraalVM.
