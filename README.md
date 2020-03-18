@@ -138,7 +138,7 @@ Workarounds:
 
 For interfacing with native libraries you can use JNI. An example of a native
 Clojure program calling a Rust library is documented
-[here](https://github.com/borkdude/clojure-rust-graalvm). [Spire](https://github.com/borkdude/clojure-rust-graalvm)
+[here](https://github.com/borkdude/clojure-rust-graalvm). [Spire](https://github.com/epiccastle/spire)
 is a real life project that combines GraalVM-compiled Clojure and C in a native
 binary.
 
