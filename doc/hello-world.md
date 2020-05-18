@@ -35,7 +35,7 @@ This tutorial guides you through the first steps of creating a native binary usi
     $ clojure -e "(compile 'hello-world.core)"
     ```
 
-    to compile the main namespace.
+    to compile the main namespace (and transitively everything it requires).
 
     Verify that the program works on the JVM:
 
