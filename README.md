@@ -125,6 +125,7 @@ See the [issue](https://github.com/oracle/graal/issues/2214) on the GraalVM repo
 Workarounds:
 
 - Use a Java 8 version of GraalVM.
+- Include [this library][clj-reflector-graal-java11-fix] when compiling your Clojure code
 - Use the `--report-unsupported-elements-at-runtime` option.
 - Patch `clojure.lang.Reflector` on the classpath with the conditional logic
   swapped out for non-conditional code which works on Java 11 (but not on
@@ -222,3 +223,6 @@ Curated collection of [projects, articles, etc.](doc/external-resources.md)
 ## License
 
 Distributed under the EPL License, same as Clojure. See LICENSE.
+
+
+[clj-reflector-graal-java11-fix]: https://github.com/borkdude/clj-reflector-graal-java11-fix
