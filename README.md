@@ -62,6 +62,27 @@ Actual memory usage is an ideal. Once you have a successful build, you can exper
 with lowering `-J-Xmx` below the ideal. The cost will be longer build times, and when
 `-J-Xmx` is too low, out of memory errors.
 
+### native-image compilation time
+
+You can shorten the time it takes to compile a native image, and _possibly_ reduce the
+amount of RAM required, by using [direct linking][direct-linking] when compiling your
+Clojure code to JVM bytecode.
+
+This is done by setting the Java system property `clojure.compiler.direct-linking` to
+`true`.
+
+The most convenient place for you to set that system property will vary depending on
+what tool you’re using to compile your Clojure code:
+
+* If you’re using Leiningen, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]`
+  to the profile you’re using for compilation (the same one that includes `:aot :all`)
+* If you’re using tools.deps via the Clojure CLI tools, add
+  `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the alias you’re using for
+  compilation
+  * You can alternatively specify this property at the command line when invoking
+    `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -e "(compile 'my.ns)"`
+
+
 ## [CLJ-1472](CLJ-1472/README.md)
 
 :tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472)
@@ -226,3 +247,4 @@ Distributed under the EPL License, same as Clojure. See LICENSE.
 
 
 [clj-reflector-graal-java11-fix]: https://github.com/borkdude/clj-reflector-graal-java11-fix
+[direct-linking]: https://clojure.org/reference/compilation#directlinking
