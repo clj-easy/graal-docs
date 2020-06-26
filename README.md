@@ -225,7 +225,7 @@ You are correct that a more precise static analysis could detect that, but our c
 
 Apple may fix this issue in macOS someday, who knows? If you:
 
-- have measured a slowdown in startup time of your `native-iamge` produced app after moving to Graal v20
+- have measured a slowdown in startup time of your `native-image` produced app after moving to Graal v20
 - want to restore startup app to what it was on macOS prior v20 of Graal
 - are comfortable with a "caveat emptor" hack from the Graal team
 
