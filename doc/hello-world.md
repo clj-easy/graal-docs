@@ -103,7 +103,8 @@ One other approach is to build an uberjar with [`leiningen`](https://leiningen.o
 
     ``` clojure
     (defproject hello-world "0.1.0-SNAPSHOT"
-      :dependencies [[org.clojure/clojure "1.10.1"]]
+      ;; clojure version "1.10.2-alpha1" includes fixes for some graalvm specific issues
+      :dependencies [[org.clojure/clojure "1.10.2-alpha1"]]
       :main hello-world.core
       :aot :all)
     ```

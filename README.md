@@ -25,6 +25,10 @@ The current curators of this repository are: [@borkdude](https://github.com/bork
 
 ## Tips and tricks
 
+### Clojure version
+
+Use clojure "1.10.2-alpha1". This release contains several graalvm specific fixes.
+
 ### Reflection
 
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
@@ -99,6 +103,8 @@ Call path from entry point to clojure.spec.gen.alpha$dynaload$fn__2628.invoke():
 	at clojure.spec.gen.alpha$dynaload$fn__2628.invoke(alpha.clj:21)
 ```
 
+This issue will also cause builds that utilize `extend`, `extend-type`, and `extend-protocol` to fail.
+
 The reason for this is that the bytecode emitted by the locking macro fails
 bytecode verification. The relevant issue on the Clojure JIRA for this is
 [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472). We document how to
@@ -107,7 +113,7 @@ apply patches from this issue and several other workarounds
 
 ### Initialization
 
-Unlike the early days the current `native-image` deffers the initialization of most classes to runtime.
+Unlike the early days the current `native-image` defers the initialization of most classes to runtime.
 For Clojure programs it is often actually feasible (unlike in a typical Java program) to change it back
 via `--initialize-at-build-time` to achieve yet faster startup time. You can still defer some classes
 to runtime initialization using `--initialize-at-run-time`.
