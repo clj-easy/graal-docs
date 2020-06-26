@@ -234,6 +234,39 @@ with [@borkdude's tweaks](https://github.com/oracle/graal/issues/2136#issuecomme
 
 Here's how [@borkdude applied the fix to babashka](https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91).
 
+## Writing GraalVM specific code
+
+While it would be nice to have the same clojure code run within a GraalVM image as on the JVM, there may be some times where a GraalVM specific workaround may be necessary. GraalVM provides a class to detect when running in a GraalVM environment:
+
+https://www.graalvm.org/sdk/javadoc/org/graalvm/nativeimage/ImageInfo.html
+
+This class provides the following methods:
+
+```
+static boolean 	inImageBuildtimeCode()
+Returns true if (at the time of the call) code is executing in the context of image building (e.g.
+
+static boolean 	inImageCode()
+Returns true if (at the time of the call) code is executing in the context of image building or during image runtime, else false.
+
+static boolean 	inImageRuntimeCode()
+Returns true if (at the time of the call) code is executing at image runtime.
+
+static boolean 	isExecutable()
+Returns true if the image is build as an executable.
+
+static boolean 	isSharedLibrary()
+Returns true if the image is build as a shared library.
+```
+
+Currently, the ImageInfo class is [implemented](https://github.com/oracle/graal/blob/master/sdk/src/org.graalvm.nativeimage/src/org/graalvm/nativeimage/ImageInfo.java) by looking up specific keys using `java.lang.System/getProperty`. Below are the known relevant property names and values:
+
+Property name: "org.graalvm.nativeimage.imagecode"
+Values: "buildtime", "runtime"
+
+Property name: "org.graalvm.nativeimage.kind"
+Values: "shared", "executable"
+
 ## GraalVM development builds
 
 Development builds of GraalVM can be found
