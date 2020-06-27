@@ -22,8 +22,10 @@
 - [PGMig](https://github.com/leafclick/pgmig). Standalone PostgreSQL Migration Runner based on Migratus.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
 - [spire](https://github.com/epiccastle/spire). A Clojure domain specific language tailored to idempotently orchestrate machines in parallel over SSH.
+- [terminal-todo-mvc](https://github.com/phronmophobic/terminal-todo-mvc). An example terminal todo app (with mouse support!).
 - [wernicke](https://github.com/latacora/wernicke). A redaction tool.
 - [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
+
 
 ## Libraries compatible with GraalVM
 
@@ -36,6 +38,7 @@
 - [graal.locking](https://github.com/borkdude/graal.locking). A workaround for CLJ-1472 as a library.
 - [hickory](https://github.com/davidsantiago/hickory). HTML as data.
 - [markdown-clj](https://github.com/yogthos/markdown-clj).  Markdown parser in Clojure.
+- [lanterna](https://github.com/mabe02/lanterna). A java library for making Terminal User Interfaces.
 - [puget](https://github.com/greglook/puget). Canonical Colorizing Clojure Printer
 - [rewrite-clj](https://github.com/xsc/rewrite-clj). Rewrite Clojure Code and EDN!
 - [selmer](https://github.com/yogthos/Selmer). A fast, Django inspired template system in Clojure.
