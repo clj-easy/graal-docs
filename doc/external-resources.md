@@ -5,6 +5,7 @@
 - [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
 - [alc.enum-repls](https://github.com/sogaiu/alc.enum-repls). Find information about local networked Clojure REPLs, notably port numbers.
 - [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
+- [brisk](https://github.com/justone/brisk). Freeze and thaw with Nippy at the command line
 - [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
 - [clj-kondo](https://github.com/borkdude/clj-kondo). A linter for Clojure code that sparks joy.
 - [cljfmt-graalvm](https://gitlab.com/konrad.mrozek/cljfmt-graalvm/). Clojure formatter using cljfmt built with GraalVM.
@@ -22,6 +23,7 @@
 - [PGMig](https://github.com/leafclick/pgmig). Standalone PostgreSQL Migration Runner based on Migratus.
 - [rep](https://github.com/eraserhd/rep). A single-shot nREPL client designed for shell invocation.
 - [spire](https://github.com/epiccastle/spire). A Clojure domain specific language tailored to idempotently orchestrate machines in parallel over SSH.
+- [tabl](https://github.com/justone/tabl). Make tables from data in your terminal
 - [terminal-todo-mvc](https://github.com/phronmophobic/terminal-todo-mvc). An example terminal todo app (with mouse support!).
 - [wernicke](https://github.com/latacora/wernicke). A redaction tool.
 - [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
