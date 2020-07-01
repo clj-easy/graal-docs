@@ -131,6 +131,40 @@ into the target image.
 
 See https://github.com/oracle/graal/issues/571
 
+### Writing GraalVM specific code
+
+While it would be nice to have the same clojure code run within a GraalVM image as on the JVM, there may be times where a GraalVM specific workaround may be necessary. GraalVM provides a class to detect when running in a GraalVM environment:
+
+https://www.graalvm.org/sdk/javadoc/org/graalvm/nativeimage/ImageInfo.html
+
+This class provides the following methods:
+
+```
+static boolean 	inImageBuildtimeCode()
+Returns true if (at the time of the call) code is executing in the context of image building (e.g.
+
+static boolean 	inImageCode()
+Returns true if (at the time of the call) code is executing in the context of image building or during image runtime, else false.
+
+static boolean 	inImageRuntimeCode()
+Returns true if (at the time of the call) code is executing at image runtime.
+
+static boolean 	isExecutable()
+Returns true if the image is build as an executable.
+
+static boolean 	isSharedLibrary()
+Returns true if the image is build as a shared library.
+```
+
+Currently, the ImageInfo class is [implemented](https://github.com/oracle/graal/blob/master/sdk/src/org.graalvm.nativeimage/src/org/graalvm/nativeimage/ImageInfo.java) by looking up specific keys using `java.lang.System/getProperty`. Below are the known relevant property names and values:
+
+Property name: "org.graalvm.nativeimage.imagecode"  
+Values: "buildtime", "runtime"
+
+Property name: "org.graalvm.nativeimage.kind"  
+Values: "shared", "executable"
+
+
 ## JDK11 and clojure.lang.Reflector
 
 JDK11 is supported since GraalVM 19.3.0. GraalVM can get confused about a
@@ -225,7 +259,7 @@ You are correct that a more precise static analysis could detect that, but our c
 
 Apple may fix this issue in macOS someday, who knows? If you:
 
-- have measured a slowdown in startup time of your `native-iamge` produced app after moving to Graal v20
+- have measured a slowdown in startup time of your `native-image` produced app after moving to Graal v20
 - want to restore startup app to what it was on macOS prior v20 of Graal
 - are comfortable with a "caveat emptor" hack from the Graal team
 
@@ -233,6 +267,7 @@ then you may want to try incorporating [this Java code](https://github.com/oracl
 with [@borkdude's tweaks](https://github.com/oracle/graal/issues/2136#issuecomment-595814343) into your project.
 
 Here's how [@borkdude applied the fix to babashka](https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91).
+
 
 ## GraalVM development builds
 
