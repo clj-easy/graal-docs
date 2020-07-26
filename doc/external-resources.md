@@ -4,6 +4,7 @@
 
 - [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
 - [alc.enum-repls](https://github.com/sogaiu/alc.enum-repls). Find information about local networked Clojure REPLs, notably port numbers.
+- [alc.x-as-tests](https://github.com/sogaiu/alc.x-as-tests). Use a variety of things (e.g. comment block content) as tests.
 - [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
 - [brisk](https://github.com/justone/brisk). Freeze and thaw with Nippy at the command line
 - [bootleg](https://github.com/retrogradeorbit/bootleg). Simple template processing command line tool to help build static websites.
