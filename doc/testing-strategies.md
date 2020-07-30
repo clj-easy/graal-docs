@@ -41,39 +41,28 @@ When using `clojure.test/run-tests`, a [patch from CLJ-1472](../CLJ-1472/README.
 is required.
 
 An example of the test compilation technique can be found in
-[rewrite-cljc-playground](https://github.com/lread/rewrite-cljc-playground/blob/master/script/graal-tests.sh)
-(soon to be rewrite-cljc). A caveat from the author:
+[rewrite-cljc-playground](https://github.com/lread/rewrite-cljc-playground/blob/master/script/pure_native_test.clj)
+(soon to be rewrite-cljc). It is currently running successfully within the RAM constraints of GitHub Actions
+on macOS, Windows and Ubuntu. 
 
-> GraalVM's native-image command needs a significant amount of RAM to compile
-rewrite-cljc tests in a reasonable amount of time, and still a significant
-amount of RAM to run at all. A few ad hoc tests on a 3.5 GHz Quad-Core i7 iMac
-with `"-J-Xmx"` at:
->
-> * 16g ~3 minutes
-> * 8g ~11 minutes
-> * 4g - failed with `java.lang.OutOfMemoryError: Java heap space` after ~1 hour
->
-> This means running these tests on the free tier of a build service can be
-problematic. Free tiers investigated:
->
-> * CircleCI - ❌ limit of 4gb, Linux, macOS
-> * GitHub Actions - ❌ limit of 7gb, Linux, macOS, Windows
-> * Drone Cloud - ✅ limit of 64gb for x64. Linux only.
->
-> I continue to experiment and will report back.
+A note from the author:
+> I spent a long while trying to get this running within the RAM constraints of free tier CI. Only after I enabled
+[Clojure direct linking](../README.md#native-image-compilation-time) did Graal's `native-image` RAM consumption shrink
+to work under GitHub Actions.
 
-The Graal team has stated on their Slack #native-image channel that they are working to reduce RAM usage. A quick test with v20.0 did not show any difference for my tests, but it is nice to know reducing RAM usage is a goal:
+## Test Interpretation 
 
-> Lee Read>
-Hello folks!  I am using native-image with the --no-server and -J-Xmx settings.  Do any of you know of any other settings or techniques that will reduce the amount of RAM that native-image requires to do its job?  My current use case is natively compiling an open source Clojure project's unit tests and running them. Because this is open source, I'd like to do this work on a free tier of a build service such as CircleCI or GitHub Actions.  My problem is that these free tiers have less RAM available than native-image requires, in this case, to do its work.
-I am thinking that splitting the unit tests into multiple native-image runs could do the trick, but before I do that, I was wondering if anybody had some tips or tricks.
+Although it offers no guarantees of consuming significantly less RAM, this strategy might be employed when you've 
+exhausted every other avenue in natively compiling your tests within your imposed RAM constraints. 
 
-> Vojin Jovanovic>
-We will be actively working on this in the future. Our goal is that projects should be able to build their tests on Travis. /cc @Codrut Stancu
+This technique may also be interesting if you want to ensure your library works as expected when exposed via SCI, 
+the [Small Clojure Interpreter](https://github.com/borkdude/sci). 
 
-> Codrut Stancu>
-There are unfortunately no tricks. We're working on improving the resources consumption of the image building process, changes are expected to land in the 20.0 release
+Here your library, and any necessary supporting test libraries, are compiled with GraalVM and your tests
+are interpreted via SCI.
 
-> Lee Read>
-Much thanks for your replies. And also much thanks for GraalVM!
-Looking forward to changes ahead.
+![tests sci interpreted](clj-graal-testing-sci-interpret.png)
+
+Some more details can be found over at [lread/sci-test](https://github.com/lread/sci-test). Be warned, sci-test
+is currently rewrite-cljc specific and should only serve as an example. Rewrite-cljc's usage of this technique
+[is available for study](https://github.com/lread/rewrite-cljc-playground/blob/master/script/sci_native_test.clj).
