@@ -27,7 +27,7 @@ The current curators of this repository are: [@borkdude](https://github.com/bork
 
 ### Clojure version
 
-Use clojure "1.10.2-alpha1". This release contains several graalvm specific fixes.
+Use Clojure "1.10.2-alpha1". This release contains several GraalVM specific fixes.
 
 ### Reflection
 
@@ -86,30 +86,15 @@ what tool you’re using to compile your Clojure code:
   * You can alternatively specify this property at the command line when invoking
     `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -e "(compile 'my.ns)"`
 
+### CLJ-1472 - Clojure 1.10 locking issue
 
-## [CLJ-1472](CLJ-1472/README.md)
+If you use a Clojure 1.10 final release, you will very likely encounter `unbalanced monitors`
+errors when using GraalVM's `native-image` to compile your code. For GraalVM work with Clojure 1.10, 
+instead use the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
+Please [report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
 
-:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472)
-resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
-We strongly encourage you to try it out with your projects and
-[report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
-
-Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
-GraalVM's `native-image` to fail with:
-
-```
-Error: unbalanced monitors: mismatch at monitorexit, 96|LoadField#lockee__5436__auto__ != 3|LoadField#lockee__5436__auto__
-Call path from entry point to clojure.spec.gen.alpha$dynaload$fn__2628.invoke():
-	at clojure.spec.gen.alpha$dynaload$fn__2628.invoke(alpha.clj:21)
-```
-
-This issue will also cause builds that utilize `extend`, `extend-type`, and `extend-protocol` to fail.
-
-The reason for this is that the bytecode emitted by the locking macro fails
-bytecode verification. The relevant issue on the Clojure JIRA for this is
-[CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472). We document how to
-apply patches from this issue and several other workarounds
-[here](CLJ-1472/README.md).
+Before Clojure 1.10.2 was available, [we documented how to patch and work around this issue] 
+(CLJ-1472/README.md).
 
 ### Initialization
 

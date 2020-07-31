@@ -37,9 +37,6 @@ The test runner could be written by hand or automatically generated. It explicit
 requires all test namespaces, this way they will be automatically included
 during AOT compilation and hence into the test runner executable.
 
-When using `clojure.test/run-tests`, a [patch from CLJ-1472](../CLJ-1472/README.md)
-is required.
-
 An example of the test compilation technique can be found in
 [rewrite-cljc-playground](https://github.com/lread/rewrite-cljc-playground/blob/master/script/pure_native_test.clj)
 (soon to be rewrite-cljc). It is currently running successfully within the RAM constraints of GitHub Actions
