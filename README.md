@@ -93,8 +93,7 @@ errors when using GraalVM's `native-image` to compile your code. For GraalVM wor
 instead use the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
 Please [report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
 
-Before Clojure 1.10.2 was available, [we documented how to patch and work around this issue] 
-(CLJ-1472/README.md).
+Before Clojure 1.10.2 was available, [we documented how to patch and work around this issue](CLJ-1472/README.md).
 
 ### Initialization
 
