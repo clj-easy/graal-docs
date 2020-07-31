@@ -27,7 +27,7 @@
 - [tabl](https://github.com/justone/tabl). Make tables from data in your terminal
 - [terminal-todo-mvc](https://github.com/phronmophobic/terminal-todo-mvc). An example terminal todo app (with mouse support!).
 - [wernicke](https://github.com/latacora/wernicke). A redaction tool.
-- [zprint](https://github.com/kkinnear/zprint/blob/master/doc/graalvm.md). A fast zprint filter.
+- [zprint](https://github.com/kkinnear/zprint). A fast zprint filter.
 
 
 ## Libraries compatible with GraalVM
@@ -61,7 +61,7 @@ for a list of libraries known to work with GraalVM `native-image`.
 ## Articles
 
 - [Alex Miller, *Inside Clojure - Journal 2019.16*](http://insideclojure.org/2019/04/19/journal/#clojure-1101)
-- [Alys Brooks, *Using Graal on a Small-But-Real Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-application.html)
+- [Alys Brooks, *Using Graal on a Small-But-Real Clojure Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-clojure-application.html)
 - [AstRecipes, *Command-line apps with Clojure and GraalVM: 300x better start-up times*](https://www.astrecipes.net/blog/2018/07/20/cmd-line-apps-with-clojure-and-graalvm/)
 - [Bruno Bonacci, *An exploration of Clojure libraries that can produce native images under GraalVM*](https://github.com/BrunoBonacci/graalvm-clojure)
 - [Dieter Komendera, *Clojure Berlin: ProseMirror Transforms with GraalVM and Clojure*](https://nextjournal.com/kommen/clojure-berlin-prosemirror-transforms-with-graalvm-and-clojure)
