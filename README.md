@@ -29,6 +29,11 @@ The current curators of this repository are: [@borkdude](https://github.com/bork
 
 Use Clojure "1.10.2-alpha1". This release contains several GraalVM specific fixes.
 
+### Runtime Evaluation
+
+A natively compiled application cannot use Clojure's `eval` to evaluate Clojure code at runtime. If you want to dynamically
+evaluate Clojure code from you natively compiled app, consider using [SCI, the Small Clojure Interpreter](https://github.com/borkdude/sci).
+
 ### Reflection
 
 Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
