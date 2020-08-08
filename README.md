@@ -33,7 +33,7 @@ Use Clojure "1.10.2-alpha1". This release contains several GraalVM specific fixe
 ### Runtime Evaluation
 
 A natively compiled application cannot use Clojure's `eval` to evaluate Clojure code at runtime. If you want to dynamically
-evaluate Clojure code from you natively compiled app, consider using [SCI, the Small Clojure Interpreter](https://github.com/borkdude/sci).
+evaluate Clojure code from your natively compiled app, consider using [SCI, the Small Clojure Interpreter](https://github.com/borkdude/sci).
 
 ### Reflection
 
