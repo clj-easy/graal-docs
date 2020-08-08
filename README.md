@@ -2,15 +2,16 @@
 
 ## Rationale
 
-GraalVM offers the ability to compile Java classes to native binaries.  This is
-possible to some extent with Clojure programs as well. This approach works well
-for command line tools that require fast startup so they can be used for
-scripting and editor integration.
+[GraalVM](https://www.graalvm.org/) offers the ability to compile Java classes to native binaries. Because
+Clojure is hosted on the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine), compiling Clojure 
+programs to native binaries is also, to some extent, possible. Native binaries offer fast startup times and 
+therefore an attractive option for command line tools that are used in [scripting](https://github.com/borkdude/babashka) 
+and [editor integration](https://github.com/borkdude/clj-kondo).
 
 This little repo's goal is to collect scripts and tips to GraalVM-ify Clojure code.
 
-When we refer to GraalVM in this repository, we mean SubstrateVM, the native
-compiler, unless otherwise indicated.
+When we refer to GraalVM in this repository, we are referring to the [Graal Substrate VM](https://github.com/oracle/graal/blob/master/substratevm/README.md), 
+which is exposed as the [GraalVM native compiler](https://www.graalvm.org/docs/reference-manual/native-image/), unless otherwise indicated.
 
 ## Community
 
