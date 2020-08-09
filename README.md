@@ -1,14 +1,16 @@
 # clj-graal-docs
 
 ## Rationale
+This little repo's goal is to collect scripts and tips on natively compiling Clojure programs with [GraalVM](https://www.graalvm.org/).
 
-[GraalVM](https://www.graalvm.org/) offers the ability to compile Java classes to native binaries. Because
+GraalVM offers the ability to compile Java classes to native binaries. Because
 Clojure is hosted on the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine), compiling Clojure 
-programs to native binaries is also, to some extent, possible. Native binaries offer fast startup times and 
-therefore an attractive option for command line tools that are used in [scripting](https://github.com/borkdude/babashka) 
-and [editor integration](https://github.com/borkdude/clj-kondo).
+programs to native binaries is also, to some extent, possible.
 
-This little repo's goal is to collect scripts and tips to GraalVM-ify Clojure code.
+Native binaries offer fast startup times and are therefore an attractive option for command line tools that are used in scripting
+and editor integration. Popular examples are [babashka](https://github.com/borkdude/babashka)
+and [clj-kondo](https://github.com/borkdude/clj-kondo), see [resources](doc/external-resources.md)
+for many more examples.
 
 When we refer to GraalVM in this repository, we are referring to the [Graal Substrate VM](https://github.com/oracle/graal/blob/master/substratevm/README.md), 
 which is exposed as the [GraalVM native compiler](https://www.graalvm.org/docs/reference-manual/native-image/), unless otherwise indicated.
@@ -34,6 +36,7 @@ Use Clojure "1.10.2-alpha1". This release contains several GraalVM specific fixe
 
 A natively compiled application cannot use Clojure's `eval` to evaluate Clojure code at runtime. If you want to dynamically
 evaluate Clojure code from your natively compiled app, consider using [SCI, the Small Clojure Interpreter](https://github.com/borkdude/sci).
+The ultimate example of evaluating Clojure with a natively compiled Clojure application is [babashka](https://github.com/borkdude/babashka).
 
 ### Reflection
 
