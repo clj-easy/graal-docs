@@ -3,6 +3,7 @@
 ## Projects
 
 - [adorn](https://github.com/sogaiu/adorn). An exploration of editor micro helpers.
+- [alc.detect-ns](https://github.com/sogaiu/alc.detect-ns). Detect namespace of Clojure source code.
 - [alc.enum-repls](https://github.com/sogaiu/alc.enum-repls). Find information about local networked Clojure REPLs, notably port numbers.
 - [alc.x-as-tests](https://github.com/sogaiu/alc.x-as-tests). Use a variety of things (e.g. comment block content) as tests.
 - [babashka](https://github.com/borkdude/babashka). A Clojure babushka for the grey areas of Bash.
