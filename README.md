@@ -262,6 +262,30 @@ with [@borkdude's tweaks](https://github.com/oracle/graal/issues/2136#issuecomme
 Here's how [@borkdude applied the fix to babashka](https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91).
 
 
+## Targeting a minimum macOS version
+
+On macOS, GraalVM's `native-image` makes use of XCode command line tools. 
+XCode creates native binaries that specify the minimum macOS version required for execution.
+This minimum version can change with each new release of XCode.
+
+To explicitly tell XCode what minimum version is required for your native binary, you can set the `MACOSX_DEPLOYMENT_TARGET` environment variable.
+
+Here's an example @borkdude [setting `MACOSX_DEPLOYMENT_TARGET` on CircleCI when building babashka](https://github.com/borkdude/babashka/blob/1efd3e6d3d57ef05e17972cfe4929b62cf270ce0/.circleci/config.yml#L214).
+
+Bonus tip: to check the the minimum macOS version required for a native binary, you can use `otool`. 
+Example for babashka native binary at the time of this writing:
+
+```Shell
+> bb --version
+babashka v0.2.0
+> otool -l $(which bb) | grep -B1 -A3 MIN_MAC
+Load command 9
+      cmd LC_VERSION_MIN_MACOSX
+  cmdsize 16
+  version 10.12
+      sdk 10.12
+```
+
 ## GraalVM development builds
 
 Development builds of GraalVM can be found
