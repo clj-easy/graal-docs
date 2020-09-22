@@ -1,4 +1,7 @@
 = clj-graal-docs
+:idprefix:
+:idseparator: -
+:toc:
 
 == Rationale
 
