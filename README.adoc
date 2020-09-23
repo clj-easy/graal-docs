@@ -141,7 +141,7 @@ Property name: "org.graalvm.nativeimage.imagecode" + Values: "buildtime", "runti
 
 Property name: "org.graalvm.nativeimage.kind" + Values: "shared", "executable"
 
-== JDK11 and clojure.lang.Reflector
+=== JDK11 and clojure.lang.Reflector
 
 JDK11 is supported since GraalVM 19.3.0.
 GraalVM can get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
@@ -168,7 +168,7 @@ The patch can be found link:resources/Reflector.java[here].
 This version does not respect any Java 11 module access rules and improper reflection access by your code may fail.
 The file will need to be renamed to `Reflector.java`.
 
-== Interfacing with native libraries
+=== Interfacing with native libraries
 
 For interfacing with native libraries you can use JNI.
 An example of a native Clojure program calling a Rust library is documented https://github.com/borkdude/clojure-rust-graalvm[here].
@@ -196,7 +196,7 @@ This can be set via `LD_LIBRARY_PATH` environment variable or via the `ld` linke
 Alternately you can set the library path by passing `-Djava.library.path="my_lib_dir"` to the java command line or by setting it at runtime with `(System/setProperty "java.library.path" "my_lib_dir")`
 * Functions may be called via standard Java interop in clojure via the interface specified in your `Library.java` file: `(Library/method args)`
 
-== JNI API bugs
+=== JNI API bugs
 
 JNI contains a suite of tools for transfering datatypes between Java and C.
 You can read about this API https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html[here for Java 8] and https://docs.oracle.com/en/java/javase/11/docs/specs/jni/functions.html[here for Java 11].
@@ -205,7 +205,7 @@ Some known bugs have been fixed in GraalVM 20.1.0-dev.
 If you encounter bugs with these API calls try the latests development versions of GraalVM.
 If bugs persist please file them with the Graal project.
 
-== Startup performance on macOS
+=== Startup performance on macOS
 
 @borkdude noticed https://github.com/oracle/graal/issues/2136[slower startup times for babashka on macOS when using GraalVM v20].
 He elaborated in the @graalvm channel on Clojurians Slack:
@@ -247,7 +247,7 @@ then you may want to try incorporating https://github.com/oracle/graal/issues/21
 
 Here's how https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91[@borkdude applied the fix to babashka].
 
-== Targeting a minimum macOS version
+=== Targeting a minimum macOS version
 
 On macOS, GraalVM's `native-image` makes use of XCode command line tools.
 XCode creates native binaries that specify the minimum macOS version required for execution.
@@ -272,7 +272,7 @@ Load command 9
       sdk 10.12
 ----
 
-== GraalVM development builds
+=== GraalVM development builds
 
 Development builds of GraalVM can be found https://github.com/graalvm/graalvm-ce-dev-builds/releases[here].
 Note that these builds are intended for early testing feedback, but can disappear after a proper release has been made, so don't link to them from production CI builds.
