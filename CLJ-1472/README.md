@@ -19,7 +19,7 @@ Although no longer necessary nor recommended, you can create a local patched ver
 
 :tada: Update: Thanks for voting! The Clojure core team has has addressed this issue in [Clojure 1.10.2](https://clojure.org/community/devchangelog#_release_1_10_2).
 
-Using a patched version of Clojure is not ideal. 
+Using a patched version of Clojure is not ideal.
 If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
 
 ## [Steps to Reproduce](steps-to-reproduce.md)
@@ -142,7 +142,7 @@ Verify the Clojure version by running `clojure -Stree`.
 
 - If the `native-image` binary is not on the `PATH`, set either:
   - the `GRAALVM_HOME` environment variable to the location of your GraalVM installation
-  - the `NATIVE_IMAGE` environment variable to the location of GraalVM's `native-image` command. 
+  - the `NATIVE_IMAGE` environment variable to the location of GraalVM's `native-image` command.
 
 - Run `./compile`, after some output that looks similar to this:
      ```
@@ -181,7 +181,7 @@ Here we look at the performance impact of CLJ-1472 patches on Clojure in absence
 
 ### Run a Performance Test
 
-To run an individual performance test against Clojure patched with current recommended CLJ-1472 patch. 
+To run an individual performance test against Clojure patched with current recommended CLJ-1472 patch.
 Patched Clojure must already be installed, see [Scripts](#scripts) above:
 
 ```
@@ -230,7 +230,7 @@ If you cannot, for whatever reason, use Clojure 1.10.2, here are some other work
     It keeps pre-built jars of clojure and spec
     [here](https://github.com/eraserhd/rep/tree/develop/deps)
 
-- babashka vendors code from Clojure and works around the locking issues manually. 
+- babashka vendors code from Clojure and works around the locking issues manually.
   [This](https://github.com/borkdude/babashka/blob/070220da70c894ad7b282ce2747607c0bee68613/src/babashka/impl/clojure/core/server.clj#L1) is a patched version of `clojure.core.server`.
 
 - revert to using Clojure 1.9.0

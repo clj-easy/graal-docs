@@ -24,8 +24,11 @@ This is a team effort.
 We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
 Much thanks to all who have contributed.
 
-The only style guidance we have for contributors is to write https://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence per line].
+Style guidance:
 
+- please write https://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence per line].
+- to cut down on frustrating whitespace diffs, we have added an link:.editorconfig[.editorconfig] file.
+Your editor https://editorconfig.org#download/[will likely automatically pick this config up].
 
 The current curators of this repository are: https://github.com/borkdude[@borkdude] and https://github.com/lread[@lread].
 
