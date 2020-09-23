@@ -13,7 +13,8 @@ Because Clojure is hosted on the https://en.wikipedia.org/wiki/Java_virtual_mach
 Native binaries offer fast startup times and are therefore an attractive option for command line tools that are used in scripting and editor integration.
 Popular examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo], see link:doc/external-resources.md[resources] for many more examples.
 
-When we refer to GraalVM in this repository, we are referring to the https://github.com/oracle/graal/blob/master/substratevm/README.md[Graal Substrate VM],  which is exposed as the https://www.graalvm.org/docs/reference-manual/native-image/[GraalVM native compiler], unless otherwise indicated.
+Unless otherwise indicated, when we refer to GraalVM in this repository, we are referring to the https://github.com/oracle/graal/blob/master/substratevm/README.md[Graal Substrate VM].
+The Substrate VM is exposed as the https://www.graalvm.org/docs/reference-manual/native-image/[GraalVM native compiler].
 
 == Community
 
@@ -38,7 +39,7 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 === Clojure version
 
-Use Clojure "1.10.2-alpha1".
+Use Clojure `"1.10.2-alpha1"`.
 This release contains several GraalVM specific fixes.
 
 === Runtime Evaluation
@@ -49,17 +50,22 @@ The ultimate example of evaluating Clojure with a natively compiled Clojure appl
 
 === Reflection
 
-Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
-There is a patch to make `clojure.stacktrace` work with GraalVM in https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502], which is currently available in the https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
+Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namespace in your project.
+This tells the Clojure compiler to report cases where Clojure is using reflection.
+You can address these via type hints.
 
-To let Graal config the reflector for an array of Java objects, e.g.
-`Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g.
-`"[Ljava.sql.Statement"`).
+Clojure's own `clojure.stacktrace` makes use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
+
+To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
+
+See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs on reflection for details].
 
 === Report what is being analyzed
 
-When you add GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree[`-H:+PrintAnalysisCallTree`] option, under `./reports` you will learn what packages, classes and methods are being analyzed.
-Note that this option will likely slow down compilation so it's better to turn it off in production builds.
+Use GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
+These details are written under `./reports`.
+
+Note that this option will greatly slow down compilation so it's better to turn it off in production builds.
 
 === native-image RAM usage
 
@@ -80,7 +86,7 @@ The cost will be longer build times, and when `-J-Xmx` is too low, out of memory
 
 === native-image compilation time
 
-You can shorten the time it takes to compile a native image, and _possibly_ reduce the amount of RAM required, by using https://clojure.org/reference/compilation#directlinking[direct linking] when compiling your Clojure code to JVM bytecode.
+You can shorten the time it takes to compile a native image, and _sometimes dramatically_ reduce the amount of RAM required, by using https://clojure.org/reference/compilation#directlinking[direct linking] when compiling your Clojure code to JVM bytecode.
 
 This is done by setting the Java system property `clojure.compiler.direct-linking` to `true`.
 
@@ -98,9 +104,9 @@ Please https://clojure.org/community/contributing#_reporting_problems_and_reques
 
 Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
 
-=== Initialization
+=== Class Initialization
 
-Unlike the early days the current `native-image` defers the initialization of most classes to runtime.
+Unlike in the early days, GraalVM's current `native-image` defers the initialization of most classes to runtime.
 For Clojure programs it is often actually feasible (unlike in a typical Java program) to change it back via `--initialize-at-build-time` to achieve yet faster startup time.
 You can still defer some classes to runtime initialization using `--initialize-at-run-time`.
 
@@ -143,9 +149,11 @@ Returns true if the image is build as a shared library.
 Currently, the ImageInfo class is https://github.com/oracle/graal/blob/master/sdk/src/org.graalvm.nativeimage/src/org/graalvm/nativeimage/ImageInfo.java[implemented] by looking up specific keys using `java.lang.System/getProperty`.
 Below are the known relevant property names and values:
 
-Property name: "org.graalvm.nativeimage.imagecode" + Values: "buildtime", "runtime"
+Property name: `"org.graalvm.nativeimage.imagecode"` +
+Values: `"buildtime"`, `"runtime"`
 
-Property name: "org.graalvm.nativeimage.kind" + Values: "shared", "executable"
+Property name: `"org.graalvm.nativeimage.kind"` +
+Values: `"shared"`, `"executable"`
 
 === JDK11 and clojure.lang.Reflector
 
@@ -166,7 +174,7 @@ See the https://github.com/oracle/graal/issues/2214[issue] on the GraalVM repo.
 Workarounds:
 
 * Use a Java 8 version of GraalVM.
-* Include https://github.com/borkdude/clj-reflector-graal-java11-fix[this library] when compiling your Clojure code
+* Include https://github.com/borkdude/clj-reflector-graal-java11-fix[clj-reflector-graal-java11-fix] when compiling your Clojure code.
 * Use the `--report-unsupported-elements-at-runtime` option.
 * Patch `clojure.lang.Reflector` on the classpath with the conditional logic swapped out for non-conditional code which works on Java 11 (but not on Java 8).
 The patch can be found link:resources/Reflector.java[here].
