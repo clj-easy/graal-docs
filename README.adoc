@@ -11,7 +11,7 @@ GraalVM offers the ability to compile Java classes to native binaries.
 Because Clojure is hosted on the https://en.wikipedia.org/wiki/Java_virtual_machine[JVM], compiling Clojure  programs to native binaries is also, to some extent, possible.
 
 Native binaries offer fast startup times and are therefore an attractive option for command line tools that are used in scripting and editor integration.
-Popular examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo], see xref:doc/external-resources.adoc[resources] for many more examples.
+Popular examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo], see link:doc/external-resources.md[resources] for many more examples.
 
 When we refer to GraalVM in this repository, we are referring to the https://github.com/oracle/graal/blob/master/substratevm/README.md[Graal Substrate VM],  which is exposed as the https://www.graalvm.org/docs/reference-manual/native-image/[GraalVM native compiler], unless otherwise indicated.
 
@@ -93,7 +93,7 @@ If you use a Clojure 1.10 final release, you will very likely encounter `unbalan
 For GraalVM work with Clojure 1.10,  instead use the https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
 Please https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements[report back any issues to the Clojure core team].
 
-Before Clojure 1.10.2 was available, xref:CLJ-1472/README.adoc[we documented how to patch and work around this issue].
+Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
 
 === Initialization
 
@@ -280,11 +280,11 @@ Load command 9
 Development builds of GraalVM can be found https://github.com/graalvm/graalvm-ce-dev-builds/releases[here].
 Note that these builds are intended for early testing feedback, but can disappear after a proper release has been made, so don't link to them from production CI builds.
 
-== xref:doc/testing-strategies.adoc[Testing Strategies]
+== link:doc/testing-strategies.md[Testing Strategies]
 
-== xref:doc/external-resources.adoc[External resources]
+== link:doc/external-resources.md[External resources]
 
-Curated collection of xref:doc/external-resources.adoc[projects, articles, etc.]
+Curated collection of link:doc/external-resources.md[projects, articles, etc.]
 
 == License
 
