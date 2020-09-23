@@ -114,6 +114,10 @@ Unlike in the early days, GraalVM's current `native-image` defers the initializa
 For Clojure programs it is often actually feasible (unlike in a typical Java program) to change it back via `--initialize-at-build-time` to achieve yet faster startup time.
 You can still defer some classes to runtime initialization using `--initialize-at-run-time`.
 
+=== Optimizing for dynaload
+
+If your project makes use of https://github.com/borkdude/dynaload[dynaload], you'll want to follow its advice for https://github.com/borkdude/dynaload#graalvm[GraalVM].
+
 === Static linking vs DNS lookup
 
 If you happen to need a DNS lookup in your program you need to avoid statically linked images (at least on Linux).
