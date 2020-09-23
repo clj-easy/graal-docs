@@ -17,10 +17,8 @@ When we refer to GraalVM in this repository, we are referring to the https://git
 
 == Community
 
-____
-:wave: Need help or want to chat?
-Say hi on http://clojurians.net/[Clojurians Slack] in https://clojurians.slack.com/app_redirect?channel=graalvm[#graalvm].
-____
+> 👋 Need help or want to chat?
+> Say hi on http://clojurians.net/[Clojurians Slack] in https://clojurians.slack.com/app_redirect?channel=graalvm[#graalvm].
 
 This is a team effort.
 We heartily welcome, and greatly appreciate, tips, tricks, corrections and improvements from you.
@@ -28,7 +26,7 @@ Much thanks to all who have contributed.
 
 The current curators of this repository are: https://github.com/borkdude[@borkdude] and https://github.com/lread[@lread].
 
-== xref:doc/hello-world.adoc[Hello world]
+== link:doc/hello-world.md[Hello world]
 
 == Tips and tricks
 
@@ -45,8 +43,7 @@ The ultimate example of evaluating Clojure with a natively compiled Clojure appl
 
 === Reflection
 
-Make sure you put `(set!
-*warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
+Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namespace in your project to get rid of all reflection.
 There is a patch to make `clojure.stacktrace` work with GraalVM in https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502], which is currently available in the https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
 
 To let Graal config the reflector for an array of Java objects, e.g.
