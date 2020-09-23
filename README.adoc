@@ -13,8 +13,12 @@ Because Clojure is hosted on the https://en.wikipedia.org/wiki/Java_virtual_mach
 Native binaries offer fast startup times and are therefore an attractive option for command line tools that are used in scripting and editor integration.
 Popular examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo], see link:doc/external-resources.md[resources] for many more examples.
 
+We mostly keep our tips related to Clojure, but will sometimes we'll add something just because we didn't easily find it elsewhere, and we feel it would be helpful to others.
+
 Unless otherwise indicated, when we refer to GraalVM in this repository, we are referring to the https://github.com/oracle/graal/blob/master/substratevm/README.md[Graal Substrate VM].
 The Substrate VM is exposed as the https://www.graalvm.org/docs/reference-manual/native-image/[GraalVM native compiler].
+
+If you are trying to decide if GraalVM is for you, the trade-offs are nicely explained by Oleg Šelajev in the https://youtu.be/PeMvksAZbdw?t=647["AOT vs JIT" section of his "Maximizing Java Application Performance with GraalVM video"].
 
 == Community
 
