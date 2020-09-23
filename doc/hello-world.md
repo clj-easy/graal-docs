@@ -1,6 +1,7 @@
 # Hello world
 
-This tutorial guides you through the first steps of creating a native binary using GraalVM. It assumes you have the [`clojure` CLI](https://clojure.org/guides/getting_started) installed.
+This tutorial guides you through the first steps of creating a native binary using GraalVM. 
+It assumes you have the [`clojure` CLI](https://clojure.org/guides/getting_started) installed.
 
 1. Download [GraalVM](https://github.com/oracle/graal/releases).
 
@@ -97,7 +98,8 @@ That's it.
 
 ## Leiningen
 
-One other approach is to build an uberjar with [`leiningen`](https://leiningen.org/) first. We assume you have completed the previous tutorial.
+One other approach is to build an uberjar with [`leiningen`](https://leiningen.org/) first. 
+We assume you have completed the previous tutorial.
 
 1. Create a `project.clj`:
 

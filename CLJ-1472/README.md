@@ -1,12 +1,9 @@
 # CLJ-1472
 
-:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472)
-resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
-We strongly encourage you to try it out with your projects and
-[report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
+:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
+We strongly encourage you to try it out with your projects and [report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
 
-Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes
-GraalVM's `native-image` to fail with:
+Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes GraalVM's `native-image` to fail with:
 
 ```
 Error: unbalanced monitors: mismatch at monitorexit, 96|LoadField#lockee__5436__auto__ != 3|LoadField#lockee__5436__auto__
@@ -14,17 +11,16 @@ Call path from entry point to clojure.spec.gen.alpha$dynaload$fn__2628.invoke():
 at clojure.spec.gen.alpha$dynaload$fn__2628.invoke(alpha.clj:21)
 ```
 
-See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) for a detailed explanation of the cause of this failure and the
-Clojure core team's approach to addressing it.
+See [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) for a detailed explanation of the cause of this failure and the Clojure core team's approach to addressing it.
 
-Although no longer necessary nor recommended, you can create a local patched version of Clojure by following the instructions
-below under [Scripts](#scripts).
+Although no longer necessary nor recommended, you can create a local patched version of Clojure by following the instructions below under [Scripts](#scripts).
 
 ## Vote
 
 :tada: Update: Thanks for voting! The Clojure core team has has addressed this issue in [Clojure 1.10.2](https://clojure.org/community/devchangelog#_release_1_10_2).
 
-Using a patched version of Clojure is not ideal. If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
+Using a patched version of Clojure is not ideal. 
+If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
 
 ## [Steps to Reproduce](steps-to-reproduce.md)
 
@@ -32,8 +28,7 @@ Using a patched version of Clojure is not ideal. If you are interested in gettin
 
 ### build-clojure-with-1472-patch.sh
 
-Builds and locally installs Clojure with a patch from
-[CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
+Builds and locally installs Clojure with a patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472).
 
 **Audience**
 
@@ -70,8 +65,7 @@ CLJ-1472 considered patches are:
 
 Note that the script will download the patch for you.
 
-The built version contains the clojure git short sha and a modified form of the
-patch filename in its version.
+The built version contains the clojure git short sha and a modified form of the patch filename in its version.
 
 **Prerequisites**
 
@@ -81,8 +75,7 @@ The script will fail if any of the following are not found:
 * git
 * git-extras
 * maven - tested with v3.6.3, check that your maven version is recent
-* jet - [see jet installation instructions](https://github.com/borkdude/jet#installation)
-  (Interesting tidbit: jet is a Clojure program compiled to a native image with GraalVM)
+* jet - [see jet installation instructions](https://github.com/borkdude/jet#installation) (Interesting tidbit: jet is a Clojure program compiled to a native image with GraalVM)
 * curl
 * sed
 
@@ -132,8 +125,7 @@ installs:
 
 **Referencing a Patched Clojure**
 
-The patched version of Clojure should work with GraalVM's `native-image`, reference
-the variant you want. Example dependencies for `deps.edn`:
+The patched version of Clojure should work with GraalVM's `native-image`, reference the variant you want. Example dependencies for `deps.edn`:
 
 ```Clojure
 {org.clojure/clojure {:mvn/version "1.10.1-patch_38bafca9_clj_1472_5"}}
@@ -149,10 +141,8 @@ the variant you want. Example dependencies for `deps.edn`:
 Verify the Clojure version by running `clojure -Stree`.
 
 - If the `native-image` binary is not on the `PATH`, set either:
-  - the `GRAALVM_HOME` environment variable to the location of your GraalVM
-    installation
-  - the `NATIVE_IMAGE` environment variable to the location of GraalVM's
-    `native-image` command.  then no environment variable has
+  - the `GRAALVM_HOME` environment variable to the location of your GraalVM installation
+  - the `NATIVE_IMAGE` environment variable to the location of GraalVM's `native-image` command. 
 
 - Run `./compile`, after some output that looks similar to this:
      ```
@@ -187,12 +177,12 @@ Verify the Clojure version by running `clojure -Stree`.
 
 ## Performance
 
-Here we look at the performance impact of CLJ-1472 patches on Clojure in absence
-of GraalVM.
+Here we look at the performance impact of CLJ-1472 patches on Clojure in absence of GraalVM.
 
 ### Run a Performance Test
 
-To run an individual performance test against Clojure patched with current recommended CLJ-1472 patch (patched Clojure must already be installed, see [Scripts](#scripts) above):
+To run an individual performance test against Clojure patched with current recommended CLJ-1472 patch. 
+Patched Clojure must already be installed, see [Scripts](#scripts) above:
 
 ```
 clojure -J-XX:-EliminateLocks -A:performance
@@ -211,9 +201,8 @@ Success
 
 ### Run Performance Tests via perftest.clj
 
-The [babashka](https://github.com/borkdude/babashka) `perftest.clj` script runs the performance test
-against Clojure `1.10.1` unpatched and Clojure `1.10.1` with CLJ-1472 current and previous candidate patches
-(which are assumed to be already installed, see [Scripts](#scripts) above).
+The [babashka](https://github.com/borkdude/babashka) `perftest.clj` script runs the performance test against Clojure `1.10.1` unpatched and Clojure `1.10.1` with CLJ-1472 current and previous candidate patches.
+Patches are assumed to be already installed, see [Scripts](#scripts) above.
 
 Examples results from a Late 2013 iMac with Quad-Core Intel i7 running macOS 10.15.3.
 `perftest.clj` was run twice against the Amazon Corretto JVM; once against v1.8 then once against v11.0.6.
@@ -232,8 +221,7 @@ If you cannot, for whatever reason, use Clojure 1.10.2, here are some other work
 
 - create your own patched version of Clojure by following instructions under [Scripts](#scripts) above.
 
-- clojurl introduces a Java-level special form and patches selections of Clojure
-code at run-time:
+- clojurl introduces a Java-level special form and patches selections of Clojure code at run-time:
 [link](https://github.com/taylorwood/clojurl/commit/12b96b5e9a722b372f153436b1f6827709d0f2ab)
 
 - rep builds GraalVM binaries using an automated patched Clojure build:
@@ -242,8 +230,7 @@ code at run-time:
     It keeps pre-built jars of clojure and spec
     [here](https://github.com/eraserhd/rep/tree/develop/deps)
 
-- babashka vendors code from Clojure and works around the locking issues
-  manually. [This](https://github.com/borkdude/babashka/blob/070220da70c894ad7b282ce2747607c0bee68613/src/babashka/impl/clojure/core/server.clj#L1)
-  is a patched version of `clojure.core.server`.
+- babashka vendors code from Clojure and works around the locking issues manually. 
+  [This](https://github.com/borkdude/babashka/blob/070220da70c894ad7b282ce2747607c0bee68613/src/babashka/impl/clojure/core/server.clj#L1) is a patched version of `clojure.core.server`.
 
 - revert to using Clojure 1.9.0
