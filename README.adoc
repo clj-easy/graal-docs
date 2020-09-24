@@ -43,8 +43,16 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 === Clojure version
 
-Use Clojure `"1.10.2-alpha1"`.
-This release contains several GraalVM specific fixes.
+Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2-alpha1], it contains several GraalVM specific fixes, including:
+
+* https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime. +
+Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
+* https://clojure.atlassian.net/browse/CLJ-2502[CLJ-2502] - Cannot use clojure.stracktrace/print-stack-trace with GraalVM.
+
+The following are also tagged for an upcoming Clojure 1.10.2 release:
+
+* https://clojure.atlassian.net/browse/CLJ-2571[CLJ-2571] - ex-cause is missing Throwable return tag.
+* https://clojure.atlassian.net/browse/CLJ-2572[CLJ-2572] - Prevent reflection in clojure.data namespace, make compatible with GraalVM.
 
 === Runtime Evaluation
 
@@ -58,7 +66,7 @@ Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namesp
 This tells the Clojure compiler to report cases where Clojure is using reflection.
 You can address these via type hints.
 
-Clojure's own `clojure.stacktrace` makes use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
+Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
 
 To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
 
@@ -99,14 +107,6 @@ The most convenient place for you to set that system property will vary dependin
 * If you're using Leiningen, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the profile you're using for compilation (the same one that includes `:aot :all`)
 * If you're using tools.deps via the Clojure CLI tools, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the alias you're using for compilation
  ** You can alternatively specify this property at the command line when invoking `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -e "(compile 'my.ns)"`
-
-=== CLJ-1472 - Clojure 1.10 locking issue
-
-If you use a Clojure 1.10 final release, you will very likely encounter `unbalanced monitors` errors when using GraalVM's `native-image` to compile your code.
-For GraalVM work with Clojure 1.10,  instead use the https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
-Please https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements[report back any issues to the Clojure core team].
-
-Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
 
 === Class Initialization
 
