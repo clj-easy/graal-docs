@@ -53,8 +53,8 @@ Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how t
 
 Other fixes of interest are:
 
-* https://clojure.atlassian.net/browse/CLJ-2582 - Improve GraalVM native image size / compile time memory consumption when compiling clojure.pprint
-* https://clojure.atlassian.net/browse/TCHECK-157 - Randomization doesn't work with GraalVM native-image
+* https://clojure.atlassian.net/browse/CLJ-2582[CLJ-2582] - Improve GraalVM native image size / compile time memory consumption when compiling clojure.pprint
+* https://clojure.atlassian.net/browse/TCHECK-157[TCHECK-157] - Randomization doesn't work with GraalVM native-image
 
 === Runtime Evaluation
 
