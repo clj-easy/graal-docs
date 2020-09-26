@@ -112,9 +112,10 @@ The most convenient place for you to set that system property will vary dependin
 
 === Class Initialization
 
-Unlike in the early days, GraalVM's current `native-image` defers the initialization of most classes to runtime.
-For Clojure programs it is often actually feasible (unlike in a typical Java program) to change it back via `--initialize-at-build-time` to achieve yet faster startup time.
-You can still defer some classes to runtime initialization using `--initialize-at-run-time`.
+For Clojure programs, you will want to tell `native-image` to `--initialize-at-build-time`.
+If needed, you can defer specific classes to `--initialize-at-run-time`.
+
+Here an example from https://github.com/babashka/babashka-sql-pods/blob/5d04e7fce699741e1b5e8488cf0a8f70843a3e2e/script/compile#L49[babashka's compile script].
 
 === Optional Transitive Dependencies
 
