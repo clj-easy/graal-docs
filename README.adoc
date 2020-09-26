@@ -108,7 +108,7 @@ The most convenient place for you to set that system property will vary dependin
 
 * If you're using Leiningen, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the profile you're using for compilation (the same one that includes `:aot :all`)
 * If you're using tools.deps via the Clojure CLI tools, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the alias you're using for compilation
- ** You can alternatively specify this property at the command line when invoking `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -e "(compile 'my.ns)"`
+ ** You can alternatively specify this property at the command line when invoking `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -M -e "(compile 'my.ns)"`
 
 === Class Initialization
 

@@ -1,7 +1,7 @@
 # Hello world
 
 This tutorial guides you through the first steps of creating a native binary using GraalVM.
-It assumes you have the [`clojure` CLI](https://clojure.org/guides/getting_started) installed.
+It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getting_started) installed.
 
 1. Download [GraalVM](https://github.com/oracle/graal/releases).
 
@@ -41,7 +41,7 @@ It assumes you have the [`clojure` CLI](https://clojure.org/guides/getting_start
     Then run:
 
     ```
-    $ clojure -e "(compile 'hello-world.core)"
+    $ clojure -M -e "(compile 'hello-world.core)"
     ```
 
     to compile the main namespace (and transitively everything it requires).
