@@ -43,16 +43,18 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 === Clojure version
 
-Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2-alpha1], it contains several GraalVM specific fixes, including:
+Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2-alpha2], it contains several GraalVM specific fixes, including:
 
 * https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime. +
 Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
 * https://clojure.atlassian.net/browse/CLJ-2502[CLJ-2502] - Cannot use clojure.stracktrace/print-stack-trace with GraalVM.
-
-The following are also tagged for an upcoming Clojure 1.10.2 release:
-
 * https://clojure.atlassian.net/browse/CLJ-2571[CLJ-2571] - ex-cause is missing Throwable return tag.
 * https://clojure.atlassian.net/browse/CLJ-2572[CLJ-2572] - Prevent reflection in clojure.data namespace, make compatible with GraalVM.
+
+Other fixes of interest are:
+
+* https://clojure.atlassian.net/browse/CLJ-2582 - Improve GraalVM native image size / compile time memory consumption when compiling clojure.pprint
+* https://clojure.atlassian.net/browse/TCHECK-157 - Randomization doesn't work with GraalVM native-image
 
 === Runtime Evaluation
 
