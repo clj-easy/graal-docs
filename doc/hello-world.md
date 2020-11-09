@@ -12,11 +12,11 @@ It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getti
     $ cd hello-world
     ```
 
-    Optionally create a `deps.edn` to select Clojure `1.10.2-alpha2`.
+    Optionally create a `deps.edn` to select Clojure `1.10.2-alpha4`.
     While not required for this hello world app, you'll want to use this version of Clojure for your app because it contains fixes for GraalVM:
 
     ``` clojure
-    {:deps {org.clojure/clojure {:mvn/version "1.10.2-alpha2"}}}
+    {:deps {org.clojure/clojure {:mvn/version "1.10.2-alpha4"}}}
     ```
 
     In `src/hello_world/core.clj` put the following code:
@@ -80,7 +80,7 @@ It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getti
     This script requires that you set the `NATIVE_IMAGE` environment variable to the GraalVM `native-image` command, e.g.:
 
     ``` shellsession
-    export NATIVE_IMAGE=/Users/borkdude/Downloads/graalvm-ce-19.2.1/Contents/Home/bin/native-image
+    export NATIVE_IMAGE=/Users/borkdude/Downloads/graalvm-ce-java11-20.2.0/Contents/Home/bin/native-image
     ```
 
     Don't forget to make the script executable:
@@ -113,8 +113,8 @@ We assume you have completed the previous tutorial.
 
     ``` clojure
     (defproject hello-world "0.1.0-SNAPSHOT"
-      ;; clojure version "1.10.2-alpha2" includes fixes for some graalvm specific issues
-      :dependencies [[org.clojure/clojure "1.10.2-alpha2"]]
+      ;; clojure version "1.10.2-alpha4" includes fixes for some graalvm specific issues
+      :dependencies [[org.clojure/clojure "1.10.2-alpha4"]]
       :main hello-world.core
       :aot :all)
     ```
