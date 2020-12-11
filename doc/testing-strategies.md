@@ -36,7 +36,7 @@ It is currently running successfully within the RAM constraints of GitHub Action
 
 A note from the author:
 > I spent a long while trying to get this running within the RAM constraints of free tier CI.
-> Only after I enabled [Clojure direct linking](../README.md#native-image-compilation-time) did Graal's `native-image` RAM consumption shrink to work under GitHub Actions.
+> Only after I enabled [Clojure direct linking](../README.adoc#native-image-compilation-time) did Graal's `native-image` RAM consumption shrink to work under GitHub Actions.
 
 ## Test Interpretation
 

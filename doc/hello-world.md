@@ -3,7 +3,7 @@
 This tutorial guides you through the first steps of creating a native binary using GraalVM.
 It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getting_started) installed.
 
-1. Download [GraalVM](https://github.com/oracle/graal/releases).
+1. Download [GraalVM](https://github.com/graalvm/graalvm-ce-builds/releases).
 
 2. Create a project
 
@@ -80,7 +80,7 @@ It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getti
     This script requires that you set the `NATIVE_IMAGE` environment variable to the GraalVM `native-image` command, e.g.:
 
     ``` shellsession
-    export NATIVE_IMAGE=/Users/borkdude/Downloads/graalvm-ce-java11-20.2.0/Contents/Home/bin/native-image
+    export NATIVE_IMAGE=/Users/borkdude/Downloads/graalvm-ce-java11-20.3.0/Contents/Home/bin/native-image
     ```
 
     Don't forget to make the script executable:

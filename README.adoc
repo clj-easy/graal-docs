@@ -76,7 +76,7 @@ See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalV
 
 === Report what is being analyzed
 
-Use GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/REPORTS.md#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
+Use GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/Reports.md#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
 These details are written under `./reports`.
 
 Note that this option will greatly slow down compilation so it's better to turn it off in production builds.
