@@ -12,11 +12,11 @@ It assumes you have the current [`clojure` CLI](https://clojure.org/guides/getti
     $ cd hello-world
     ```
 
-    Optionally create a `deps.edn` to select Clojure `1.10.2-alpha4`.
+    Optionally create a `deps.edn` to select Clojure `1.10.2-rc1`.
     While not required for this hello world app, you'll want to use this version of Clojure for your app because it contains fixes for GraalVM:
 
     ``` clojure
-    {:deps {org.clojure/clojure {:mvn/version "1.10.2-alpha4"}}}
+    {:deps {org.clojure/clojure {:mvn/version "1.10.2-rc1"}}}
     ```
 
     In `src/hello_world/core.clj` put the following code:
@@ -113,8 +113,8 @@ We assume you have completed the previous tutorial.
 
     ``` clojure
     (defproject hello-world "0.1.0-SNAPSHOT"
-      ;; clojure version "1.10.2-alpha4" includes fixes for some graalvm specific issues
-      :dependencies [[org.clojure/clojure "1.10.2-alpha4"]]
+      ;; clojure version "1.10.2-rc1" includes fixes for some graalvm specific issues
+      :dependencies [[org.clojure/clojure "1.10.2-rc1"]]
       :main hello-world.core
       :aot :all)
     ```

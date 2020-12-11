@@ -40,7 +40,7 @@
 - [edamame](https://github.com/borkdude/edamame). Configurable EDN/code parser with location metadata.
 - [enlive](https://github.com/cgrand/enlive). A selector-based (à la CSS) templating and transformation system for Clojure
 - [fipp](https://github.com/brandonbloom/fipp). Fast idiomatic pretty-printe for Clojure.
-- [graal.locking](https://github.com/borkdude/graal.locking). Historical workaround for CLJ-1472 with a library, Clojure 1.10.2-alpha4 is now recommended instead.
+- [graal.locking](https://github.com/borkdude/graal.locking). Historical workaround for CLJ-1472 with a library, Clojure 1.10.2-rc1 is now recommended instead.
 - [hickory](https://github.com/davidsantiago/hickory). HTML as data.
 - [markdown-clj](https://github.com/yogthos/markdown-clj).  Markdown parser in Clojure.
 - [lanterna](https://github.com/mabe02/lanterna). A java library for making Terminal User Interfaces.
