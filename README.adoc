@@ -43,7 +43,7 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 === Clojure version
 
-Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2-rc1], it contains several GraalVM specific fixes, including:
+Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2-rc3], it contains several GraalVM specific fixes, including:
 
 * https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime. +
 Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
