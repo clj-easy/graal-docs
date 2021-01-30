@@ -68,7 +68,7 @@ Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namesp
 This tells the Clojure compiler to report cases where Clojure is using reflection.
 You can address these via type hints.
 
-Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 test release].
+Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 release].
 
 To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
 
@@ -169,10 +169,12 @@ Values: `"shared"`, `"executable"`
 
 === JDK11 and clojure.lang.Reflector
 
-JDK11 is supported since GraalVM 19.3.0.
-GraalVM can get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
+If you are using GraalVM v21 or later, you can skip this tip.
 
-Compiling your clojure code with JDK11 native image and then running it will result in the following exception being thrown apon first use of reflection:
+GraalVM started supporting JDK11 in v19.3.0.
+From this version until v21, GraalVM could get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
+
+Prior to GraalVM v21, compiling your Clojure code with JDK11 native image and then running it resulted in the following exception being thrown upon first use of reflection:
 
 ----
 Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invoke with MethodHandle argument could not be reduced to at most a single call or single field access. The method handle must be a compile time constant, e.g., be loaded from a `static final` field. Method that contains the method handle invocation: java.lang.invoke.Invokers$Holder.invoke_MT(Object, Object, Object, Object)
@@ -185,7 +187,8 @@ See the https://github.com/oracle/graal/issues/2214[issue] on the GraalVM repo.
 
 Workarounds:
 
-* Use a Java 8 version of GraalVM.
+* Use GraalVM v21 or later (recommended).
+* Use a JDK8 version of GraalVM.
 * Include https://github.com/borkdude/clj-reflector-graal-java11-fix[clj-reflector-graal-java11-fix] when compiling your Clojure code.
 * Use the `--report-unsupported-elements-at-runtime` option.
 * Patch `clojure.lang.Reflector` on the classpath with the conditional logic swapped out for non-conditional code which works on Java 11 (but not on Java 8).
