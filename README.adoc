@@ -175,20 +175,32 @@ Values: `"shared"`, `"executable"`
 
 === JDK11 and clojure.lang.Reflector
 
-If you are using GraalVM v21 or later, you can skip this tip.
+For *GraalVM v21 or later*::
+If you are suffering `NoSuchMethodError: java.lang.reflect.AccessibleObject.canAccess` exceptions, GraalVM needs a little help.
+Include the following to your `reflection.json` file:
++
+[source,json]
+----
+{"name": "java.lang.reflect.AccessibleObject",
+ "methods" : [{"name":"canAccess"}]}
+----
+
+For *older versions of GraalVM*::
 
 GraalVM started supporting JDK11 in v19.3.0.
-From this version until v21, GraalVM could get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector` which dispatches on Java 8 or a later Java version.
-
+GraalVM could get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector`.
+This code dispatches based on wether you are on Java v8 or a later major version.
++
 Prior to GraalVM v21, compiling your Clojure code with JDK11 native image and then running it resulted in the following exception being thrown upon first use of reflection:
-
++
+[source,java]
 ----
 Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invoke with MethodHandle argument could not be reduced to at most a single call or single field access. The method handle must be a compile time constant, e.g., be loaded from a `static final` field. Method that contains the method handle invocation: java.lang.invoke.Invokers$Holder.invoke_MT(Object, Object, Object, Object)
     at com.oracle.svm.core.util.VMError.unsupportedFeature(VMError.java:101)
     at clojure.lang.Reflector.canAccess(Reflector.java:49)
     ...
 ----
-
++
 See the https://github.com/oracle/graal/issues/2214[issue] on the GraalVM repo.
 
 Workarounds:
