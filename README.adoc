@@ -81,6 +81,12 @@ These details are written under `./reports`.
 
 Note that this option will greatly slow down compilation so it's better to turn it off in production builds.
 
+=== Visualize what is in your native image
+
+To visualize what is in your native image, you can use the https://www.graalvm.org/docs/tools/dashboard/?ojr=help%3Btopic%3Dgetting-started.md[GraalVM Dashboard], here's an example screenshot:
+
+image:doc/GraalVM-Dashboard-Screenshot.png[GraalVM Dashboard Screenshot]
+
 === native-image RAM usage
 
 GraalVM's `native-image` can consume more RAM than is available on free tiers of services such as CircleCI.
