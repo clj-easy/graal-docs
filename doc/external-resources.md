@@ -62,6 +62,7 @@ for a list of libraries known to work with GraalVM `native-image`.
 
 ## Articles
 
+- [Huahai - Writing C code in Java/Clojure: GraalVM specific programming](https://yyhh.org/blog/2021/02/writing-c-code-in-javaclojure-graalvm-specific-programming/)
 - [Alex Miller, *Inside Clojure - Journal 2019.16*](http://insideclojure.org/2019/04/19/journal/#clojure-1101)
 - [Alys Brooks, *Using Graal on a Small-But-Real Clojure Application*](http://www.alysbrooks.com/using-graal-on-a-small-but-real-clojure-application.html)
 - [AstRecipes, *Command-line apps with Clojure and GraalVM: 300x better start-up times*](https://www.astrecipes.net/blog/2018/07/20/cmd-line-apps-with-clojure-and-graalvm/)
