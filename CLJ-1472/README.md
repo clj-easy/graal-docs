@@ -1,9 +1,6 @@
 # CLJ-1472
 
-:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) resolves this issue. This patch is included in the [Clojure 1.10.2 test release](https://clojure.org/community/devchangelog#_release_1_10_2).
-We strongly encourage you to try it out with your projects and [report back any issues to the Clojure core team](https://clojure.org/community/contributing#_reporting_problems_and_requesting_enhancements).
-
-Clojure 1.10 introduced locking code into `clojure.spec.alpha` that often causes GraalVM's `native-image` to fail with:
+:tada: Update: The recommended patch from [CLJ-1472](https://clojure.atlassian.net/browse/CLJ-1472) resolves this issue. This patch is included in the current Clojure release.
 
 ```
 Error: unbalanced monitors: mismatch at monitorexit, 96|LoadField#lockee__5436__auto__ != 3|LoadField#lockee__5436__auto__
@@ -17,7 +14,7 @@ Although no longer necessary nor recommended, you can create a local patched ver
 
 ## Vote
 
-:tada: Update: Thanks for voting! The Clojure core team has has addressed this issue in [Clojure 1.10.2](https://clojure.org/community/devchangelog#_release_1_10_2).
+:tada: Update: Thanks for voting! The Clojure core team has has addressed this issue and the fix is available in the current Clojure release.
 
 Using a patched version of Clojure is not ideal.
 If you are interested in getting this issue fixed in a next release of Clojure, consider upvoting it on [ask.clojure.org](https://ask.clojure.org/index.php/740/locking-macro-fails-bytecode-verification-native-runtime).
@@ -217,7 +214,7 @@ Times are in milliseconds.
 
 ## Other Workarounds
 
-If you cannot, for whatever reason, use Clojure 1.10.2, here are some other workarounds:
+If you cannot, for whatever reason, use the current Clojure v1.10 release, here are some other workarounds:
 
 - create your own patched version of Clojure by following instructions under [Scripts](#scripts) above.
 

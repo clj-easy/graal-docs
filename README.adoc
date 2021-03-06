@@ -43,10 +43,10 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 === Clojure version
 
-Use Clojure https://clojure.org/community/devchangelog#_release_1_10_2[1.10.2], it contains several GraalVM specific fixes, including:
+Use https://clojure.org/community/devchangelog[the current Clojure v1.10 release], it includes several GraalVM specific fixes, including:
 
 * https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime. +
-Before Clojure 1.10.2 was available, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
+For prior versions of Clojure, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
 * https://clojure.atlassian.net/browse/CLJ-2502[CLJ-2502] - Cannot use clojure.stracktrace/print-stack-trace with GraalVM.
 * https://clojure.atlassian.net/browse/CLJ-2571[CLJ-2571] - ex-cause is missing Throwable return tag.
 * https://clojure.atlassian.net/browse/CLJ-2572[CLJ-2572] - Prevent reflection in clojure.data namespace, make compatible with GraalVM.
@@ -68,7 +68,7 @@ Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namesp
 This tells the Clojure compiler to report cases where Clojure is using reflection.
 You can address these via type hints.
 
-Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but has been made GraalVM compatible in https://clojure.org/community/devchangelog#_release_1_10_2[Clojure 1.10.2 release].
+Prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but this not an issue for the current Clojure release.
 
 To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
 
