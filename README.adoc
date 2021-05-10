@@ -146,7 +146,9 @@ this will still load some libraries (using `dlopen`) at runtime, and may result 
 See https://sourceware.org/glibc/wiki/FAQ#Even_statically_linked_programs_need_some_shared_libraries_which_is_not_acceptable_for_me.__What_can_I_do.3F[this section in official glibc documentation]
 for more information on why glibc "static" builds are not really static.
 
-However, keep in mind that `musl` builds https://www.graalvm.org/reference-manual/native-image/StaticImages/#prerequisites[still have some limitations]:
+With `--static --libc=musl`, you will have truly static binaries equivalent to Go's with `CGO_ENABLED=0` or Rust compiled with musl. This libraries
+can be deployed almost anywhere and is also smaller than the glibc equivalent. However, keep in mind that `musl` builds
+https://www.graalvm.org/reference-manual/native-image/StaticImages/#prerequisites[still have some limitations]:
 
 * Only works with Linux AMD64 on Java 11 for now
 * You will need to either use a distro that already have `musl` and `zlib` statically compiled in the repositories or compile it yourself.
