@@ -154,7 +154,8 @@ https://www.graalvm.org/reference-manual/native-image/StaticImages/#prerequisite
 * You will need to either use a distro that already have `musl` and `zlib` statically compiled in the repositories or compile it yourself.
 ** See https://github.com/babashka/babashka/pull/828 for an example of using `musl-tools` from Debian
 ** See https://gist.github.com/sify21/2eec007e4b05d448c85192fc279232c6 for an example of compiling `musl` from source
-* There is a known issue with stack sizes in `musl` being really small by default. This may cause some stack overflow errors during runtime
+* There is a known issue with stack sizes in `musl` being really small by default and main thread not respecting stack size settings.
+This may cause some stack overflow errors during runtime
 ** See https://github.com/oracle/graal/issues/3398 for details about this issue
 ** See https://github.com/babashka/babashka/issues/831 for a workaround
 
