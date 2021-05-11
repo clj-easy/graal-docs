@@ -138,6 +138,31 @@ One way to achieve that is to compile  _within_ the docker image then scraping t
 
 See https://github.com/oracle/graal/issues/571
 
+=== Static linking with musl
+
+Using https://www.musl-libc.org/[musl] for static builds is recommended by the official https://www.graalvm.org/reference-manual/native-image/StaticImages/[GraalVM] docs.
+Usage of `--static` without specifying `--libc=musl` will use glibc instead, however while this may look like a fully statically binary,
+this will still load some libraries (using `dlopen`) at runtime, and may result in some segmentation fault errors related to glibc version mismatches.
+See https://sourceware.org/glibc/wiki/FAQ#Even_statically_linked_programs_need_some_shared_libraries_which_is_not_acceptable_for_me.__What_can_I_do.3F[this section in official glibc documentation]
+for more information on why glibc "static" builds are not really static.
+
+With `--static --libc=musl`, you will have truly static binaries equivalent to Go's with `CGO_ENABLED=0` or Rust compiled with musl. This libraries
+can be deployed almost anywhere and is also smaller than the glibc equivalent. However, keep in mind that `musl` builds
+https://www.graalvm.org/reference-manual/native-image/StaticImages/#prerequisites[still have some limitations]:
+
+* Only works with Linux AMD64 on Java 11 for now
+* You will need to either use a distro that already have `musl` and `zlib` statically compiled in the repositories or compile it yourself.
+** See https://github.com/babashka/babashka/pull/828 for an example of using `musl-tools` from Debian
+** See https://gist.github.com/sify21/2eec007e4b05d448c85192fc279232c6 for an example of compiling `musl` from source
+* There is a known issue with stack sizes in `musl` being really small by default and main thread not respecting stack size settings.
+This may cause some stack overflow errors during runtime
+** See https://github.com/oracle/graal/issues/3398 for details about this issue
+** See https://github.com/babashka/babashka/issues/831 for a workaround
+
+If supporting non-glibc distros are not an issue for you, there is also an option of building a
+https://www.graalvm.org/reference-manual/native-image/StaticImages/#build-a-mostly-static-native-image[mostly static native image] that should work in any glibc distro.
+Those binaries are very similar to Go binaries without `CGO_ENABLED=0` and Rust images build with glibc (the default).
+
 === Writing GraalVM specific code
 
 While it would be nice to have the same clojure code run within a GraalVM image as on the JVM, there may be times where a GraalVM specific workaround may be necessary.
