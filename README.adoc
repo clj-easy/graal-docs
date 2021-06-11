@@ -155,6 +155,10 @@ reflect-config.json
 ]
 ----
 
+The entry for `java.lang.reflect.Method` is expected. See
+https://github.com/lread/clj-graal-docs#jdk11-and-clojure-lang-reflector[here]
+for an explanation.
+
 It's unclear why the reflection on `java.util.Properties` is made. It is
 probably safe to leave it out and probably even recommended as this class will
 pull in XML libraries due to its `storeToXML` methods. To exclude this class,
