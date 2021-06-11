@@ -70,9 +70,87 @@ You can address these via type hints.
 
 Prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but this not an issue for the current Clojure release.
 
-To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`).
+To let GraalVM configure the reflector for an array of Java objects, e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class` (e.g. `"[Ljava.sql.Statement"`). You can get this name by calling `(str (.getClass instance))` in a REPL.
 
-See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs on reflection for details].
+You can include a `reflect-config.json` for classes that are reflected upon at runtime. E.g. for this program:
+
+[source,clojure]
+----
+(ns refl.main
+  (:gen-class))
+
+(defn refl-str [s]
+  (.length s)) ;; reflection on String happens here
+
+(defn -main [& _]
+  (println (refl-str "foo")))
+----
+
+you will need a config like:
+
+[source,json]
+----
+[{
+  "name":"java.lang.String",
+  "allPublicMethods":true
+}]
+----
+
+and use the argument `-H:ReflectionConfigurationFiles=reflect-config.json` during native compilation.
+
+See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs on reflection for details] on the config format.
+
+To automatically discover reflection, you can use
+https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#assisted-configuration-of-native-image-builds[assisted
+configuration] driven by the native-image-agent.
+
+The recommended caller based filter, to not get lots of false positives in the generated config, is:
+
+filter.json:
+[source,json]
+----
+{ "rules": [
+  {"excludeClasses": "clojure.**"},
+  {"includeClasses": "clojure.lang.Reflector"}
+]
+}
+----
+
+The agent discovers reflection during an example call of your program.
+
+E.g.:
+
+----
+$ mkdir -p classes
+$ clojure -M -e "(compile 'refl.main)"
+refl.main
+$ java -agentlib:native-image-agent=caller-filter-file=filter.json,config-output-dir=. -cp $(clojure -Spath):classes refl.main
+----
+
+This will output:
+
+reflect-config.json
+[source,json]
+----
+[
+{
+  "name":"java.lang.String",
+  "allPublicMethods":true
+},
+{
+  "name":"java.lang.reflect.Method",
+  "methods":[{"name":"canAccess","parameterTypes":["java.lang.Object"] }]
+},
+{
+  "name":"java.util.Properties",
+  "allPublicMethods":true
+}
+]
+----
+
+It's unclear why the reflection on `java.util.Properties` is made. It is
+probably safe to leave it out and probably even recommended as this class will
+pull in XML libraries due to its `storeToXML` methods. To exclude this class, you can use an https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#access-filters[access filter].
 
 === Report what is being analyzed
 
