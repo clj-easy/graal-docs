@@ -160,7 +160,7 @@ https://github.com/lread/clj-graal-docs#jdk11-and-clojure-lang-reflector[here]
 for an explanation.
 
 It's unclear where the reflection on `java.util.Properties` is made (perhaps
-https://github.com/clojure/clojure/blob/b1b88dd25373a86e41310a525a21b497799dbbf2/src/clj/clojure/core.clj#L7085[here?]. It
+https://github.com/clojure/clojure/blob/b1b88dd25373a86e41310a525a21b497799dbbf2/src/clj/clojure/core.clj#L7085[here?]). It
 is probably safe to leave it out and probably even recommended as this class
 will pull in XML libraries due to its `storeToXML` methods. To exclude this
 class, you can use an
