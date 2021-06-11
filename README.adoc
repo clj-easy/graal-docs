@@ -109,8 +109,8 @@ To automatically discover reflection, you can use
 https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#assisted-configuration-of-native-image-builds[assisted
 configuration] driven by the native-image-agent.
 
-The recommended caller based filter, to not get lots of false positives in the
-generated config, is:
+To prevent false positives in the generated config, you can use a https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#caller-based-filters[caller
+based filter].
 
 filter.json:
 [source,json]
@@ -122,7 +122,8 @@ filter.json:
 }
 ----
 
-The agent discovers reflection during an example call of your program.
+To invoke the agent you will need to run your program on the JVM and add the
+`-agentlib:native-image-agent` argument.
 
 E.g.:
 
