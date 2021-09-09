@@ -1,4 +1,4 @@
-= clj-graal-docs
+= graal-docs
 :idprefix:
 :idseparator: -
 :toc:
