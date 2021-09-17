@@ -51,7 +51,11 @@ For prior versions of Clojure, link:CLJ-1472/README.md[we documented how to patc
 * https://clojure.atlassian.net/browse/CLJ-2571[CLJ-2571] - ex-cause is missing Throwable return tag.
 * https://clojure.atlassian.net/browse/CLJ-2572[CLJ-2572] - Prevent reflection in clojure.data namespace, make compatible with GraalVM.
 
-Other fixes of interest are:
+Interesting fixes slated for Clojure 1.11:
+
+* https://clojure.atlassian.net/browse/CLJ-2636[CLJ-2636] - Get rid of reflection on java.util.Properties when defining \*clojure-version* 
+
+Other fixes of interest:
 
 * https://clojure.atlassian.net/browse/CLJ-2582[CLJ-2582] - Improve GraalVM native image size / compile time memory consumption when compiling clojure.pprint
 * https://clojure.atlassian.net/browse/TCHECK-157[TCHECK-157] - Randomization doesn't work with GraalVM native-image
