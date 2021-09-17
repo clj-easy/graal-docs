@@ -1,6 +1,13 @@
 = graal-docs
 :idprefix:
 :idseparator: -
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 :toc:
 
 == Rationale
@@ -215,10 +222,24 @@ The most convenient place for you to set that system property will vary dependin
 
 === Class Initialization
 
-For Clojure programs, you will want to tell `native-image` to `--initialize-at-build-time`.
-If needed, you can defer specific classes to `--initialize-at-run-time`.
+In most cases, Clojure compiled classes must be initialized at build time for them to work with GraalVM `native-image`.
+If this has not been done, when you attempt to run your resulting native binary, you might see an exception that includes:
 
-Here an example from https://github.com/babashka/babashka-sql-pods/blob/5d04e7fce699741e1b5e8488cf0a8f70843a3e2e/script/compile#L49[babashka's compile script].
+[source,shell]
+----
+java.io.FileNotFoundException: Could not locate clojure/core__init.class, clojure/core.clj or clojure/core.cljc on classpath
+----
+
+Fortunately, the solution is easy, include https://clojars.org/com.github.clj-easy/graal-build-time[clj-easy/graal-build-time] on your `native-image` classpath.
+See https://github.com/clj-easy/graal-build-time[graal-build-time docs] for details.
+
+[NOTE]
+====
+The old trick was to use the `--initialize-at-build-time` option with `native-image`.
+This option has been deprecated in GraalVM v21 and is slated for removal in GraalVM v22.
+
+Despair not, migrating to `clj-easy/graal-build-time` can be as easy for your project as it was for https://github.com/clj-kondo/clj-kondo/commit/9f10ae074d44f6f41e929e0e0826be0fb43cf702[clj-kondo].
+====
 
 === Optional Transitive Dependencies
 
