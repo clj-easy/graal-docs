@@ -199,8 +199,8 @@ To limit how much RAM `native-image` uses, include the `--no-server` option and 
 If you are suffering out of memory errors, experiment on your development computer with higher `-J-Xmx` values.
 To learn actual memory usage, prefix the `native-image` command with:
 
-* on macOS `command time -l `
-* on Linux `command time -v `
+* on macOS: `command time -l`
+* on Linux: `command time -v`
 
 These `time` commands report useful stats in addition to "maximum resident set size".
 
