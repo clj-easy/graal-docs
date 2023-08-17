@@ -224,7 +224,7 @@ ALL GOOD!
 NOTE: As an example, prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]).
 But this has been addressed via type hints.
 
-==== Specify a Reflection Config [[handcoded-reflection-config]]
+==== Specify a Reflection Config [[hand-coded-reflection-config]]
 When you cannot add type hints, you can specify a GraalVM config for classes that are reflected at runtime.
 
 If we go back to our original `src/refl/main.clj` that is absent of any type hints:
@@ -307,7 +307,7 @@ An example `filter.json`:
 
 To invoke the agent, you run your program wth the GraalVM JVM and add the `-agentlib:native-image-agent` argument.
 
-If we recompile our original reflection example app:
+Let's recompile our original reflection example app and then run it from GraalVM JVM with the tracing agent:
 [source,shell]
 ----
 $ mkdir -p classes
@@ -367,7 +367,7 @@ Sometimes you'll want more details on what GraalVM has done or produced.
 
 ==== Report what is being analyzed
 
-Use GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/Reports.md#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
+Use GraalVM's `native-image` https://www.graalvm.org/latest/reference-manual/native-image/debugging-and-diagnostics/StaticAnalysisReports/#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
 These details are written under `./reports`.
 
 Note that this option will greatly slow down compilation so it's better to turn it off in production builds.
