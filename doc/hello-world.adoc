@@ -1,0 +1,233 @@
+= Hello world
+:idprefix:
+:idseparator: -
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: preamble
+:clojure-version: 1.11.1
+:graal-build-time-version: 1.0.5
+
+This tutorial covers creating a native binary from a Clojure hello world program using GraalVM.
+
+== Common Setup
+
+Download and install the most current https://github.com/graalvm/graalvm-ce-builds/releases[GraalVM Community Edition] for your operating system.
+There are Java 17 and Java 20 versions.
+It doesn’t matter which one you pick for this tutorial.
+
+[IMPORTANT]
+====
+Ensure that your `PATH` and `JAVA_HOME` are setup as per GraalVM installation instructions.
+Do a sanity test via: +
+[source,shell]
+----
+$ native-image --version
+----
+====
+
+TIP: You can optionally use a tool like https://sdkman.io/[SDKMAN!] to download and install GraalVM.
+
+== Clojure Deps CLI
+
+TIP: You may be interested in watching @borkdude’s https://youtu.be/G9Xp2zlEmos[_GraalVM native Clojure: hello world_ video].
+It is now a bit dated, but walks you through this process and includes interesting observations and tips.
+
+We assume you have the current https://clojure.org/guides/install_clojure[`clojure` CLI] installed.
+
+=== Step 1: Create a Clojure Deps CLI project
+
+[source,shell]
+----
+$ mkdir -p hello-world-clj/src/hello_world
+$ cd hello-world-clj
+----
+
+Create a `deps.edn`.
+Specify current versions of:
+
+* Clojure to take advantage of any and all GraalVM fixes.
+* https://github.com/clj-easy/graal-build-time[graal-build-time] to automatically initialize Clojure classes
+
+[source,clojure,subs="attributes+"]
+----
+{:deps {org.clojure/clojure {:mvn/version "{clojure-version}"}
+        com.github.clj-easy/graal-build-time {:mvn/version "{graal-build-time-version}"}}}
+----
+Paste the following code into a `src/hello_world/main.clj` file:
+
+[source,clojure]
+----
+(ns hello-world.main
+  (:gen-class))
+
+(defn -main [& _args]
+  (println "Hello world!"))
+----
+
+Run your hello world program using `clojure` to prove to yourself that it works:
+
+[source,shell]
+----
+$ clojure -M -m hello-world.main
+Hello world!
+----
+=== Step 2: Compile project sources to class files
+
+Create a `classes` folder. This is where Clojure compiles source files to `.class` files:
+
+[source,shell]
+----
+$ mkdir classes
+----
+
+Then run:
+
+[source,shell]
+----
+$ clojure -M -e "(compile 'hello-world.main)"
+----
+
+to compile the main namespace (and transitively everything it requires).
+
+Verify that the program works when run from the JVM using compiled classes:
+
+[source,shell]
+----
+$ java -cp $(clojure -Spath):classes hello_world.main
+Hello world!
+----
+
+=== Step 3: Compile to native
+
+Run the following to create a native image:
+
+[source,shell]
+----
+$ native-image \
+    -cp "$(clojure -Spath):classes" \
+    -H:Name=hello-world \
+    -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses \
+    --verbose \
+    --no-fallback \
+    hello_world.main
+----
+
+NOTE: we reference our built `classes` via `-cp`
+
+
+This creates `hello-world`, a native image version of hello world program.
+
+=== Step 4: Run your native image!
+
+[source,shell]
+----
+$ ./hello-world
+Hello world!
+----
+
+That’s it.
+
+== Leiningen
+
+Another approach is to build an uberjar with https://leiningen.org/[`leiningen`] first.
+
+=== Step 1: Create a lein project
+
+[source,shell]
+----
+ $ mkdir -p hello-world-lein/src/hello_world
+ $ cd hello-world-lein
+----
+
+Create a `project.clj`.
+Specify current versions of:
+
+* Clojure to take advantage of any and all GraalVM fixes.
+* https://github.com/clj-easy/graal-build-time[graal-build-time] to automatically initialize Clojure classes
+
+[source,clojure,subs="attributes+"]
+----
+(defproject hello-world "0.1.0-SNAPSHOT"
+  :dependencies [[org.clojure/clojure "{clojure-version}"]
+                 [com.github.clj-easy/graal-build-time "{graal-build-time-version}"]]
+  :main hello-world.main
+  :aot :all)
+----
+
+Paste the following code into a `src/hello_world/main.clj` file:
+
+[source,clojure]
+----
+(ns hello-world.main
+  (:gen-class))
+
+(defn -main [& _args]
+  (println "Hello world!"))
+----
+
+Run your hello world program using `lein` to prove to yourself that it works:
+
+[source,shell]
+----
+$ lein run
+Hello world!
+----
+
+=== Step 2: Create an uberjar
+
+[source,shell]
+----
+$ lein uberjar
+----
+
+Verify that the uberjar works when run from the JVM:
+
+[source,shell]
+----
+$ java -jar target/hello-world-0.1.0-SNAPSHOT-standalone.jar
+Hello world!
+----
+=== Step 3: Compile to native
+
+Run the following to create a native image:
+
+[source,shell]
+----
+native-image \
+    -jar target/hello-world-0.1.0-SNAPSHOT-standalone.jar \
+    -H:Name=hello-world \
+    -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses \
+    --verbose \
+    --no-fallback
+----
+
+NOTE: we reference our built `-jar`
+
+This creates `hello-world`, a native image for your program.
+
+=== Step 4: Run your native image!
+
+[source,shell]
+----
+$ ./hello-world
+Hello world!
+----
+
+That’s it.
+
+== Compile Scripts From the Wild
+
+Our hello world examples are designed to get you started. Here are some real world compile script examples from the wild:
+
+* https://github.com/babashka/babashka/blob/master/script/compile[Babashka macOS and Linux compile]
+* https://github.com/babashka/babashka/blob/master/script/compile.bat[Babashka Windows compile]
+* https://github.com/clj-commons/rewrite-clj/blob/f74d28d465239edf9d4f400f36c35734e35ba65c/script/test_native.clj[Rewrite-clj v1 cross platform compile via Babashka scripting]
+
+And be sure to read our link:/README.adoc[tips and tricks] and share back your discoveries!

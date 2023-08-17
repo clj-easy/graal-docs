@@ -9,26 +9,29 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 :toc:
+:toclevels: 3
+:clojure-version: 1.11.1
+:graal-build-time-version: 1.0.5
 
 == Rationale
-
 This little repo's goal is to collect scripts and tips on natively compiling Clojure programs with https://www.graalvm.org/[GraalVM].
 
-GraalVM offers the ability to compile Java classes to native binaries.
-Because Clojure is hosted on the https://en.wikipedia.org/wiki/Java_virtual_machine[JVM], compiling Clojure  programs to native binaries is also, to some extent, possible.
+GraalVM allows us to compile Java classes to native binaries.
+Because Clojure is hosted on the https://en.wikipedia.org/wiki/Java_virtual_machine[JVM], compiling Clojure programs to native binaries is also possible.
 
-Native binaries offer fast startup times and are therefore an attractive option for command line tools that are used in scripting and editor integration.
-Popular examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo], see link:doc/external-resources.md[resources] for many more examples.
+Native binaries have fast startup times.
+This makes them an attractive option for command line tools that are used for scripting and in editor integrations.
+Popular command line tool examples are https://github.com/borkdude/babashka[babashka] and https://github.com/borkdude/clj-kondo[clj-kondo].
+See link:doc/external-resources.adoc[resources] for many more examples.
 
-We mostly keep our tips related to Clojure, but will sometimes we'll add something just because we didn't easily find it elsewhere, and we feel it would be helpful to others.
+Most of our tips are related to Clojure.
+We will sometimes add a general tip because we didn't easily find it elsewhere and feel it would be helpful to others.
 
-Unless otherwise indicated, when we refer to GraalVM in this repository, we are referring to the https://github.com/oracle/graal/blob/master/substratevm/README.md[Graal Substrate VM].
-The Substrate VM is exposed as the https://www.graalvm.org/docs/reference-manual/native-image/[GraalVM native compiler].
+GraalVM is more than just its https://github.com/oracle/graal/blob/master/docs/reference-manual/native-image/README.md[native image compiler], but unless otherwise noted, when we refer to GraalVM, we are talking about the native image compiler.
 
 If you are trying to decide if GraalVM is for you, the trade-offs are nicely explained by Oleg Šelajev in the https://youtu.be/PeMvksAZbdw?t=647["AOT vs JIT" section of his "Maximizing Java Application Performance with GraalVM video"].
 
 == Community
-
 > 👋 Need help or want to chat?
 > Say hi on http://clojurians.net/[Clojurians Slack] in https://clojurians.slack.com/app_redirect?channel=graalvm[#graalvm].
 
@@ -44,171 +47,356 @@ Your editor https://editorconfig.org#download/[will likely automatically pick th
 
 The current curators of this repository are: https://github.com/borkdude[@borkdude] and https://github.com/lread[@lread].
 
-== link:doc/hello-world.md[Hello world]
+== link:doc/hello-world.adoc[Hello world]
 
 == Tips and tricks
 
-=== Clojure version
+=== Clojure Version
+Always use https://github.com/clojure/clojure/blob/master/changes.md[the current Clojure release], it includes several GraalVM specific fixes, including:
 
-Use https://clojure.org/community/devchangelog[the current Clojure v1.10 release], it includes several GraalVM specific fixes, including:
-
-* https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime. +
-For prior versions of Clojure, link:CLJ-1472/README.md[we documented how to patch and work around this issue].
+* https://clojure.atlassian.net/browse/CLJ-1472[CLJ-1472] - locking macro creates monitor bytecode difficult to analyze in Graal native-image and ART runtime.
 * https://clojure.atlassian.net/browse/CLJ-2502[CLJ-2502] - Cannot use clojure.stracktrace/print-stack-trace with GraalVM.
 * https://clojure.atlassian.net/browse/CLJ-2571[CLJ-2571] - ex-cause is missing Throwable return tag.
 * https://clojure.atlassian.net/browse/CLJ-2572[CLJ-2572] - Prevent reflection in clojure.data namespace, make compatible with GraalVM.
+* https://clojure.atlassian.net/browse/CLJ-2636[CLJ-2636] - Get rid of reflection on java.util.Properties when defining \*clojure-version*
 
-Interesting fixes slated for Clojure 1.11:
-
-* https://clojure.atlassian.net/browse/CLJ-2636[CLJ-2636] - Get rid of reflection on java.util.Properties when defining \*clojure-version* 
-
-Other fixes of interest:
+Other issues of interest:
 
 * https://clojure.atlassian.net/browse/CLJ-2582[CLJ-2582] - Improve GraalVM native image size / compile time memory consumption when compiling clojure.pprint
 * https://clojure.atlassian.net/browse/TCHECK-157[TCHECK-157] - Randomization doesn't work with GraalVM native-image
 
-=== Runtime Evaluation
+=== GraalVM Version
+Use the latest https://github.com/graalvm/graalvm-ce-builds/releases[stable GraalVM release].
+Choose the JDK version that makes sense for you.
 
-A natively compiled application cannot use Clojure's `eval` to evaluate Clojure code at runtime.
+==== GraalVM Version Scheme Change[[graalvm-version-scheme-change]]
+The Graal team changed their versioning scheme.
+It used to be based on the year and quarter, but it now simply matches the JDK version.
+
+We used to have, for example a v22.3.2 release for each supported JDK.
+We now have, for example GraalVM v17.0.8 and GraalVM v20.0.2.
+
+This version change does make it awkward to refer to past versions of GraalVM.
+For the old version scheme we'll prefix the version with `legacy` like so `GraalVM legacy v22`.
+
+==== GraalVM Free Flavours[[graalvm-free-flavours]]
+We now have 2 free flavours of GraalVM:
+
+* https://github.com/graalvm/graalvm-ce-builds/releases[GraalVM Community Edition]
+* https://www.graalvm.org/downloads/[Oracle GraalVM]
+
+Oracle GraalVM is has more features but https://www.graalvm.org/faq/#[has a different license].
+Choose the flavour that makes sense for your project.
+
+Tips should be generic to both flavours, but we'll refer to Oracle GraalVM if/when appropriate.
+
+=== Class Initialization [[class-initialization]]
+In most cases, Clojure compiled classes must be https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/ClassInitialization/[initialized at build time] by GraalVM `native-image`.
+If this has not been done, when you attempt to run your resulting native binary, you will see an exception that includes:
+
+[source,shell]
+----
+java.io.FileNotFoundException: Could not locate clojure/core__init.class, clojure/core.clj or clojure/core.cljc on classpath
+----
+
+Fortunately, we have an easy solution for you:
+
+. include https://clojars.org/com.github.clj-easy/graal-build-time[clj-easy/graal-build-time] on your `native-image` classpath
+. specify `--features=clj_easy.graal_build_time.InitClojureClasses` on your `native-image` command line
+
+See https://github.com/clj-easy/graal-build-time[graal-build-time docs] for details.
+
+=== Runtime Evaluation
+A natively compiled application cannot use Clojure's https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/eval[`eval`] to evaluate Clojure code at runtime.
 If you want to dynamically evaluate Clojure code from your natively compiled app, consider using https://github.com/borkdude/sci[SCI, the Small Clojure Interpreter].
 The ultimate example of evaluating Clojure with a natively compiled Clojure application is https://github.com/borkdude/babashka[babashka].
 
 === Reflection
+Clojure can use reflection to determine what to call.
+But a GraalVM native image will only include what it thinks your program calls.
+We can either tweak Clojure to not use reflection, inform `native-image` compilation about reflective calls, or both.
 
-Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namespace in your project.
-This tells the Clojure compiler to report cases where Clojure is using reflection.
-You can address these via type hints.
+Take this little contrived example:
 
-Prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]) but this not an issue for the current Clojure release.
-
-You can include a `reflect-config.json` for classes that are reflected upon at runtime. E.g. for this program:
-
+* `deps.edn`
++
+[source,clojure,subs="attributes+"]
+----
+{:deps {org.clojure/clojure {:mvn/version "{clojure-version}"}
+        com.github.clj-easy/graal-build-time {:mvn/version "{graal-build-time-version}"}}}
+----
+* `src/refl/main.clj`
++
 [source,clojure]
 ----
 (ns refl.main
   (:gen-class))
 
 (defn refl-str [s]
-  (.length s)) ;; reflection on String happens here
+  (.toUpperCase s)) ;; reflection on String happens here
 
-(defn -main [& _]
-  (println (refl-str "foo")))
+(defn -main [& _args]
+  (println (refl-str "all good!")))
 ----
 
-you will need a config like:
+It will compile just fine:
+[source,shell]
+----
+$ mkdir -p classes
+$ clojure -M -e "(compile 'refl.main)"
+$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+----
+But when we go to run the native image, we'll see the following failure:
+[source,shell]
+----
+$ ./refl
+Exception in thread "main" java.lang.IllegalArgumentException: No matching field found: toUpperCase for class java.lang.String
+	at clojure.lang.Reflector.getInstanceField(Reflector.java:397)
+	at clojure.lang.Reflector.invokeNoArgInstanceMember(Reflector.java:440)
+	at refl.main$refl_str.invokeStatic(main.clj:5)
+	at refl.main$refl_str.invoke(main.clj:4)
+	at refl.main$_main.invokeStatic(main.clj:8)
+	at refl.main$_main.doInvoke(main.clj:7)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at refl.main.main(Unknown Source)
+----
 
+==== Use Type Hints to Avoid Reflection
+Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project.
+This tells the Clojure compiler to report cases where Clojure is using reflection.
+
+[source,clojure]
+----
+(ns refl.main
+  (:gen-class))
+
+(set! *warn-on-reflection* true)
+
+(defn refl-str [s]
+  (.toUpperCase s))
+
+(defn -main [& _args]
+  (println (refl-str "all good!")))
+----
+
+If we recompile our Clojure source, we'll see a warning:
+[source,shell]
+----
+$ clojure -M -e "(compile 'refl.main)"
+Reflection warning, refl/main.clj:7:3 - reference to field toUpperCase can't be resolved.
+refl.main
+----
+
+Let's add a `^String` type hint to avoid usage of Clojure reflection:
+
+[source,clojure]
+----
+(ns refl.main
+  (:gen-class))
+
+(set! *warn-on-reflection* true)
+
+(defn refl-str [^String s]
+  (.toUpperCase s))
+
+(defn -main [& _args]
+  (println (refl-str "all good!")))
+----
+
+If we recompile our updated source:
+[source,shell]
+----
+$ mkdir -p classes
+$ clojure -M -e "(compile 'refl.main)"
+$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+----
+We no longer see our reflection warnng and our native image now works just fine:
+[source,clojure]
+----
+$ ./refl
+ALL GOOD!
+----
+
+NOTE: As an example, prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]).
+But this has been addressed via type hints.
+
+==== Specify a Reflection Config [[hand-coded-reflection-config]]
+When you cannot add type hints, you can specify a GraalVM config for classes that are reflected at runtime.
+
+If we go back to our original `src/refl/main.clj` that is absent of any type hints:
+[source,clojure]
+----
+(ns refl.main
+  (:gen-class))
+
+(defn refl-str [s]
+  (.toUpperCase s)) ;; reflection on String happens here
+
+(defn -main [& _args]
+  (println (refl-str "all good!")))
+----
+
+And we create GraalVM `reflect-config.json` with:
 [source,json]
 ----
-[{
-  "name":"java.lang.String",
-  "allPublicMethods":true
-}]
-----
-
-and use the argument `-H:ReflectionConfigurationFiles=reflect-config.json` during native compilation.
-
-To let GraalVM configure the reflector for an array of Java objects,
-e.g. `Statement[]` you need to provide a rule for `[Lfully.qualified.class`
-(e.g. `"[Ljava.sql.Statement"`). You can get this name by calling `(str
-(.getClass instance))` in a REPL.
-
-See the
-https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs
-on reflection for details] on the config format.
-
-To automatically discover reflection, you can use
-https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#assisted-configuration-of-native-image-builds[assisted
-configuration] driven by the native-image-agent.
-
-To prevent false positives in the generated config, you can use a https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#caller-based-filters[caller
-based filter].
-
-filter.json:
-[source,json]
-----
-{ "rules": [
-  {"excludeClasses": "clojure.**"},
-  {"includeClasses": "clojure.lang.Reflector"}
+[
+  {
+    "name":"java.lang.String",
+    "allPublicMethods":true
+  }
 ]
+----
+Then recompile specifying our reflection config:
+[source,clojure]
+----
+$ mkdir -p classes
+$ clojure -M -e "(compile 'refl.main)"
+$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
+    -H:ReflectionConfigurationFiles=reflect-config.json \
+    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+----
+
+We have success:
+[source,shell]
+----
+$ ./refl
+ALL GOOD!
+----
+
+See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs on reflection for details] on the reflection config format.
+
+==== Reflection Config for Arrays
+To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class`.
+For example a `Statement[]` would be specified as `"[Ljava.sql.Statement"`.
+
+You can discover this name by calling `(.getClass instance)` in a REPL.
+A contrived example:
+[source,clojure]
+----
+❯ clj
+Clojure 1.11.1
+user=> (def foo (java.util.Locale/getAvailableLocales))
+user=> (.getClass foo)
+[Ljava.util.Locale;
+----
+
+==== Automatically Discovering Reflection Config [[reflection-discovery]]
+To automatically discover reflection, you can use the
+https://www.graalvm.org/latest/reference-manual/native-image/metadata/AutomaticMetadataCollection[tracing agent].
+
+To prevent false positives in the generated config, you can use a
+https://www.graalvm.org/latest/reference-manual/native-image/metadata/AutomaticMetadataCollection/#caller-based-filters[caller based filter].
+An example `filter.json`:
+[source,json]
+----
+{
+  "rules": [
+    {
+      "excludeClasses": "clojure.**"
+    },
+    {
+      "includeClasses": "clojure.lang.Reflector"
+    }
+  ]
 }
 ----
 
-To invoke the agent you will need to run your program on the JVM and add the
-`-agentlib:native-image-agent` argument.
+To invoke the agent, you run your program wth the GraalVM JVM and add the `-agentlib:native-image-agent` argument.
 
-E.g.:
-
+Let's recompile our original reflection example app and then run it from GraalVM JVM with the tracing agent:
+[source,shell]
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
 refl.main
-$ java -agentlib:native-image-agent=caller-filter-file=filter.json,config-output-dir=. -cp $(clojure -Spath):classes refl.main
+$ java -agentlib:native-image-agent=caller-filter-file=filter.json,config-output-dir=. \
+    -cp $(clojure -Spath):classes refl.main
+ALL GOOD!
 ----
 
-This will output:
-
-reflect-config.json
+This will output `reflect-config.json`:
 [source,json]
 ----
 [
 {
   "name":"java.lang.String",
-  "allPublicMethods":true
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"toUpperCase","parameterTypes":[] }]
 },
 {
   "name":"java.lang.reflect.Method",
   "methods":[{"name":"canAccess","parameterTypes":["java.lang.Object"] }]
 },
 {
-  "name":"java.util.Properties",
-  "allPublicMethods":true
+  "name":"java.util.concurrent.atomic.AtomicBoolean",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
 }
 ]
 ----
 
-The entry for `java.lang.reflect.Method` is expected. See
-https://github.com/lread/clj-graal-docs#jdk11-and-clojure-lang-reflector[here]
-for an explanation.
+The entry for `java.lang.reflect.Method` is expected, see link:#clojure.lang.reflector[clojure.lang.Reflector].
 
-It's unclear where the reflection on `java.util.Properties` is made (perhaps
-https://github.com/clojure/clojure/blob/b1b88dd25373a86e41310a525a21b497799dbbf2/src/clj/clojure/core.clj#L7085[here?]). It
-is probably safe to leave it out and probably even recommended as this class
-will pull in XML libraries due to its `storeToXML` methods. To exclude this
-class, you can use an
-https://www.graalvm.org/reference-manual/native-image/BuildConfiguration/#access-filters[access
-filter].
+// TODO: Why AtomicBoolean and AtomicReference?
 
-=== Report what is being analyzed
+You then feed this generated reflection config to native-image just like you would for a link:#hand-coded-reflection-config[hand-coded one].
 
-Use GraalVM's `native-image` https://github.com/oracle/graal/blob/master/substratevm/Reports.md#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
+==== clojure.lang.Reflector[[clojure.lang.reflector]]
+
+If you are suffering `NoSuchMethodError: java.lang.reflect.AccessibleObject.canAccess` exceptions, GraalVM needs a little help.
+Include the following to your `reflect-config.json` file:
+
+[source,json]
+----
+{"name": "java.lang.reflect.AccessibleObject",
+ "methods" : [{"name":"canAccess"}]}
+----
+
+See also: <<reflection-discovery>>
+
+=== Digging & Diagnosing
+
+Sometimes you'll want more details on what GraalVM has done or produced.
+
+==== Report what is being analyzed
+
+Use GraalVM's `native-image` https://www.graalvm.org/latest/reference-manual/native-image/debugging-and-diagnostics/StaticAnalysisReports/#call-tree[`-H:+PrintAnalysisCallTree`] to to learn what packages, classes and methods are being analyzed.
 These details are written under `./reports`.
 
 Note that this option will greatly slow down compilation so it's better to turn it off in production builds.
 
-=== Visualize what is in your native image
+==== Visualize what is in your native image
 
-To visualize what is in your native image, you can use the https://www.graalvm.org/docs/tools/dashboard/?ojr=help%3Btopic%3Dgetting-started.md[GraalVM Dashboard], here's an example screenshot:
+To visualize what is in your native image, you can use `-H:+DashboardAll` and upload the `.bgv` file to the https://www.graalvm.org/docs/tools/dashboard/?ojr=help%3Btopic%3Dgetting-started.md[GraalVM Dashboard], here's an example screenshot:
 
 image:doc/GraalVM-Dashboard-Screenshot.png[GraalVM Dashboard Screenshot]
 
-=== native-image RAM usage
+NOTE: Apparently GraalVM is going to  https://graalvm.slack.com/archives/CN9KSFB40/p1687522043942749?thread_ts=1687169221.120249&cid=CN9KSFB40[stop work on the dashboard] and focus instead on HTML reports generated by `-H:+BuildReport`.
+At the time of this writing `-H:+BuildReport` is only available in Oracle GraalVM and not in the Community Edition
+(see <<graalvm-free-flavours>>).
 
-GraalVM's `native-image` can consume more RAM than is available on free tiers of services such as CircleCI.
-To limit how much RAM `native-image` uses, include the `--no-server` option and set max heap usage via the `"-J-Xmx"` option (for example `"-J-Xmx3g"` limits the heap to 3 gigabytes).
+=== Resource Usage
+==== native-image RAM usage
+
+GraalVM's `native-image` can sometimes consume more RAM than is available on free tiers of services such as CircleCI.
+To limit how much RAM `native-image` uses set max heap usage via the `"-J-Xmx"` option (for example `"-J-Xmx3g"` limits the heap to 3 gigabytes).
 
 If you are suffering out of memory errors, experiment on your development computer with higher `-J-Xmx` values.
-To learn actual memory usage, prefix the `native-image` command with:
 
-* on macOS: `command time -l`
-* on Linux: `command time -v`
-
-These `time` commands report useful stats in addition to "maximum resident set size".
+Refer to `native-image` output for `Peak RSS` for RAM usage.
 
 Actual memory usage is an ideal.
 Once you have a successful build, you can experiment with lowering `-J-Xmx` below the ideal.
 The cost will be longer build times, and when `-J-Xmx` is too low, out of memory errors.
 
-=== native-image compilation time
+==== native-image compilation time
 
 You can shorten the time it takes to compile a native image, and _sometimes dramatically_ reduce the amount of RAM required, by using https://clojure.org/reference/compilation#directlinking[direct linking] when compiling your Clojure code to JVM bytecode.
 
@@ -218,57 +406,38 @@ The most convenient place for you to set that system property will vary dependin
 
 * If you're using Leiningen, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the profile you're using for compilation (the same one that includes `:aot :all`)
 * If you're using tools.deps via the Clojure CLI tools, add `:jvm-opts ["-Dclojure.compiler.direct-linking=true"]` to the alias you're using for compilation
- ** You can alternatively specify this property at the command line when invoking `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -M -e "(compile 'my.ns)"`
-
-=== Class Initialization
-
-In most cases, Clojure compiled classes must be initialized at build time for them to work with GraalVM `native-image`.
-If this has not been done, when you attempt to run your resulting native binary, you might see an exception that includes:
-
-[source,shell]
-----
-java.io.FileNotFoundException: Could not locate clojure/core__init.class, clojure/core.clj or clojure/core.cljc on classpath
-----
-
-Fortunately, the solution is easy, include https://clojars.org/com.github.clj-easy/graal-build-time[clj-easy/graal-build-time] on your `native-image` classpath.
-See https://github.com/clj-easy/graal-build-time[graal-build-time docs] for details.
-
-[NOTE]
-====
-The old trick was to use the `--initialize-at-build-time` option with `native-image`.
-This option has been deprecated in GraalVM v21 and is slated for removal in GraalVM v22.
-
-Despair not, migrating to `clj-easy/graal-build-time` can be as easy for your project as it was for https://github.com/clj-kondo/clj-kondo/commit/9f10ae074d44f6f41e929e0e0826be0fb43cf702[clj-kondo].
-====
+** You can alternatively specify this property at the command line when invoking `clojure`: `clojure -J-Dclojure.compiler.direct-linking=true -M -e "(compile 'my.ns)"`
 
 === Optional Transitive Dependencies
 
 A Clojure app that optionally requires transitive dependencies can be made to work under GraalVM with https://github.com/borkdude/dynaload[dynaload].
 You'll want to follow https://github.com/borkdude/dynaload#graalvm[its advice for GraalVM].
 
-=== Static linking vs DNS lookup
+=== Static Linking
+==== Static linking vs DNS lookup
 
-If you happen to need a DNS lookup in your program you need to avoid statically linked images (at least on Linux).
-If you are builing a minimal docker image it is sufficient to add the linked libraries (like `libnss*`) to the resulting image.
+If you happen to need a DNS lookup in your program, you need to avoid statically linked images (at least on Linux).
+If you are building a minimal docker image, it is sufficient to add the linked libraries (like `libnss*`) to the resulting image.
 But be sure that those libraries have the same version as the ones used in the linking phase.
 
-One way to achieve that is to compile  _within_ the docker image then scraping the intermediate files using the `FROM scratch` directive and `COPY` the executable and shared libraries linked to it into the target image.
+One way to achieve that is to compile _within_ the docker image then scraping the intermediate files using the `FROM scratch` directive and `COPY` the executable and shared libraries linked to it into the target image.
 
 See https://github.com/oracle/graal/issues/571
 
-=== Static linking with musl
+==== Static linking with musl
 
-Using https://www.musl-libc.org/[musl] for static builds is recommended by the official https://www.graalvm.org/reference-manual/native-image/StaticImages/[GraalVM] docs.
-Usage of `--static` without specifying `--libc=musl` will use glibc instead, however while this may look like a fully statically binary,
-this will still load some libraries (using `dlopen`) at runtime, and may result in some segmentation fault errors related to glibc version mismatches.
+Using https://www.musl-libc.org/[musl] for static builds is recommended by the official https://www.graalvm.org/latest/reference-manual/native-image/guides/build-static-executables/[GraalVM] docs.
+Usage of `--static` without specifying `--libc=musl` will use glibc instead.
+However, while this may look like a fully statically binary, this will still load some libraries (using `dlopen`) at runtime.
+This may result in some segmentation fault errors related to glibc version mismatches.
 See https://sourceware.org/glibc/wiki/FAQ#Even_statically_linked_programs_need_some_shared_libraries_which_is_not_acceptable_for_me.__What_can_I_do.3F[this section in official glibc documentation]
 for more information on why glibc "static" builds are not really static.
 
-With `--static --libc=musl`, you will have truly static binaries equivalent to Go's with `CGO_ENABLED=0` or Rust compiled with musl. This libraries
-can be deployed almost anywhere and is also smaller than the glibc equivalent. However, keep in mind that `musl` builds
-https://www.graalvm.org/reference-manual/native-image/StaticImages/#prerequisites[still have some limitations]:
+With `--static --libc=musl`, you will have truly static binaries equivalent to Go's with `CGO_ENABLED=0` or Rust compiled with musl.
+This can be deployed almost anywhere and is also smaller than the glibc equivalent.
+However, keep in mind that `musl` builds https://www.graalvm.org/latest/reference-manual/native-image/guides/build-static-executables/#prerequisites-and-preparation[still have some limitations]:
 
-* Only works with Linux AMD64 on Java 11 for now
+* Only works with Linux AMD64
 * You will need to either use a distro that already have `musl` and `zlib` statically compiled in the repositories or compile it yourself.
 ** See https://github.com/babashka/babashka/pull/828 for an example of using `musl-tools` from Debian
 ** See https://gist.github.com/sify21/2eec007e4b05d448c85192fc279232c6 for an example of compiling `musl` from source
@@ -278,7 +447,7 @@ This may cause some stack overflow errors during runtime
 ** See https://github.com/babashka/babashka/issues/831 for a workaround
 
 If supporting non-glibc distros are not an issue for you, there is also an option of building a
-https://www.graalvm.org/reference-manual/native-image/StaticImages/#build-a-mostly-static-native-image[mostly static native image] that should work in any glibc distro.
+https://www.graalvm.org/latest/reference-manual/native-image/guides/build-static-executables/#build-a-mostly-static-native-executable[mostly static native image] that should work in any glibc distro.
 Those binaries are very similar to Go binaries without `CGO_ENABLED=0` and Rust images build with glibc (the default).
 
 === Writing GraalVM specific code
@@ -291,19 +460,19 @@ https://www.graalvm.org/sdk/javadoc/org/graalvm/nativeimage/ImageInfo.html
 This class provides the following methods:
 
 ----
-static boolean 	inImageBuildtimeCode()
-Returns true if (at the time of the call) code is executing in the context of image building (e.g.
+static boolean inImageBuildtimeCode()
+Returns true if (at the time of the call) code is executing in the context of image building (e.g. in a static initializer of class that will be contained in the image).
 
-static boolean 	inImageCode()
+static boolean inImageCode()
 Returns true if (at the time of the call) code is executing in the context of image building or during image runtime, else false.
 
-static boolean 	inImageRuntimeCode()
+static boolean inImageRuntimeCode()
 Returns true if (at the time of the call) code is executing at image runtime.
 
-static boolean 	isExecutable()
+static boolean isExecutable()
 Returns true if the image is build as an executable.
 
-static boolean 	isSharedLibrary()
+static boolean isSharedLibrary()
 Returns true if the image is build as a shared library.
 ----
 
@@ -316,88 +485,56 @@ Values: `"buildtime"`, `"runtime"`
 Property name: `"org.graalvm.nativeimage.kind"` +
 Values: `"shared"`, `"executable"`
 
-=== JDK11 and clojure.lang.Reflector
+=== Java Native Interface
+JNI contains a suite of tools for transfering datatypes between Java and C.
+You can read about this API https://docs.oracle.com/en/java/javase/17/docs/specs/jni/functions.html[here for Java 17].
 
-For *GraalVM v21 or later*::
-If you are suffering `NoSuchMethodError: java.lang.reflect.AccessibleObject.canAccess` exceptions, GraalVM needs a little help.
-Include the following to your `reflection.json` file:
-+
-[source,json]
-----
-{"name": "java.lang.reflect.AccessibleObject",
- "methods" : [{"name":"canAccess"}]}
-----
+==== Watch for bugs
+There have historically been bugs (https://github.com/oracle/graal/issues/2152[example]) in the GraalVM implementations of some JNI functions.
+If you encounter bugs with these API calls, you might try the latest development versions of GraalVM.
+If bugs persist please https://github.com/oracle/graal/issues [raise them with with the Graal project].
 
-For *older versions of GraalVM*::
-
-GraalVM started supporting JDK11 in v19.3.0.
-GraalVM could get confused about a https://github.com/clojure/clojure/blob/653b8465845a78ef7543e0a250078eea2d56b659/src/jvm/clojure/lang/Reflector.java#L29-L57[conditional piece of code] in `clojure.lang.Reflector`.
-This code dispatches based on wether you are on Java v8 or a later major version.
-+
-Prior to GraalVM v21, compiling your Clojure code with JDK11 native image and then running it resulted in the following exception being thrown upon first use of reflection:
-+
-[source,java]
-----
-Exception in thread "main" com.oracle.svm.core.jdk.UnsupportedFeatureError: Invoke with MethodHandle argument could not be reduced to at most a single call or single field access. The method handle must be a compile time constant, e.g., be loaded from a `static final` field. Method that contains the method handle invocation: java.lang.invoke.Invokers$Holder.invoke_MT(Object, Object, Object, Object)
-    at com.oracle.svm.core.util.VMError.unsupportedFeature(VMError.java:101)
-    at clojure.lang.Reflector.canAccess(Reflector.java:49)
-    ...
-----
-+
-See the https://github.com/oracle/graal/issues/2214[issue] on the GraalVM repo.
-
-Workarounds:
-
-* Use GraalVM v21 or later (recommended).
-* Use a JDK8 version of GraalVM.
-* Include https://github.com/borkdude/clj-reflector-graal-java11-fix[clj-reflector-graal-java11-fix] when compiling your Clojure code.
-* Use the `--report-unsupported-elements-at-runtime` option.
-* Patch `clojure.lang.Reflector` on the classpath with the conditional logic swapped out for non-conditional code which works on Java 11 (but not on Java 8).
-The patch can be found link:resources/Reflector.java[here].
-* If you require your project to support native image compilation on both Java 8 and Java 11 versions of GraalVM then use the patch found link:resources/Reflector2.java[here].
-This version does not respect any Java 11 module access rules and improper reflection access by your code may fail.
-The file will need to be renamed to `Reflector.java`.
-
-=== Interfacing with native libraries
-
+==== Interfacing with native libraries
 For interfacing with native libraries you can use JNI.
-An example of a native Clojure program calling a Rust library is documented https://github.com/borkdude/clojure-rust-graalvm[here].
-https://github.com/epiccastle/spire[Spire] is a real life project that combines GraalVM-compiled Clojure and C in a native binary.
 
-To interface with C code using JNI the following steps are taken:
+* https://github.com/borkdude/clojure-rust-graalvm[An example of a native Clojure program calling a Rust library].
+* https://github.com/epiccastle/spire[Spire] is a real life project that combines GraalVM-compiled Clojure and C in a native binary.
 
-* A java file is written defining a class.
+To interface with C code using JNI:
+
+. Write a java file is defining a class.
 This class contains `public static native` methods defining the C functions you would like, their arguments and the return types.
-An example is https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.java[here]
-* A C header file with a `.h` extension is generated from this java file:
- ** Java 8 uses a special tool `javah` which is called on the _class file_.
-You will need to first create the class file with `javac` and then generate the header file from that with `javah -o Library.h -cp directory_containing_class_file Library.class`
- ** Java 11 bundled this tool into `javac`.
-You will javac on the `.java` _source file_ and specify a directory to store the header file in like `javac -h destination_dir Library.java`
-* A C implementation file is now written with function definitions that match the prototypes created in the `.h` file.
-You will need to `#include` your generated header file.
-An example is https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.c[here]
-* The C code is compiled into a shared library as follows (specifying the correct path to the graal home instead of $GRAALVM):
- ** On linux, the compilation will take the form `cc -I$GRAALVM/include -I$GRAALVM/include/linux -shared Library.c -o liblibrary.so -fPIC`
- ** On MacOS, the compilation will take the form `cc -I$GRAALVM/Contents/Home/include -I$GRAALVM/Contents/Home/include/darwin -dynamiclib -undefined suppress -flat_namespace Library.c -o liblibrary.dylib -fPIC`
-* Once the library is generated you can load it at clojure runtime with `(clojure.lang.RT/loadLibrary "library")`
-* The JVM will need to be able to find the library on the standard library path.
+https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.java[An example .java file from Spire].
+. Generate a C `.h` header file from this java file:
+ ** Java 11+ bundles this tool into `javac`.
+Run javac on your `.java` _source file_ and specify a directory to store the header file: `javac -h destination_dir Library.java`
+. Write a `.c` implementation file with function definitions that match the prototypes created in your generated `.h` file.
+You will need to `#include` your generated `.h` header file.
+https://github.com/epiccastle/spire/blob/master/src/c/SpireUtils.c[An example .c file from Spire].
+. Compile the C code into a shared library as follows (we assume JAVA_HOME is setup as per GraalVM installation instructions):
+** On linux:
++
+[source,shell]
+----
+cc -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -shared Library.c -o liblibrary.so -fPIC
+----
+** On MacOS:
++
+[source,shell]
+----
+cc -I$JAVA_HOME/Contents/Home/include -I$JAVA_HOME/Contents/Home/include/darwin -dynamiclib -undefined suppress -flat_namespace Library.c -o liblibrary.dylib -fPIC
+----
+. Load the generated library at runtime from clojure via `(clojure.lang.RT/loadLibrary "library")`
+. The JVM will need to be able to find the library on the standard library path.
 This can be set via `LD_LIBRARY_PATH` environment variable or via the `ld` linker config file (`/etc/ld.so.conf` on linux).
 Alternately you can set the library path by passing `-Djava.library.path="my_lib_dir"` to the java command line or by setting it at runtime with `(System/setProperty "java.library.path" "my_lib_dir")`
-* Functions may be called via standard Java interop in clojure via the interface specified in your `Library.java` file: `(Library/method args)`
+. Functions may be called via standard Java interop in clojure via the interface specified in your `Library.java` file (from step 1): `(Library/method args)`
 
-=== JNI API bugs
+=== macOS
 
-JNI contains a suite of tools for transfering datatypes between Java and C.
-You can read about this API https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html[here for Java 8] and https://docs.oracle.com/en/java/javase/11/docs/specs/jni/functions.html[here for Java 11].
-There are a some bugs (https://github.com/oracle/graal/issues/2152[example]) in the GraalVM implementations of some of these functions in all versions up to and including GraalVM 20.0.0.
-Some known bugs have been fixed in GraalVM 20.1.0-dev.
-If you encounter bugs with these API calls try the latests development versions of GraalVM.
-If bugs persist please file them with the Graal project.
+==== Startup performance on macOS
 
-=== Startup performance on macOS
-
-@borkdude noticed https://github.com/oracle/graal/issues/2136[slower startup times for babashka on macOS when using GraalVM v20].
+@borkdude noticed https://github.com/oracle/graal/issues/2136[slower startup times for babashka on macOS when using GraalVM legacy v20].
 He elaborated in the @graalvm channel on Clojurians Slack:
 
 ____
@@ -429,15 +566,15 @@ ____
 Apple may fix this issue in macOS someday, who knows?
 If you:
 
-* have measured a slowdown in startup time of your `native-image` produced app after moving to Graal v20
-* want to restore startup app to what it was on macOS prior v20 of Graal
+* have measured a slowdown in startup time of your `native-image` produced app after moving to Graal legacy v20
+* want to restore startup app to what it was on macOS prior legacy v20 of Graal
 * are comfortable with a "caveat emptor" hack from the Graal team
 
 then you may want to try incorporating https://github.com/oracle/graal/issues/2136#issuecomment-595688524[this Java code] with https://github.com/oracle/graal/issues/2136#issuecomment-595814343[@borkdude's tweaks] into your project.
 
-Here's how https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91[@borkdude applied the fix to babashka].
+Here's how https://github.com/borkdude/babashka/commit/5723206ca2949a8e6443cdc38f8748159bcdce91[borkdude applied the fix to babashka].
 
-=== Targeting a minimum macOS version
+==== Targeting a minimum macOS version
 
 On macOS, GraalVM's `native-image` makes use of XCode command line tools.
 XCode creates native binaries that specify the minimum macOS version required for execution.
@@ -453,25 +590,24 @@ Example for babashka native binary at the time of this writing:
 [source,Shell]
 ----
 > bb --version
-babashka v0.2.0
+babashka v1.3.182
 > otool -l $(which bb) | grep -B1 -A3 MIN_MAC
 Load command 9
       cmd LC_VERSION_MIN_MACOSX
   cmdsize 16
-  version 10.12
-      sdk 10.12
+  version 10.13
+      sdk 12.3
 ----
 
 === GraalVM development builds
 
 Development builds of GraalVM can be found https://github.com/graalvm/graalvm-ce-dev-builds/releases[here].
-Note that these builds are intended for early testing feedback, but can disappear after a proper release has been made, so don't link to them from production CI builds.
+Although, at the time of this writing, these builds seem to be tagged with the link:#graalvm-version-scheme-change][legacy version scheme], the artifacts follow the new version scheme.
+These builds are intended for early testing feedback, but can disappear after a proper release has been made, so don't link to them from production CI builds.
 
-== link:doc/testing-strategies.md[Testing Strategies]
+== link:doc/testing-strategies.adoc[Testing Strategies]
 
-== link:doc/external-resources.md[External resources]
-
-Curated collection of link:doc/external-resources.md[projects, articles, etc.]
+== link:doc/external-resources.adoc[Other resources, projects, articles, etc]
 
 == License
 

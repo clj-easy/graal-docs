@@ -1,2 +1,4 @@
 patch-work
 .DS_Store
+/.clj-kondo
+/.lsp
