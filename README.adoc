@@ -214,7 +214,7 @@ $ clojure -M -e "(compile 'refl.main)"
 $ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
     --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
 ----
-We no longer see our reflection warnng and our native image now works just fine:
+We no longer see our reflection warning and our native image now works just fine:
 [source,clojure]
 ----
 $ ./refl
