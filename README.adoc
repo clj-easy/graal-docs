@@ -165,7 +165,7 @@ Exception in thread "main" java.lang.IllegalArgumentException: No matching field
 ----
 
 ==== Use Type Hints to Avoid Reflection
-Make sure you put `(set! *warn-on-reflection* true)` at the top of every namespace in your project.
+Make sure you put `(set! \*warn-on-reflection* true)` at the top of every namespace in your project.
 This tells the Clojure compiler to report cases where Clojure is using reflection.
 
 [source,clojure]
