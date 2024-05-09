@@ -49,6 +49,8 @@ The current curators of this repository are: https://github.com/borkdude[@borkdu
 
 == link:doc/hello-world.adoc[Hello world]
 
+This link:doc/hello-world.adoc[tutorial] covers creating a native binary from a Clojure hello world program using GraalVM.
+
 == Tips and tricks
 
 === Clojure Version
