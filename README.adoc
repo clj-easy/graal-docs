@@ -106,6 +106,8 @@ Fortunately, we have an easy solution for you:
 . include https://clojars.org/com.github.clj-easy/graal-build-time[clj-easy/graal-build-time] on your `native-image` classpath
 . specify `--features=clj_easy.graal_build_time.InitClojureClasses` on your `native-image` command line
 
+_Note: https://github.com/clj-easy/graal-build-time?tab=readme-ov-file#single-segment-namespaces[graal-build-time]  doesn't work with single segment namespaces. A single segment namespace is one without any `.` characters in it, for example: `(ns digest)`._
+
 See https://github.com/clj-easy/graal-build-time[graal-build-time docs] for details.
 
 === Runtime Evaluation
