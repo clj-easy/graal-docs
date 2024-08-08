@@ -228,6 +228,34 @@ ALL GOOD!
 NOTE: As an example, prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]).
 But this has been addressed via type hints.
 
+Enable or disable the `*warn-on-reflection*` depending on the alias, the following methods are available for each tool.
+
+- `leiningen`: Use `:global-vars` in project.clj
+[source,clojure]
+----
+(defproject warn-on-refrection-test "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :profiles
+  {:dev {:global-vars {*warn-on-reflection* true}}})
+----
+
+- `tools.deps`: Use `alter-var-root` in user.clj
+
+`dev/user.clj`
+[source,clojure]
+----
+(ns user)
+
+(alter-var-root #'*warn-on-reflection* (constantly true))
+----
+
+`deps.edn`
+[source,clojure]
+----
+{:aliases
+ {:dev {:extra-paths ["dev"]}}}
+----
+
 ==== Specify a Reflection Config [[hand-coded-reflection-config]]
 When you cannot add type hints, you can specify a GraalVM config for classes that are reflected at runtime.
 
