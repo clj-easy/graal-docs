@@ -468,7 +468,7 @@ Refer to `native-image` output for `Peak RSS` for RAM usage.
 
 Actual memory usage is an ideal.
 Once you have a successful build, you can experiment with lowering `-J-Xmx` below the ideal.
-The cost will be longer build times, and when `-J-Xmx` is too low, out of memory errors.
+The cost will be longer build times being prone to out of memory errors when `-J-Xmx` is too low.
 
 ==== native-image compilation time
 
@@ -484,8 +484,20 @@ The most convenient place for you to set that system property will vary dependin
 
 === Optional Transitive Dependencies
 
-A Clojure app that optionally requires transitive dependencies can be made to work under GraalVM with https://github.com/borkdude/dynaload[dynaload].
+A Clojure app that requires namespaces at runtime can be made to work under GraalVM with https://github.com/borkdude/dynaload[dynaload].
 You'll want to follow https://github.com/borkdude/dynaload#graalvm[its advice for GraalVM].
+
+If you use functions like `requiring-resolve` which are more dynamic than `dynaload`, you will want to ensure the namespaces are loaded at compile-time.
+One way to achieve this is by using environment variables or system properties to `require`
+the namespaces at the top-level. If this introduces namespace cycles, move
+the loading to another namespace such as the main entrypoint.
+
+[source,clojure]
+----
+(when (System/getenv "AOT_COMPILE_REQUIRES")
+  (require 'dynamic.foo->bar
+           'dynamic.bar->foo))
+----
 
 === Static Linking
 ==== Static linking vs DNS lookup
