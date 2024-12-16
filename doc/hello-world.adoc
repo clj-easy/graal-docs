@@ -9,7 +9,7 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 :toc: preamble
-:clojure-version: 1.11.1
+:clojure-version: 1.12.0
 :graal-build-time-version: 1.0.5
 
 This tutorial covers creating a native binary from a Clojure hello world program using GraalVM.
@@ -17,8 +17,7 @@ This tutorial covers creating a native binary from a Clojure hello world program
 == Common Setup
 
 Download and install the most current https://github.com/graalvm/graalvm-ce-builds/releases[GraalVM Community Edition] for your operating system.
-There are Java 17 and Java 20 versions.
-It doesn’t matter which one you pick for this tutorial.
+We use Java 23 in this tutorial.
 
 [IMPORTANT]
 ====
@@ -30,7 +29,26 @@ $ native-image --version
 ----
 ====
 
-TIP: You can optionally use a tool like https://sdkman.io/[SDKMAN!] to download and install GraalVM.
+TIP: You can optionally use a tool like https://sdkman.io/[SDKMAN!] to download and install GraalVM:
+
+```bash
+# browse available versions
+$ sdk list java
+
+# install relevant versions
+$ sdk use java 21.0.2-graalce
+$ sdk use java 23.0.1-graal
+
+# example aliases to switch jvm and setup env variables
+$ alias graal21='sdk use java 21.0.2-graalce && export GRAALVM_HOME=$JAVA_HOME'
+$ alias graal23='sdk use java 23.0.1-graal && export GRAALVM_HOME=$JAVA_HOME'
+
+# enable Java 23 in current terminal
+$ graal23
+Using java version 23.0.1-graal in this shell.
+$ type native-image
+native-image is ~/.sdkman/candidates/java/23.0.1-graal/bin/native-image
+```
 
 == Clojure Deps CLI
 
@@ -208,7 +226,7 @@ native-image \
     --no-fallback
 ----
 
-NOTE: we reference our built `-jar`
+NOTE: we reference our built jar via `-jar`.
 
 This creates `hello-world`, a native image for your program.
 
