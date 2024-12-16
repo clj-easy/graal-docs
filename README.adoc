@@ -316,6 +316,7 @@ See the https://www.graalvm.org/jdk23/reference-manual/native-image/metadata/#re
 
 ==== Reflection Config for Arrays
 To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class;`.
+Arrays of primitives or arrays are slightly different.
 For example a `Statement[]` would be specified as `"[Ljava.sql.Statement;"`.
 
 You can discover this name by calling `(.getName (class instance))` in a REPL.
@@ -328,6 +329,16 @@ user=> (def foo (java.util.Locale/getAvailableLocales))
 #'user/foo
 user=> (.getName (class foo))
 "[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/1)
+"[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/2)
+"[[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/3)
+"[[[Ljava.util.Locale;"
+user=> (.getName byte/1)
+"[B"
+user=> (.getName byte/2)
+"[[B"
 ----
 
 ==== Automatically Discovering Reflection Config [[reflection-discovery]]
@@ -358,39 +369,54 @@ Let's recompile our original reflection example app and then run it from GraalVM
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
+Reflection warning, refl/main.clj:7:3 - reference to field toUpperCase can't be resolved.
 refl.main
 $ java -agentlib:native-image-agent=caller-filter-file=filter.json,config-output-dir=. \
-    -cp $(clojure -Spath):classes refl.main
+    -cp $(clojure -Spath):classes \
+    refl.main
 ALL GOOD!
 ----
 
-This will output `reflect-config.json`:
+This will output `reachability-metadata.json`:
 [source,json]
 ----
 [
-{
-  "name":"java.lang.String",
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"toUpperCase","parameterTypes":[] }]
-},
-{
-  "name":"java.lang.reflect.Method",
-  "methods":[{"name":"canAccess","parameterTypes":["java.lang.Object"] }]
-},
-{
-  "name":"java.util.concurrent.atomic.AtomicBoolean",
-  "fields":[{"name":"value"}]
-},
-{
-  "name":"java.util.concurrent.atomic.AtomicReference",
-  "fields":[{"name":"value"}]
-}
+...
+    {
+      "type": "java.lang.String",
+      "methods": [
+        {
+          "name": "toUpperCase",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.reflect.Method",
+      "methods": [
+        {
+          "name": "canAccess",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.concurrent.atomic.AtomicBoolean",
+      "fields": [
+        {
+          "name": "value"
+        }
+      ]
+    },
+...
 ]
 ----
 
 The entry for `java.lang.reflect.Method` is expected, see link:#clojure.lang.reflector[clojure.lang.Reflector].
 
-// TODO: Why AtomicBoolean and AtomicReference?
+// TODO: Why AtomicBoolean?
 
 You then feed this generated reflection config to native-image just like you would for a link:#hand-coded-reflection-config[hand-coded one].
 
