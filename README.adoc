@@ -315,8 +315,8 @@ ALL GOOD!
 See the https://www.graalvm.org/jdk23/reference-manual/native-image/metadata/#reflection[GraalVM docs on reflection for details] on the reflection config format.
 
 ==== Reflection Config for Arrays
-To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class`.
-For example a `Statement[]` would be specified as `"[Ljava.sql.Statement"`.
+To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class;`.
+For example a `Statement[]` would be specified as `"[Ljava.sql.Statement;"`.
 
 You can discover this name by calling `(.getName (class instance))` in a REPL.
 A contrived example:
