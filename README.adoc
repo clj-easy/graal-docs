@@ -381,7 +381,8 @@ This will output `reachability-metadata.json`:
 [source,json]
 ----
 [
-...
+  "reflection": [
+    ...
     {
       "type": "java.lang.String",
       "methods": [
@@ -410,7 +411,8 @@ This will output `reachability-metadata.json`:
         }
       ]
     },
-...
+  ...
+  ]
 ]
 ----
 
