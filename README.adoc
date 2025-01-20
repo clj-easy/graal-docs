@@ -236,7 +236,7 @@ $ ./refl
 ALL GOOD!
 ----
 
-To enable or disable `*warn-on-reflection*`, the following methods are available for each tool.
+To enable or disable `\*warn-on-reflection*`, the following methods are available for each tool.
 
 - `leiningen`: Use `:global-vars` in project.clj
 [source,clojure]
