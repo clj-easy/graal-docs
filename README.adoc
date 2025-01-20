@@ -10,7 +10,7 @@ ifdef::env-github[]
 endif::[]
 :toc:
 :toclevels: 3
-:clojure-version: 1.11.1
+:clojure-version: 1.12.0
 :graal-build-time-version: 1.0.5
 
 == Rationale
@@ -148,24 +148,30 @@ It will compile just fine:
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
-$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
-    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+$ native-image \
+    -cp "$(clojure -Spath):classes" \
+    -H:Name=refl \
+    -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses \
+    --no-fallback \
+    refl.main
 ----
 But when we go to run the native image, we'll see the following failure:
 [source,shell]
 ----
 $ ./refl
 Exception in thread "main" java.lang.IllegalArgumentException: No matching field found: toUpperCase for class java.lang.String
-	at clojure.lang.Reflector.getInstanceField(Reflector.java:397)
-	at clojure.lang.Reflector.invokeNoArgInstanceMember(Reflector.java:440)
-	at refl.main$refl_str.invokeStatic(main.clj:5)
-	at refl.main$refl_str.invoke(main.clj:4)
-	at refl.main$_main.invokeStatic(main.clj:8)
-	at refl.main$_main.doInvoke(main.clj:7)
-	at clojure.lang.RestFn.invoke(RestFn.java:397)
-	at clojure.lang.AFn.applyToHelper(AFn.java:152)
-	at clojure.lang.RestFn.applyTo(RestFn.java:132)
-	at refl.main.main(Unknown Source)
+        at clojure.lang.Reflector.getInstanceField(Reflector.java:426)
+        at clojure.lang.Reflector.invokeNoArgInstanceMember(Reflector.java:469)
+        at refl.main$refl_str.invokeStatic(main.clj:5)
+        at refl.main$refl_str.invoke(main.clj:4)
+        at refl.main$_main.invokeStatic(main.clj:8)
+        at refl.main$_main.doInvoke(main.clj:7)
+        at clojure.lang.RestFn.invoke(RestFn.java:400)
+        at clojure.lang.AFn.applyToHelper(AFn.java:152)
+        at clojure.lang.RestFn.applyTo(RestFn.java:135)
+        at refl.main.main(Unknown Source)
+        at java.base@23.0.1/java.lang.invoke.LambdaForm$DMH/sa346b79c.invokeStaticInit(LambdaForm$DMH)
 ----
 
 ==== Use Type Hints to Avoid Reflection
@@ -215,8 +221,13 @@ If we recompile our updated source:
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
-$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
-    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+$ native-image \
+    -cp "$(clojure -Spath):classes" \
+    -H:Name=refl \
+    -H:+ReportExceptionStackTraces \
+    --features=clj_easy.graal_build_time.InitClojureClasses \
+    --no-fallback \
+    refl.main
 ----
 We no longer see our reflection warning and our native image now works just fine:
 [source,clojure]
@@ -225,10 +236,7 @@ $ ./refl
 ALL GOOD!
 ----
 
-NOTE: As an example, prior versions of Clojure's own `clojure.stacktrace` made use of reflection (see https://clojure.atlassian.net/browse/CLJ-2502[JIRA CLJ-2502]).
-But this has been addressed via type hints.
-
-Enable or disable the `*warn-on-reflection*` depending on the alias, the following methods are available for each tool.
+To enable or disable `\*warn-on-reflection*`, the following methods are available for each tool.
 
 - `leiningen`: Use `:global-vars` in project.clj
 [source,clojure]
@@ -287,9 +295,14 @@ Then recompile specifying our reflection config:
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
-$ native-image -cp "$(clojure -Spath):classes" -H:Name=refl -H:+ReportExceptionStackTraces \
+$ native-image \
+    -cp "$(clojure -Spath):classes" \
+    -H:Name=refl \
+    -H:+ReportExceptionStackTraces \
     -H:ReflectionConfigurationFiles=reflect-config.json \
-    --features=clj_easy.graal_build_time.InitClojureClasses --no-fallback refl.main
+    --features=clj_easy.graal_build_time.InitClojureClasses \
+    --no-fallback \
+    refl.main
 ----
 
 We have success:
@@ -299,21 +312,33 @@ $ ./refl
 ALL GOOD!
 ----
 
-See the https://www.graalvm.org/reference-manual/native-image/Reflection/[GraalVM docs on reflection for details] on the reflection config format.
+See the https://www.graalvm.org/jdk23/reference-manual/native-image/metadata/#reflection[GraalVM docs on reflection for details] on the reflection config format.
 
 ==== Reflection Config for Arrays
-To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class`.
-For example a `Statement[]` would be specified as `"[Ljava.sql.Statement"`.
+To configure reflection config for an array of Java objects, you need to specify `[Lfully.qualified.class;`.
+Arrays of primitives or arrays are slightly different.
+For example a `Statement[]` would be specified as `"[Ljava.sql.Statement;"`.
 
-You can discover this name by calling `(.getClass instance)` in a REPL.
+You can discover this name by calling `(.getName (class instance))` in a REPL.
 A contrived example:
 [source,clojure]
 ----
 ❯ clj
-Clojure 1.11.1
+Clojure 1.12.0
 user=> (def foo (java.util.Locale/getAvailableLocales))
-user=> (.getClass foo)
-[Ljava.util.Locale;
+#'user/foo
+user=> (.getName (class foo))
+"[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/1)
+"[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/2)
+"[[Ljava.util.Locale;"
+user=> (.getName java.util.Locale/3)
+"[[[Ljava.util.Locale;"
+user=> (.getName byte/1)
+"[B"
+user=> (.getName byte/2)
+"[[B"
 ----
 
 ==== Automatically Discovering Reflection Config [[reflection-discovery]]
@@ -344,39 +369,56 @@ Let's recompile our original reflection example app and then run it from GraalVM
 ----
 $ mkdir -p classes
 $ clojure -M -e "(compile 'refl.main)"
+Reflection warning, refl/main.clj:7:3 - reference to field toUpperCase can't be resolved.
 refl.main
 $ java -agentlib:native-image-agent=caller-filter-file=filter.json,config-output-dir=. \
-    -cp $(clojure -Spath):classes refl.main
+    -cp $(clojure -Spath):classes \
+    refl.main
 ALL GOOD!
 ----
 
-This will output `reflect-config.json`:
+This will output `reachability-metadata.json`:
 [source,json]
 ----
 [
-{
-  "name":"java.lang.String",
-  "queryAllPublicMethods":true,
-  "methods":[{"name":"toUpperCase","parameterTypes":[] }]
-},
-{
-  "name":"java.lang.reflect.Method",
-  "methods":[{"name":"canAccess","parameterTypes":["java.lang.Object"] }]
-},
-{
-  "name":"java.util.concurrent.atomic.AtomicBoolean",
-  "fields":[{"name":"value"}]
-},
-{
-  "name":"java.util.concurrent.atomic.AtomicReference",
-  "fields":[{"name":"value"}]
-}
+  "reflection": [
+    ...
+    {
+      "type": "java.lang.String",
+      "methods": [
+        {
+          "name": "toUpperCase",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.reflect.Method",
+      "methods": [
+        {
+          "name": "canAccess",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.concurrent.atomic.AtomicBoolean",
+      "fields": [
+        {
+          "name": "value"
+        }
+      ]
+    },
+  ...
+  ]
 ]
 ----
 
 The entry for `java.lang.reflect.Method` is expected, see link:#clojure.lang.reflector[clojure.lang.Reflector].
 
-// TODO: Why AtomicBoolean and AtomicReference?
+// TODO: Why AtomicBoolean?
 
 You then feed this generated reflection config to native-image just like you would for a link:#hand-coded-reflection-config[hand-coded one].
 
@@ -442,7 +484,8 @@ The most convenient place for you to set that system property will vary dependin
 
 === Optional Transitive Dependencies
 
-A Clojure app that optionally requires transitive dependencies can be made to work under GraalVM with https://github.com/borkdude/dynaload[dynaload].
+A Clojure app that optionally requires transitive dependencies can often be made to work under GraalVM
+by replacing dynamic calls to `requiring-resolve` and `require` with https://github.com/borkdude/dynaload[dynaload].
 You'll want to follow https://github.com/borkdude/dynaload#graalvm[its advice for GraalVM].
 
 === Static Linking
