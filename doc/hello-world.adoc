@@ -40,8 +40,8 @@ $ sdk use java 21.0.2-graalce
 $ sdk use java 23.0.1-graal
 
 # example aliases to switch jvm and setup env variables
-$ alias graal21='sdk use java 21.0.2-graalce && export GRAALVM_HOME=$JAVA_HOME'
-$ alias graal23='sdk use java 23.0.1-graal && export GRAALVM_HOME=$JAVA_HOME'
+$ alias graal21='sdk use java 21.0.2-graalce'
+$ alias graal23='sdk use java 23.0.1-graal'
 
 # enable Java 23 in current terminal
 $ graal23
