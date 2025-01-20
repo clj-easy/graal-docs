@@ -468,7 +468,7 @@ Refer to `native-image` output for `Peak RSS` for RAM usage.
 
 Actual memory usage is an ideal.
 Once you have a successful build, you can experiment with lowering `-J-Xmx` below the ideal.
-The cost will be longer build times being prone to out of memory errors when `-J-Xmx` is too low.
+The cost will be longer build times, and when `-J-Xmx` is too low, out of memory errors.
 
 ==== native-image compilation time
 
