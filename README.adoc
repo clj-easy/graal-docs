@@ -68,18 +68,22 @@ Other issues of interest:
 * https://clojure.atlassian.net/browse/TCHECK-157[TCHECK-157] - Randomization doesn't work with GraalVM native-image
 
 === GraalVM Version
-Use the latest https://github.com/graalvm/graalvm-ce-builds/releases[stable GraalVM release].
-Choose the JDK version that makes sense for you.
+Use the latest https://github.com/graalvm/graalvm-ce-builds/releases[GraalVM Community Edition] or https://www.graalvm.org/downloads/[Oracle GraalVM].
+Choose the flavour that makes sense for you.
 
 ==== GraalVM Version Scheme Change[[graalvm-version-scheme-change]]
-The Graal team changed their versioning scheme.
-It used to be based on the year and quarter, but it now simply matches the JDK version.
+In 2023, the Graal team changed their versioning scheme.
+It used to be based on the year and quarter, but it moved to simply match the JDK version.
 
-We used to have, for example a v22.3.2 release for each supported JDK.
-We now have, for example GraalVM v17.0.8 and GraalVM v20.0.2.
+We used to have, for example, v22.3.2 release (tied to 2022 q3) for each supported JDK.
+We now have, for example, GraalVM v25.0.2 (tied to JDK 25).
 
-This version change does make it awkward to refer to past versions of GraalVM.
-For the old version scheme we'll prefix the version with `legacy` like so `GraalVM legacy v22`.
+This version change can make it awkward to refer to past versions of GraalVM.
+For the old version scheme, we'll prefix the version with `legacy` like so: `GraalVM legacy v22`.
+
+In 2025, Oracle announced that GraalVM is "detaching from the Java ecosystem chain".
+From what we understand, this means that new GraalVM releases will be tied to Java LTS (Long Term Support) releases only.
+So we should see future 25.x and then eventually 29.x releases, but not 26.x, 27.x, or 28.x releases.
 
 ==== GraalVM Free Flavours[[graalvm-free-flavours]]
 We now have 2 free flavours of GraalVM:
